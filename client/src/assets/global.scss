@@ -1,0 +1,95 @@
+@import "_reset.scss";
+@import "variables.scss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap');
+
+body {
+    font-family: $main-font;
+    line-height: $line-height;
+}
+
+a {
+    outline: none !important;
+    text-decoration: none;
+}
+
+img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+h1 {
+    font-size: $title-size;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.subtitle {
+    margin-bottom: 1rem;
+    padding-bottom: .5rem;
+    font-size: $subtitle-size;
+}
+
+section {
+    padding: 5rem 0;
+}
+
+.container {
+    box-sizing: border-box;
+    width: 100%;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+    margin-right: auto;
+    margin-left: auto;
+
+    @media (min-width: 576px) {
+        max-width: 540px;
+    }
+
+    @media (min-width: 768px) {
+        max-width: 720px;
+    }
+
+    @media (min-width: 992px) {
+        max-width: 960px;
+    }
+
+    @media (min-width: 1200px) {
+        max-width: 1140px;
+    }
+
+    @media (min-width: 1400px) {
+        max-width: 1200px;
+    }
+}
+
+.btn {
+    outline: none;
+    border: 0;
+    border-radius: .25rem;
+    font-family: $main-font;
+
+    &.btn-primary {
+        background: $primary-color;
+        color: $white;
+        padding: .50rem 1.1rem;
+        transition: .1s ease-in-out;
+
+        &:hover {
+            background: darken($primary-color, 8%);
+        }
+    }
+}
+
+input,
+textarea {
+    border-radius: .25rem;
+    border: 1px solid $grey;
+    padding: .44rem .6rem;
+    box-sizing: border-box;
+    font-family: $main-font;
+
+    &.is-invalid {
+        border-color: $red;
+    }
+}
