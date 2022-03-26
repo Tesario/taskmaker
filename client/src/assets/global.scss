@@ -1,10 +1,12 @@
 @import "_reset.scss";
 @import "variables.scss";
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 body {
     font-family: $main-font;
     line-height: $line-height;
+    letter-spacing: .15px;
+    background-color: $bg;
 }
 
 a {
@@ -32,6 +34,10 @@ h1 {
 
 section {
     padding: 5rem 0;
+}
+
+main {
+    padding-top: 3rem;
 }
 
 .container {
@@ -68,15 +74,26 @@ section {
     border: 0;
     border-radius: .25rem;
     font-family: $main-font;
+    transition: .1s ease-in-out;
 
     &.btn-primary {
         background: $primary-color;
         color: $white;
-        padding: .50rem 1.1rem;
-        transition: .1s ease-in-out;
+        padding: .5rem 1.1rem;
+        border: 2px solid $primary-color;
 
         &:hover {
             background: darken($primary-color, 8%);
+        }
+    }
+
+    &.btn-secondary {
+        border: 2px solid $primary-color;
+        padding: .5rem 1.1rem;
+
+        &:hover {
+            background: $primary-color;
+            color: $white;
         }
     }
 }
@@ -91,5 +108,15 @@ textarea {
 
     &.is-invalid {
         border-color: $red;
+    }
+}
+
+.white-card {
+    background-color: $white;
+    padding: 2.5rem 2rem 2rem;
+    border-radius: 1rem;
+
+    @media (max-width: $lg) {
+        padding: 1.5rem 1rem 1rem;
     }
 }

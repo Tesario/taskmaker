@@ -61,11 +61,11 @@ const TaskList = () => {
   };
 
   return (
-    <>
+    <div className="white-card">
       <h1>Tasks</h1>
       <AddTask createTask={createTask} />
       <TaskTable tasks={tasks} />
-    </>
+    </div>
   );
 };
 

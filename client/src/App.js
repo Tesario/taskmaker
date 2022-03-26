@@ -1,17 +1,20 @@
 import React from "react";
-import TaskList from "./components/TaskList/TaskList";
+import Navbar from "./components/Navbar/Navbar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./assets/global.scss";
+import Tasks from "./components/Tasks/Tasks";
 
 const App = () => {
   return (
-    <main>
-      <section id="tasks">
-        <div className="container">
-          <TaskList />
-        </div>
-      </section>
-    </main>
+    <Router>
+      <Navbar />
+      <main>
+        <Routes>
+          <Route path="/" element={<Tasks />}></Route>
+        </Routes>
+      </main>
+    </Router>
   );
 };
 
