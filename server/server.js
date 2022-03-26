@@ -1,61 +1,101 @@
 const express = require("express");
-const { ApolloServer } = require("apollo-server-express");
+const { ApolloServer, UserInputError } = require("apollo-server-express");
+const { GraphQLScalarType, Kind } = require("graphql");
 const fs = require("fs");
 
 let aboutMessage = "TaskMaker";
 
 const app = express();
 
-const issuesDB = [
+const taskDB = [
   {
     id: 1,
-    status: "New",
-    owner: "Ravan",
-    effort: 5,
+    title: "Math test",
+    status: "expired",
     created: new Date("2019-01-15"),
-    due: undefined,
-    title: "Error in console when clicking Add",
   },
   {
     id: 2,
-    status: "Assigned",
-    owner: "Eddie",
-    effort: 14,
-    created: new Date("2019-01-16"),
-    due: new Date("2019-02-01"),
-    title: "Missing bottom border on panel",
+    title: "Physic test",
+    status: "done",
+    created: new Date("2019-01-15"),
+  },
+  {
+    id: 3,
+    title: "Science test",
+    status: "done",
+    created: new Date("2019-01-15"),
   },
 ];
+
+const GraphQLDate = new GraphQLScalarType({
+  name: "GraphQLDate",
+  description: "A Date() type in GraphQL as a scalar",
+  serialize(value) {
+    return value.toISOString();
+  },
+  parseValue(value) {
+    const dateValue = new Date(value);
+    return isNaN(value) ? undefined : dateValue;
+  },
+  parseLiteral(ast) {
+    if (ast.king == Kind.STRING) {
+      const value = new Date(ast.value);
+      return isNaN(value) ? undefined : value;
+    }
+  },
+});
 
 const resolvers = {
   Query: {
     about: () => aboutMessage,
-    issueList,
+    taskList: () => taskDB,
   },
   Mutation: {
     setAboutMessage,
+    taskAdd,
   },
+  GraphQLDate,
 };
 
 function setAboutMessage(_, { message }) {
   return (aboutMessage = message);
 }
 
-function issueList() {
-  return issuesDB;
+function taskAdd(_, { task }) {
+  validateTasks({ task });
+  task.created = new Date();
+  task.id = taskDB.length + 1;
+
+  taskDB.push(task);
+  return task;
+}
+
+function validateTasks({ task }) {
+  const errors = [];
+
+  if (task.title.length < 3 || task.title.length > 100) {
+    errors.push("Wrong length of the title.");
+  }
+
+  if (errors.length) {
+    throw new UserInputError("Invalid input(s)", { errors });
+  }
 }
 
 const server = new ApolloServer({
   typeDefs: fs.readFileSync(`./schema.graphql`, "utf-8"),
   resolvers,
+  formatError: (error) => {
+    console.log(error);
+    return error;
+  },
 });
-// app.get("/", (req, res) => {
-//   res.send("Hellfdsafo World!");
-// });
 
-app.use(express.static("public"));
 server.applyMiddleware({ app, path: "/graphql" });
 
 app.listen(5000, () => {
-  console.log(`App is running on port ${5000}`);
+  console.log(
+    `App is running on port ${5000}, GraphQL: http:/localhost:5000/graphql`
+  );
 });

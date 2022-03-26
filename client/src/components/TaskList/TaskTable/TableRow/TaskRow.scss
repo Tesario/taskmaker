@@ -21,12 +21,12 @@
             color: $green;
         }
 
-        &.unfinished {
-            color: $warning;
+        &.expired {
+            color: $red;
         }
 
-        &.uncompleted {
-            color: $red;
+        &.created {
+            color: $warning;
         }
     }
 }

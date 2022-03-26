@@ -6,31 +6,58 @@ const TaskList = () => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    const initialTasks = [
-      {
-        id: 1,
-        title: "Math test",
-        status: "unfinished",
-      },
-      {
-        id: 2,
-        title: "Physic test",
-        status: "done",
-      },
-      {
-        id: 3,
-        title: "Science test",
-        status: "uncompleted",
-      },
-    ];
+    const fetchTasks = async () => {
+      const query = "query{taskList{id title status created}}";
+      const data = await graphQLFetch(query);
 
-    setTasks(initialTasks);
+      if (data) {
+        setTasks(data.taskList);
+      }
+    };
+    fetchTasks();
   }, []);
 
-  const createTask = (task) => {
-    task.id = tasks.length + 1;
-    task.status = "unfinished";
-    setTasks([...tasks, task]);
+  const graphQLFetch = async (query, variables = {}) => {
+    try {
+      const response = await fetch("http://localhost:5000/graphql", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query, variables }),
+      });
+
+      const result = await response.json();
+
+      if (result.errors) {
+        const error = result.errors[0];
+
+        if (error.extensions.code === "BAD_USER_INPUT") {
+          const details = error.extensions.exception.errors.join("\n");
+          alert(`${error.message}: ${details}`);
+        } else {
+          alert(`${error.extensions.code}: ${error.message}`);
+        }
+      }
+
+      return result.data;
+    } catch (error) {
+      alert(`Error in sending data to server: ${error.message}`);
+    }
+  };
+
+  const createTask = async (task) => {
+    const query = `mutation taskAdd($task: TaskInputs!) {
+      taskAdd(task: $task) {
+        id
+        title
+        status
+      }
+    }`;
+
+    const data = await graphQLFetch(query, { task });
+
+    if (data) {
+      setTasks([...tasks, data.taskAdd]);
+    }
   };
 
   return (

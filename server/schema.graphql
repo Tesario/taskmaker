@@ -1,20 +1,31 @@
-type Issue {
+scalar GraphQLDate
+
+type Task {
   id: Int!
   title: String!
-  status: String!
-  owner: String
-  effort: Int
-  created: String!
-  due: String
+  status: StatusType!
+  created: GraphQLDate!
+}
+
+enum StatusType {
+  created
+  expired
+  done
+}
+
+input TaskInputs {
+  title: String!
+  status: StatusType = created
 }
 
 ##### Top level declarations
 
 type Query {
   about: String!
-  issueList: [Issue!]!
+  taskList: [Task!]!
 }
 
 type Mutation {
   setAboutMessage(message: String!): String
+  taskAdd(task: TaskInputs): Task!
 }
