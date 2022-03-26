@@ -8,11 +8,13 @@
     background-color: $white;
     display: flex;
     align-items: center;
-    box-shadow: 0px 0px 15px -9px rgba(0, 0, 0, 0.25);
+    box-shadow: $box-shadow-1;
 
     .container {
         display: flex;
         align-items: center;
+        height: 100%;
+        position: relative;
     }
 
     .brand {
@@ -20,19 +22,66 @@
         width: 55px;
         display: block;
         margin-right: 2.5rem;
+
+        @media (max-width: $lg) {
+            margin: 0 1rem 0 1rem;
+        }
     }
 
     .menu {
+        width: 100%;
         display: flex;
+        align-items: center;
+
+        @media (max-width: $lg) {
+            position: fixed;
+            top: 0;
+            background-color: $white;
+            padding: 7rem 3rem 2rem;
+            flex-direction: column;
+            height: 100vh;
+            box-shadow: $box-shadow-1;
+            max-width: 300px;
+            box-sizing: border-box;
+            transition: .2s ease-in-out;
+            right: -100%;
+            z-index: 50;
+
+            &.collapsed {
+                right: 0;
+            }
+        }
+
+        @media (max-width: $sm) {
+            padding: 5rem 2rem 2rem;
+        }
+    }
+
+    .left-menu {
+        display: flex;
+
+        @media (max-width: $lg) {
+            margin: auto 0;
+            align-items: center;
+            flex-direction: column;
+        }
     }
 
     .menu-item {
         &:not(:first-child) {
             margin-left: 2rem;
+
+            @media (max-width: $lg) {
+                margin: 2rem 0 0;
+            }
         }
 
         .link {
             color: $black;
+
+            @media (max-width: $lg) {
+                font-size: 1.5em;
+            }
 
             &:hover {
                 color: $primary-color;
@@ -40,11 +89,93 @@
         }
     }
 
-    .secondary-menu {
+    .right-menu {
         margin-left: auto;
+
+        @media (max-width: $lg) {
+            display: flex;
+            flex-direction: column;
+            margin: auto 0;
+            width: 100%;
+        }
+
+        @media (max-width: $sm) {
+            margin: auto 0 2rem;
+        }
 
         .btn {
             margin-left: .5rem;
+
+            @media (max-width: $lg) {
+                margin: .5rem 0 0;
+                width: 100%;
+            }
+        }
+    }
+
+    .toggler {
+        display: none;
+        width: 30px;
+        height: 25px;
+        position: relative;
+        margin: 0 1rem 0 auto;
+        padding: 0;
+        z-index: 100;
+        background-color: transparent;
+
+        @media (max-width: $lg) {
+            display: flex;
+        }
+    }
+
+    .line {
+        transition: .2s ease-in-out;
+        width: 100%;
+        height: 3px;
+        position: absolute;
+        background-color: $black;
+        top: 50%;
+        content: "";
+
+        &:first-child {
+            top: 0;
+        }
+
+        &:nth-child(2) {
+            transform: translateY(-50%);
+        }
+
+        &:last-child {
+            top: 100%;
+            transform: translateY(-100%);
+        }
+    }
+
+    .toggler.collapsed {
+        .line {
+            top: 50%;
+            transform: translateY(-50%) rotate(-45deg);
+
+            &:first-child {
+                transform: translateY(-50%) rotate(45deg);
+            }
+        }
+    }
+
+    #dark-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: $black;
+        opacity: 0;
+        pointer-events: none;
+        transition: .2s ease-in-out;
+
+        &.collapsed {
+            pointer-events: unset;
+            opacity: .5;
         }
     }
 }

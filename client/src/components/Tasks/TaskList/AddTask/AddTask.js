@@ -16,15 +16,8 @@ const AddTask = ({ createTask }) => {
       onSubmit={(e) => {
         e.preventDefault();
         titleInputRef.current.focus();
-
-        if (!title) {
-          titleInputRef.current.classList.add("is-invalid");
-          return;
-        }
-
         setTitle("");
         createTask({ title });
-        titleInputRef.current.classList.remove("is-invalid");
       }}
     >
       <input

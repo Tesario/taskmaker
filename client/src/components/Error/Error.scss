@@ -1,0 +1,9 @@
+@import "../../assets/global.scss";
+
+#error {
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
