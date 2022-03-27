@@ -79,6 +79,10 @@
         .link {
             color: $black;
 
+            &.current {
+                color: $primary-color;
+            }
+
             @media (max-width: $lg) {
                 font-size: 1.5em;
             }

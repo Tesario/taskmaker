@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 
 import "./Navbar.scss";
@@ -8,6 +8,7 @@ const Navbar = () => {
   const togglerRef = useRef(null);
   const menuRef = useRef(null);
   const overlayRef = useRef(null);
+  const page = useLocation().pathname;
 
   const toggleMenu = (e) => {
     e.preventDefault();
@@ -25,17 +26,26 @@ const Navbar = () => {
         <div className="menu" ref={menuRef}>
           <ul className="left-menu">
             <li className="menu-item">
-              <Link className="link" to="/tasks">
+              <Link
+                className={`link ${page === "/tasks" ? "current" : ""}`}
+                to="/tasks"
+              >
                 Tasks
               </Link>
             </li>
             <li className="menu-item">
-              <Link className="link" to="/stats">
+              <Link
+                className={`link ${page === "/stats" ? "current" : ""}`}
+                to="/stats"
+              >
                 Statistics
               </Link>
             </li>
             <li className="menu-item">
-              <Link className="link" to="/goals">
+              <Link
+                className={`link ${page === "/goals" ? "current" : ""}`}
+                to="/goals"
+              >
                 Goals
               </Link>
             </li>
