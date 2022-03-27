@@ -3,7 +3,18 @@ import TaskRow from "./TableRow/TaskRow";
 
 import "./TaskTable.scss";
 
-const TaskTable = ({ tasks }) => {
+interface Props {
+  tasks: Task[];
+}
+
+interface Task {
+  id: number;
+  title: string;
+  status: string;
+  created: Date;
+}
+
+const TaskTable: React.FC<Props> = ({ tasks }) => {
   return (
     <div className="task-grid">
       {tasks.map((task) => {

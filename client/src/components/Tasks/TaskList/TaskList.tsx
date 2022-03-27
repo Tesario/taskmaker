@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import TaskTable from "./TaskTable/TaskTable";
 import AddTask from "./AddTask/AddTask";
 
-const TaskList = () => {
-  const [tasks, setTasks] = useState([]);
+const TaskList: React.FC = () => {
+  const [tasks, setTasks] = useState([] as any);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -17,7 +17,7 @@ const TaskList = () => {
     fetchTasks();
   }, []);
 
-  const graphQLFetch = async (query, variables = {}) => {
+  const graphQLFetch = async (query: string, variables = {}) => {
     try {
       const response = await fetch("http://localhost:5000/graphql", {
         method: "POST",
@@ -39,12 +39,12 @@ const TaskList = () => {
       }
 
       return result.data;
-    } catch (error) {
+    } catch (error: any) {
       alert(`Error in sending data to server: ${error.message}`);
     }
   };
 
-  const createTask = async (task) => {
+  const createTask = async (task: object) => {
     const query = `mutation taskAdd($task: TaskInputs!) {
       taskAdd(task: $task) {
         id

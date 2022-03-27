@@ -3,7 +3,16 @@ import dateformat from "dateformat";
 
 import "./TaskRow.scss";
 
-const TaskRow = ({ task }) => {
+interface Props {
+  task: {
+    id: number
+    title: string
+    status: string
+    created: Date
+  }
+}
+
+const TaskRow: React.FC<Props> = ({ task }) => {
   const { id, title, status, created } = task;
 
   return (

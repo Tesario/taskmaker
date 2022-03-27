@@ -3,8 +3,16 @@ import { Link } from "react-router-dom";
 
 import "./Error.scss";
 
-const Error = ({ error }) => {
-  const { message, code } = error;
+interface Props {
+  error:{
+    message: string
+    code: number
+  }
+}
+
+const Error: React.FC<Props> = ({error}) => {
+  const {code, message} = error;
+
   return (
     <section id="error">
       <div className="container">
