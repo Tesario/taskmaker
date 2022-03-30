@@ -11,7 +11,8 @@ const TaskRow: React.FC<{ task: Props }> = ({ task }) => {
     <div id="task">
       <div className="id">{id}</div>
       <div className="task-title">
-        {title} | {dateformat(created, "dd.mm.yyyy")}
+        <div className="date">{dateformat(created, "dd.mm.yyyy")}</div>
+        <div className="text">{title}</div>
       </div>
       <div className={"status " + status}>{status}</div>
     </div>

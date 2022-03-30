@@ -18,10 +18,7 @@ const App: React.FC = () => {
       <Navbar />
       <main>
         <Routes>
-          <Route
-            path="/"
-            element={<Navigate replace to="/tasks" />}
-          ></Route>
+          <Route path="/" element={<Navigate replace to="/tasks" />}></Route>
           <Route path="/tasks" element={<Tasks />}></Route>
           <Route
             path="*"
