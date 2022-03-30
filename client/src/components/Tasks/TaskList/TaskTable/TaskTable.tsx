@@ -1,18 +1,8 @@
 import React from "react";
 import TaskRow from "./TableRow/TaskRow";
+import { Tasks as Props } from "../TaskList";
 
 import "./TaskTable.scss";
-
-interface Props {
-  tasks: Task[];
-}
-
-interface Task {
-  id: number;
-  title: string;
-  status: string;
-  created: Date;
-}
 
 const TaskTable: React.FC<Props> = ({ tasks }) => {
   return (

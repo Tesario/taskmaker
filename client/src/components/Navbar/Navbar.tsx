@@ -10,8 +10,9 @@ const Navbar: React.FC = () => {
   const overlayRef = useRef<HTMLSpanElement>(null);
   const page = useLocation().pathname;
 
-  const toggleMenu = (e: any): void => {
+  const toggleMenu = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.preventDefault();
+
     if (togglerRef.current && menuRef.current && overlayRef.current) {
       togglerRef.current.classList.toggle("collapsed");
       menuRef.current.classList.toggle("collapsed");

@@ -2,8 +2,19 @@ import React, { useEffect, useState } from "react";
 import TaskTable from "./TaskTable/TaskTable";
 import AddTask from "./AddTask/AddTask";
 
+export interface Tasks {
+  tasks: Task[];
+}
+
+export interface Task {
+  id: number;
+  title: string;
+  status: string;
+  created: Date;
+}
+
 const TaskList: React.FC = () => {
-  const [tasks, setTasks] = useState([] as any);
+  const [tasks, setTasks] = useState<Tasks["tasks"]>([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -53,10 +64,12 @@ const TaskList: React.FC = () => {
       }
     }`;
 
-    const data = await graphQLFetch(query, { task });
+    const data: { taskAdd: Task } = await graphQLFetch(query, { task });
 
     if (data) {
-      setTasks([...tasks, data.taskAdd]);
+      if (tasks !== null) {
+        setTasks([...tasks, data.taskAdd]);
+      }
     }
   };
 
