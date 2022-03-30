@@ -1,9 +1,10 @@
 import React from "react";
 import TaskRow from "./TableRow/TaskRow";
+import { Tasks as Props } from "../TaskList";
 
 import "./TaskTable.scss";
 
-const TaskTable = ({ tasks }) => {
+const TaskTable: React.FC<Props> = ({ tasks }) => {
   return (
     <div className="task-grid">
       {tasks.map((task) => {

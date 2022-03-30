@@ -4,17 +4,20 @@ import logo from "../../assets/img/logo.png";
 
 import "./Navbar.scss";
 
-const Navbar = () => {
-  const togglerRef = useRef(null);
-  const menuRef = useRef(null);
-  const overlayRef = useRef(null);
+const Navbar: React.FC = () => {
+  const togglerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLSpanElement>(null);
   const page = useLocation().pathname;
 
-  const toggleMenu = (e) => {
+  const toggleMenu = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.preventDefault();
-    togglerRef.current.classList.toggle("collapsed");
-    menuRef.current.classList.toggle("collapsed");
-    overlayRef.current.classList.toggle("collapsed");
+
+    if (togglerRef.current && menuRef.current && overlayRef.current) {
+      togglerRef.current.classList.toggle("collapsed");
+      menuRef.current.classList.toggle("collapsed");
+      overlayRef.current.classList.toggle("collapsed");
+    }
   };
 
   return (

@@ -1,9 +1,10 @@
 import React from "react";
 import dateformat from "dateformat";
+import { Task as Props } from "../../TaskList";
 
 import "./TaskRow.scss";
 
-const TaskRow = ({ task }) => {
+const TaskRow: React.FC<{ task: Props }> = ({ task }) => {
   const { id, title, status, created } = task;
 
   return (

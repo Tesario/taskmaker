@@ -12,18 +12,17 @@ import Error from "./components/Error/Error";
 
 import "./assets/global.scss";
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <Router>
       <Navbar />
       <main>
         <Routes>
           <Route
-            exact
             path="/"
             element={<Navigate replace to="/tasks" />}
           ></Route>
-          <Route exact path="/tasks" element={<Tasks />}></Route>
+          <Route path="/tasks" element={<Tasks />}></Route>
           <Route
             path="*"
             element={<Error error={{ message: "Page not found", code: 404 }} />}

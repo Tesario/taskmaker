@@ -2,11 +2,19 @@ import React, { useState, useRef } from "react";
 
 import "./AddTask.scss";
 
-const AddTask = ({ createTask }) => {
-  const [title, setTitle] = useState("");
-  const titleInputRef = useRef();
+interface Props {
+  createTask: (task: Task) => Promise<void>;
+}
 
-  const changeTitle = (e) => {
+interface Task {
+  title: string;
+}
+
+const AddTask: React.FC<Props> = ({ createTask }) => {
+  const [title, setTitle] = useState<string>("");
+  const titleInputRef = useRef<HTMLInputElement>(null);
+
+  const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
@@ -15,7 +23,10 @@ const AddTask = ({ createTask }) => {
       id="add-task"
       onSubmit={(e) => {
         e.preventDefault();
-        titleInputRef.current.focus();
+
+        if (titleInputRef.current) {
+          titleInputRef.current.focus();
+        }
         setTitle("");
         createTask({ title });
       }}
