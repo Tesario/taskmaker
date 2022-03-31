@@ -1,6 +1,6 @@
 import React from "react";
 import dateformat from "dateformat";
-import { Task as Props } from "../../TaskList";
+import { Task as Props } from "../TaskList";
 
 import "./TaskRow.scss";
 

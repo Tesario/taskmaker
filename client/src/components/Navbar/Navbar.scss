@@ -179,7 +179,7 @@
 
         &.collapsed {
             pointer-events: unset;
-            opacity: .5;
+            opacity: $opacity;
         }
     }
 }

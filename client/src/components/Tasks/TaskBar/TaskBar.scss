@@ -1,0 +1,26 @@
+@import "../../../assets/global.scss";
+
+#taskbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    .title {
+        margin-top: .3rem;
+    }
+
+    .tool-group {
+        display: flex;
+
+        .btn-tool {
+            margin-right: 1.5rem;
+        }
+    }
+
+    .option {
+        .btn-tool {
+            margin: 0 0 0 1.5rem;
+        }
+    }
+}

@@ -1,0 +1,17 @@
+@import "../../../../assets/global.scss";
+
+#tool-button {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    svg {
+        font-size: 1.8em;
+        color: $primary-color;
+    }
+}
