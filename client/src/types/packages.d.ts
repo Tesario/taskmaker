@@ -1,2 +1,2 @@
-declare module 'dateformat';
-declare module '@reduxjs/toolkit';
+declare module "dateformat";
+declare module "@reduxjs/toolkit";

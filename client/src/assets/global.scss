@@ -33,11 +33,15 @@ h1 {
 }
 
 section {
-    padding: 5rem 0;
+    padding: 3rem 0;
+
+    @media (max-width: $lg) {
+        padding: 1.5rem 0;
+    }
 }
 
 main {
-    padding-top: 3rem;
+    padding-top: 80px;
     flex: 1;
 }
 

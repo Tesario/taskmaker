@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import TaskTable from "./TaskTable/TaskTable";
 import AddTask from "./AddTask/AddTask";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../../state";
+import { useDispatch } from "react-redux";
 
 export interface Tasks {
-  tasks: Task[];
+  tasks: Task[] | null;
 }
 
 export interface Task {
@@ -14,7 +17,8 @@ export interface Task {
 }
 
 const TaskList: React.FC = () => {
-  const [tasks, setTasks] = useState<Tasks["tasks"]>([]);
+  const dispatch = useDispatch();
+  const { addTask, setTasks } = bindActionCreators(actionCreators, dispatch);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -26,7 +30,7 @@ const TaskList: React.FC = () => {
       }
     };
     fetchTasks();
-  }, []);
+  });
 
   const graphQLFetch = async (query: string, variables = {}) => {
     try {
@@ -67,9 +71,7 @@ const TaskList: React.FC = () => {
     const data: { taskAdd: Task } = await graphQLFetch(query, { task });
 
     if (data) {
-      if (tasks !== null) {
-        setTasks([...tasks, data.taskAdd]);
-      }
+      addTask(data.taskAdd);
     }
   };
 
@@ -77,7 +79,7 @@ const TaskList: React.FC = () => {
     <div className="white-card">
       <h1>Tasks</h1>
       <AddTask createTask={createTask} />
-      <TaskTable tasks={tasks} />
+      <TaskTable />
     </div>
   );
 };
