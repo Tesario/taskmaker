@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import { graphQLFetch } from "../../../../Helpers";
-import { useDispatch } from "react-redux";
-import { actionCreators } from "../../../../state";
-import { bindActionCreators } from "@reduxjs/toolkit";
 import Modal from "../../../Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
 import { faBorderAll } from "@fortawesome/free-solid-svg-icons";
-import { Task } from "../../TaskList/TaskList";
 
 import "./ToolForms.scss";
+import { useLayout, useUpdateLayout } from "../../../../LayoutProvider";
 
 type FormData = {
-  filter: string;
-  order: string;
+  columns: 1 | 2;
+  type: "cards" | "rows";
 };
 
 export interface Props {
@@ -23,36 +19,17 @@ export interface Props {
 
 const FormLayout: React.FC<Props> = ({ title, desc }) => {
   const [modalState, setModalState] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const { addTask } = bindActionCreators(actionCreators, dispatch);
+  const layoutContext = useLayout();
+  const layoutUpdateContext = useUpdateLayout();
+  const { register, handleSubmit } = useForm<FormData>();
 
-  const { register, handleSubmit, reset } = useForm<FormData>();
-
-  const onSubmit = handleSubmit((data) => createTask(data));
+  const onSubmit = handleSubmit((data) => {
+    layoutUpdateContext(data);
+    toggleModal();
+  });
 
   const toggleModal = () => {
     setModalState(!modalState);
-  };
-
-  const createTask = async (task: FormData) => {
-    const query = `mutation taskAdd($task: TaskInputs!) {
-      taskAdd(task: $task) {
-        id
-        title
-        desc
-        created
-        due
-        priority
-      }
-    }`;
-
-    const data: { taskAdd: Task } = await graphQLFetch(query, { task });
-
-    if (data) {
-      addTask(data.taskAdd);
-      reset();
-      toggleModal();
-    }
   };
 
   return (
@@ -65,7 +42,56 @@ const FormLayout: React.FC<Props> = ({ title, desc }) => {
         toggleModal={toggleModal}
       >
         <form onSubmit={onSubmit} id="tool-form">
-          <div className="form-body"></div>
+          <div className="form-body form-flex">
+            <div className="form-group">
+              <div className="form-radio">
+                <input
+                  type="radio"
+                  id="column-1"
+                  value="1"
+                  {...register("columns")}
+                  defaultChecked={
+                    String(layoutContext.columns) === String(1) ? true : false
+                  }
+                />
+                <label htmlFor="column-1">1 column</label>
+              </div>
+              <div className="form-radio">
+                <input
+                  type="radio"
+                  id="column-2"
+                  value="2"
+                  {...register("columns")}
+                  defaultChecked={
+                    String(layoutContext.columns) === String(2) ? true : false
+                  }
+                />
+                <label htmlFor="column-2">2 columns</label>
+              </div>
+            </div>
+            <div className="form-group">
+              <div className="form-radio">
+                <input
+                  type="radio"
+                  id="rows"
+                  value="rows"
+                  {...register("type")}
+                  defaultChecked={layoutContext.type === "rows" ? true : false}
+                />
+                <label htmlFor="rows">Rows</label>
+              </div>
+              <div className="form-radio">
+                <input
+                  type="radio"
+                  id="cards"
+                  value="cards"
+                  {...register("type")}
+                  defaultChecked={layoutContext.type === "cards" ? true : false}
+                />
+                <label htmlFor="cards">Cards</label>
+              </div>
+            </div>
+          </div>
           <div className="form-footer wave-2">
             <button
               type="button"
@@ -74,7 +100,11 @@ const FormLayout: React.FC<Props> = ({ title, desc }) => {
             >
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={onSubmit}
+            >
               Apply layout
             </button>
           </div>

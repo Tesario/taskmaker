@@ -110,6 +110,36 @@ main {
     flex-direction: column;
 }
 
+.form-radio {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-left: .4rem;
+
+    input[type=radio] {
+        width: 20px;
+        height: 20px;
+        border: 1px solid $primary-color;
+        outline: none;
+        -webkit-appearance: none;
+        border-radius: 50%;
+
+        &:hover {
+            background-color: $grey-1;
+        }
+
+        &:checked {
+            background: url(../assets/img/radio.svg);
+            background-size: contain;
+        }
+    }
+
+    label {
+        margin: 0 0 0 1rem;
+        font-size: 1.3em;
+    }
+}
+
 textarea {
     min-height: 100px;
 }

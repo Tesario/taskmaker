@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { State } from "../../../state/reducers";
 import Loader from "../../Loader/Loader";
 import { graphQLFetch } from "../../../Helpers";
+import { useLayout } from "../../../LayoutProvider";
+import TaskCard from "./TaskCard/TaskCard";
 
 import "./TaskList.scss";
 
@@ -28,10 +30,12 @@ const TaskList: React.FC = () => {
   const dispatch = useDispatch();
   const { setTasks } = bindActionCreators(actionCreators, dispatch);
   const state = useSelector((state: State) => state.tasks);
+  const layoutContext = useLayout();
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const query = "query{taskList{id title status created due priority }}";
+      const query =
+        "query{taskList{id title desc status created due priority }}";
       const data = await graphQLFetch(query);
 
       if (data) {
@@ -43,12 +47,16 @@ const TaskList: React.FC = () => {
   }, []);
 
   return (
-    <div className="task-grid">
+    <div className={`task-grid columns-${layoutContext.columns}`}>
       {state === null ? (
         <Loader />
       ) : (
         state.map((task) => {
-          return <TaskRow key={task.id} task={task} />;
+          return layoutContext.type === "rows" ? (
+            <TaskRow key={task.id} task={task} />
+          ) : (
+            <TaskCard key={task.id} task={task} />
+          );
         })
       )}
     </div>

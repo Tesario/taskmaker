@@ -1,0 +1,59 @@
+@import "../../../../assets/global.scss";
+
+#task-card {
+    background-color: $grey-1;
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+
+    .task-header {
+        display: flex;
+    }
+
+    .id {
+        font-size: $title-size;
+        color: $primary-color;
+        width: 40px;
+    }
+
+    .task-title {
+        padding: 0 .5rem;
+        display: flex;
+        font-size: 1.1em;
+    }
+
+    .desc {
+        margin-top: 1rem;
+        line-height: 1.5em;
+        text-align: justify;
+    }
+
+    .remain {
+        color: $primary-color;
+        margin-bottom: .75rem;
+    }
+
+    .priority {
+        display: flex;
+
+        .star {
+            color: $yellow;
+            font-size: 1.2em;
+            margin-right: .25rem;
+        }
+    }
+
+    .task-footer {
+        padding-top: 1rem;
+        margin-top: auto;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+
+    .group {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+}
