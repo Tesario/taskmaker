@@ -1,0 +1,37 @@
+@import "../../assets/global.scss";
+
+$unchecked-star: '\2606';
+$unchecked-color: #888;
+$checked-star: '\2605';
+$checked-color: #e52;
+
+#stars-input {
+    .star-cb-group {
+        display: flex;
+    }
+
+    label {
+        color: $yellow;
+        display: block;
+        box-sizing: border-box;
+        margin: 0 .4rem 0 0 !important;
+        cursor: pointer;
+
+        svg {
+            font-size: 1.7em;
+        }
+    }
+
+    input {
+        display: none;
+    }
+
+
+    input:checked+label {
+        color: $grey-2;
+    }
+
+    input:checked~label {
+        color: $grey-2;
+    }
+}

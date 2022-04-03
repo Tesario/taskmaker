@@ -31,7 +31,7 @@ const TaskList: React.FC = () => {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const query = "query{taskList{id title status created}}";
+      const query = "query{taskList{id title status created due priority }}";
       const data = await graphQLFetch(query);
 
       if (data) {

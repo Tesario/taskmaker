@@ -1,11 +1,11 @@
-import React from "react";
-import { Props as ParentsProps } from "../Tasks/TaskBar/ToolButton/ToolButton";
+import React, { useEffect } from "react";
+import { Props as ParentProps } from "../Tasks/TaskBar/ToolForms/FormCreateTask";
 
 import "./Modal.scss";
 
-interface Props extends ParentsProps {
-  modalState: Boolean;
+interface Props extends ParentProps {
   toggleModal: () => void;
+  modalState: boolean;
 }
 
 const Modal: React.FC<Props> = ({
@@ -15,6 +15,19 @@ const Modal: React.FC<Props> = ({
   desc,
   toggleModal,
 }) => {
+  useEffect(() => {
+    const closeModal = (e: globalThis.KeyboardEvent) => {
+      if (e.key === "Escape" && modalState) {
+        toggleModal();
+      }
+    };
+    document.addEventListener("keydown", closeModal);
+
+    return () => {
+      document.removeEventListener("keydown", closeModal);
+    };
+  });
+
   return (
     <div id="modal" className={modalState ? "show" : ""}>
       <div className="modal-dialog">

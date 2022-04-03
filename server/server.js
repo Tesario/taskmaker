@@ -13,18 +13,25 @@ const taskDB = [
     title: "Math test",
     status: "expired",
     created: new Date("2019-01-15"),
+    due: new Date("2021-04-4"),
+    priority: 1,
   },
   {
     id: 2,
     title: "Physic test",
     status: "done",
-    created: new Date("2019-01-15"),
+    created: new Date("2022-04-4"),
+    due: new Date("2022-04-4"),
+    priority: 3,
   },
   {
     id: 3,
     title: "Science test",
+    desc: "fasdfdsa fdsa fdas fasd fasdf as",
     status: "done",
-    created: new Date("2019-01-15"),
+    created: new Date("2022-04-4"),
+    due: new Date("2022-04-4"),
+    priority: 5,
   },
 ];
 
@@ -36,10 +43,10 @@ const GraphQLDate = new GraphQLScalarType({
   },
   parseValue(value) {
     const dateValue = new Date(value);
-    return isNaN(value) ? undefined : dateValue;
+    return isNaN(dateValue) ? undefined : dateValue;
   },
   parseLiteral(ast) {
-    if (ast.king == Kind.STRING) {
+    if (ast.kind == Kind.STRING) {
       const value = new Date(ast.value);
       return isNaN(value) ? undefined : value;
     }

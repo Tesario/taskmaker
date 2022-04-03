@@ -88,6 +88,7 @@ main {
 
         &:hover {
             background: darken($primary-color, 8%);
+            border-color: darken($primary-color, 8%);
         }
     }
 
@@ -95,6 +96,7 @@ main {
         border: 2px solid $primary-color;
         padding: .5rem 1.1rem;
         background-color: $white;
+        color: $primary-color;
 
         &:hover {
             background: $primary-color;
@@ -103,10 +105,19 @@ main {
     }
 }
 
+.form-control {
+    display: flex;
+    flex-direction: column;
+}
+
+textarea {
+    min-height: 100px;
+}
+
 input,
 textarea {
     border-radius: .25rem;
-    border: 1px solid $grey;
+    border: 1px solid $grey-2;
     padding: .44rem .6rem;
     box-sizing: border-box;
     font-family: $main-font;

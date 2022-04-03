@@ -1,20 +1,19 @@
 import React from "react";
-import dateformat from "dateformat";
 import { Task as Props } from "../TaskList";
+import TaskStatus from "./TaskStatus/TaskStatus";
+import { timeLeft } from "../../../../Helpers";
 
 import "./TaskRow.scss";
 
 const TaskRow: React.FC<{ task: Props }> = ({ task }) => {
-  const { id, title, status, created } = task;
+  const { id, title, status, due } = task;
 
   return (
     <div id="task">
       <div className="id">{id}</div>
-      <div className="task-title">
-        <div className="date">{dateformat(created, "dd.mm.yyyy")}</div>
-        <div className="text">{title}</div>
-      </div>
-      <div className={"status " + status}>{status}</div>
+      <div className="task-title">{title}</div>
+      <div className="remain">{status !== "done" && timeLeft(due)}</div>
+      <TaskStatus status={status} />
     </div>
   );
 };

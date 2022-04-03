@@ -2,38 +2,27 @@
 
 #task {
     display: flex;
+    align-items: center;
+    background-color: $grey-1;
+    padding: 1rem 1.5rem;
 
     .id {
+        font-size: $title-size;
+        color: $primary-color;
         width: 40px;
     }
 
     .task-title {
-        width: 100%;
         padding: 0 .5rem;
         display: flex;
     }
 
-    .status {
-        &::first-letter {
-            text-transform: uppercase;
-        }
-
-        &.done {
-            color: $green;
-        }
-
-        &.expired {
-            color: $red;
-        }
-
-        &.created {
-            color: $warning;
-        }
-    }
-
-    .date {
-        width: 100px;
-        text-align: center;
+    .remain {
+        width: 120px;
+        margin-right: 1rem;
+        text-align: right;
+        margin-left: auto;
+        color: $primary-color;
     }
 
     .text {
