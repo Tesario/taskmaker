@@ -10,6 +10,12 @@
         justify-content: center;
     }
 
+    p {
+        @media (max-width: $sm) {
+            text-align: center;
+        }
+    }
+
     a {
         color: $primary-color;
     }

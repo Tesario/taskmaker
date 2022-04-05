@@ -6,8 +6,10 @@ const Footer: React.FC = () => {
   return (
     <footer id="footer">
       <div className="container">
-        &copy; {new Date().getFullYear()} TaskMaker | Code & design by&nbsp;
-        <a href="https://tesarvojtech.cz/">Vojtěch Tesař</a>
+        <p>
+          &copy; {new Date().getFullYear()} TaskMaker | Code & design by&#8201;
+          <a href="https://tesarvojtech.cz/">Vojtěch Tesař</a>
+        </p>
       </div>
     </footer>
   );

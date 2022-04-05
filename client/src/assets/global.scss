@@ -182,4 +182,8 @@ textarea {
     @media (max-width: $lg) {
         padding: 1.5rem 1rem 1rem;
     }
+
+    @media (max-width: $lg) {
+        margin: 0 -0.5rem;
+    }
 }

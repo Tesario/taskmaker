@@ -6,6 +6,10 @@
     background-color: $grey-1;
     padding: 1rem 1.5rem;
 
+    @media (max-width: $md) {
+        padding: 1rem .5rem;
+    }
+
     .id {
         font-size: $title-size;
         color: $primary-color;
