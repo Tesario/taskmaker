@@ -5,7 +5,9 @@ $green: #198754;
 $red: #dc3545;
 $warning: #0dcaf0;
 $primary-color:#6100c2;
-$grey: #ced4da;
+$grey-1: #f9f9f9;
+$grey-2: #ced4da;
+$yellow: #ffc107;
 $bg: #f2f6fc;
 $box-shadow-1: 0px 0px 15px -9px rgba(0, 0, 0, 0.25);
 
@@ -19,7 +21,8 @@ sans-serif;
 
 // Font Sizes
 $title-size: 2em;
-$subtitle-size: 1.5em;
+$subtitle-size: 1.8em;
+$label-size: .9em;
 
 // Breakpoints
 $xs: 0;
@@ -28,3 +31,6 @@ $md: 768px;
 $lg: 992px;
 $xl: 1200px;
 $xxl: 1400px;
+
+// Opacity
+$opacity: .5;

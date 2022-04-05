@@ -1,0 +1,96 @@
+@import "../../assets/global.scss";
+
+#datetime-picker {
+    position: relative;
+    z-index: 300;
+
+    * {
+        font-family: $main-font !important;
+    }
+
+    .react-datetime-picker {
+        width: 100%;
+
+        &__wrapper {
+            border: 1px solid $grey-2;
+            padding: 0.44rem 0.6rem;
+            border-radius: .25rem;
+        }
+    }
+
+    .react-datetime-picker__clock,
+    .react-calendar {
+        border-radius: .25rem;
+        margin-top: .1rem;
+        border: 1px solid $grey-2;
+    }
+
+    .react-calendar__tile {
+        border: 1px solid transparent;
+        transition: .1s ease-in-out;
+        border-radius: .25rem;
+
+        &:focus,
+        &:hover {
+            background-color: $grey-1;
+        }
+    }
+
+    .react-datetime-picker__inputGroup__input:invalid {
+        background-color: transparent;
+    }
+
+    .react-calendar__tile.react-calendar__tile--now {
+        background-color: $white;
+        border: 1px solid $primary-color;
+        color: $primary-color;
+    }
+
+    .react-calendar__month-view__days__day--weekend {
+        color: $black;
+    }
+
+    .react-calendar__tile--active {
+        background-color: $primary-color !important;
+        color: $white !important;
+        border: 1px solid $primary-color;
+    }
+
+    .react-datetime-picker__clear-button,
+    .react-datetime-picker__calendar-button {
+        padding: 0 0 0 1rem;
+    }
+
+    .react-datetime-picker__clear-button {
+        position: relative;
+        top: .1rem;
+
+        svg {
+            color: $red;
+        }
+    }
+
+    svg {
+        color: $primary-color;
+        font-size: 1.5em;
+    }
+
+    .react-calendar__navigation__label,
+    .react-calendar__navigation__arrow {
+
+        &:focus,
+        &:hover {
+            background-color: $grey-1
+        }
+    }
+
+    .react-calendar__navigation__arrow {
+        font-size: 1.3em;
+    }
+
+    abbr {
+        border-bottom: none !important;
+        cursor: inherit !important;
+        text-decoration: none !important;
+    }
+}

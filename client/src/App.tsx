@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import {
   BrowserRouter as Router,
@@ -13,15 +13,20 @@ import Error from "./components/Error/Error";
 import "./assets/global.scss";
 
 const App: React.FC = () => {
+  const overlayLoaderRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (overlayLoaderRef.current) {
+      overlayLoaderRef.current.classList.remove("show");
+    }
+  }, []);
+
   return (
     <Router>
       <Navbar />
       <main>
         <Routes>
-          <Route
-            path="/"
-            element={<Navigate replace to="/tasks" />}
-          ></Route>
+          <Route path="/" element={<Navigate replace to="/tasks" />}></Route>
           <Route path="/tasks" element={<Tasks />}></Route>
           <Route
             path="*"

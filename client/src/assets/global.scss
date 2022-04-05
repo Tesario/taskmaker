@@ -20,24 +20,24 @@ img {
     object-fit: contain;
 }
 
-h1 {
+.title {
     font-size: $title-size;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
 }
 
 .subtitle {
-    margin-bottom: 1rem;
-    padding-bottom: .5rem;
     font-size: $subtitle-size;
 }
 
 section {
-    padding: 5rem 0;
+    padding: 3rem 0;
+
+    @media (max-width: $lg) {
+        padding: 1.5rem 0;
+    }
 }
 
 main {
-    padding-top: 3rem;
+    padding-top: 80px;
     flex: 1;
 }
 
@@ -78,6 +78,7 @@ main {
     box-sizing: border-box;
     transition: .1s ease-in-out;
     text-align: center;
+    background-color: transparent;
 
     &.btn-primary {
         background: $primary-color;
@@ -87,6 +88,7 @@ main {
 
         &:hover {
             background: darken($primary-color, 8%);
+            border-color: darken($primary-color, 8%);
         }
     }
 
@@ -94,6 +96,7 @@ main {
         border: 2px solid $primary-color;
         padding: .5rem 1.1rem;
         background-color: $white;
+        color: $primary-color;
 
         &:hover {
             background: $primary-color;
@@ -102,10 +105,49 @@ main {
     }
 }
 
+.form-control {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-radio {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-left: .4rem;
+
+    input[type=radio] {
+        width: 20px;
+        height: 20px;
+        border: 1px solid $primary-color;
+        outline: none;
+        -webkit-appearance: none;
+        border-radius: 50%;
+
+        &:hover {
+            background-color: $grey-1;
+        }
+
+        &:checked {
+            background: url(../assets/img/radio.svg);
+            background-size: contain;
+        }
+    }
+
+    label {
+        margin: 0 0 0 1rem;
+        font-size: 1.3em;
+    }
+}
+
+textarea {
+    min-height: 100px;
+}
+
 input,
 textarea {
     border-radius: .25rem;
-    border: 1px solid $grey;
+    border: 1px solid $grey-2;
     padding: .44rem .6rem;
     box-sizing: border-box;
     font-family: $main-font;
@@ -115,9 +157,27 @@ textarea {
     }
 }
 
+.error-message {
+    max-height: 0;
+    transition: .3s ease-in-out;
+    opacity: 0;
+    box-sizing: border-box;
+    display: flex;
+    height: 27px;
+    font-size: .9em;
+    margin-left: .5rem;
+    color: $red;
+
+    &.show {
+        opacity: 1;
+        align-items: flex-end;
+        max-height: 27px;
+    }
+}
+
 .white-card {
     background-color: $white;
-    padding: 2.5rem 2rem 2rem;
+    padding: 3rem 4rem 2.5rem;
 
     @media (max-width: $lg) {
         padding: 1.5rem 1rem 1rem;

@@ -1,24 +1,41 @@
-import React, { useEffect, useState } from "react";
-import TaskTable from "./TaskTable/TaskTable";
-import AddTask from "./AddTask/AddTask";
+import React, { useEffect } from "react";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../../state";
+import { useDispatch } from "react-redux";
+import TaskRow from "./TableRow/TaskRow";
+import { useSelector } from "react-redux";
+import { State } from "../../../state/reducers";
+import Loader from "../../Loader/Loader";
+import { graphQLFetch } from "../../../Helpers";
+import { useLayout } from "../../../LayoutProvider";
+import TaskCard from "./TaskCard/TaskCard";
+
+import "./TaskList.scss";
 
 export interface Tasks {
-  tasks: Task[];
+  tasks: Task[] | null;
 }
 
 export interface Task {
   id: number;
   title: string;
+  desc?: string;
   status: string;
+  priority: 1 | 2 | 3 | 4 | 5;
   created: Date;
+  due: Date;
 }
 
 const TaskList: React.FC = () => {
-  const [tasks, setTasks] = useState<Tasks["tasks"]>([]);
+  const dispatch = useDispatch();
+  const { setTasks } = bindActionCreators(actionCreators, dispatch);
+  const state = useSelector((state: State) => state.tasks);
+  const layoutContext = useLayout();
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const query = "query{taskList{id title status created}}";
+      const query =
+        "query{taskList{id title desc status created due priority }}";
       const data = await graphQLFetch(query);
 
       if (data) {
@@ -26,58 +43,22 @@ const TaskList: React.FC = () => {
       }
     };
     fetchTasks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const graphQLFetch = async (query: string, variables = {}) => {
-    try {
-      const response = await fetch("http://localhost:5000/graphql", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, variables }),
-      });
-
-      const result = await response.json();
-
-      if (result.errors) {
-        const error = result.errors[0];
-
-        if (error.extensions.code === "BAD_USER_INPUT") {
-          const details = error.extensions.exception.errors.join("\n");
-          alert(`${error.message}: ${details}`);
-        } else {
-          alert(`${error.extensions.code}: ${error.message}`);
-        }
-      }
-
-      return result.data;
-    } catch (error: any) {
-      alert(`Error in sending data to server: ${error.message}`);
-    }
-  };
-
-  const createTask = async (task: object) => {
-    const query = `mutation taskAdd($task: TaskInputs!) {
-      taskAdd(task: $task) {
-        id
-        title
-        status
-      }
-    }`;
-
-    const data: { taskAdd: Task } = await graphQLFetch(query, { task });
-
-    if (data) {
-      if (tasks !== null) {
-        setTasks([...tasks, data.taskAdd]);
-      }
-    }
-  };
-
   return (
-    <div className="white-card">
-      <h1>Tasks</h1>
-      <AddTask createTask={createTask} />
-      <TaskTable tasks={tasks} />
+    <div className={`task-grid columns-${layoutContext.columns}`}>
+      {state === null ? (
+        <Loader />
+      ) : (
+        state.map((task) => {
+          return layoutContext.type === "rows" ? (
+            <TaskRow key={task.id} task={task} />
+          ) : (
+            <TaskCard key={task.id} task={task} />
+          );
+        })
+      )}
     </div>
   );
 };

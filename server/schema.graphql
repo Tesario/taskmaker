@@ -3,8 +3,11 @@ scalar GraphQLDate
 type Task {
   id: Int!
   title: String!
+  desc: String
   status: StatusType!
   created: GraphQLDate!
+  due: GraphQLDate!
+  priority: Int!
 }
 
 enum StatusType {
@@ -15,7 +18,10 @@ enum StatusType {
 
 input TaskInputs {
   title: String!
-  status: StatusType = created
+  desc: String
+  status: StatusType! = created
+  due: GraphQLDate!
+  priority: Int!
 }
 
 ##### Top level declarations

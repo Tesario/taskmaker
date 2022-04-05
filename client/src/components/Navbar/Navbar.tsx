@@ -46,6 +46,14 @@ const Navbar: React.FC = () => {
             </li>
             <li className="menu-item">
               <Link
+                className={`link ${page === "/calendar" ? "current" : ""}`}
+                to="/calendar"
+              >
+                Calendar
+              </Link>
+            </li>
+            <li className="menu-item">
+              <Link
                 className={`link ${page === "/goals" ? "current" : ""}`}
                 to="/goals"
               >

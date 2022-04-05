@@ -11,20 +11,28 @@ const taskDB = [
   {
     id: 1,
     title: "Math test",
+    desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque ipsum. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
     status: "expired",
     created: new Date("2019-01-15"),
+    due: new Date("2021-04-4"),
+    priority: 1,
   },
   {
     id: 2,
     title: "Physic test",
     status: "done",
-    created: new Date("2019-01-15"),
+    created: new Date("2022-04-4"),
+    due: new Date("2022-04-4"),
+    priority: 3,
   },
   {
     id: 3,
     title: "Science test",
+    desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque ipsum. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
     status: "done",
-    created: new Date("2019-01-15"),
+    created: new Date("2022-04-4"),
+    due: new Date("2022-04-4"),
+    priority: 5,
   },
 ];
 
@@ -36,10 +44,10 @@ const GraphQLDate = new GraphQLScalarType({
   },
   parseValue(value) {
     const dateValue = new Date(value);
-    return isNaN(value) ? undefined : dateValue;
+    return isNaN(dateValue) ? undefined : dateValue;
   },
   parseLiteral(ast) {
-    if (ast.king == Kind.STRING) {
+    if (ast.kind == Kind.STRING) {
       const value = new Date(ast.value);
       return isNaN(value) ? undefined : value;
     }
@@ -73,9 +81,20 @@ function taskAdd(_, { task }) {
 
 function validateTasks({ task }) {
   const errors = [];
-
-  if (task.title.length < 3 || task.title.length > 100) {
+  if (task.title.length < 3 || task.title.length > 200) {
     errors.push("Wrong length of the title.");
+  }
+  if (task.desc.length > 2000) {
+    errors.push("Wrong length of the description.");
+  }
+  if (task.due < new Date()) {
+    errors.push("The due must be in the past.");
+  }
+  if (!["created", "expired", "done"].includes(task.status)) {
+    errors.push("The status does not have valid value.");
+  }
+  if (task.priority < 0 || task.priority > 5) {
+    errors.push("The priority must be between 1 and 5.");
   }
 
   if (errors.length) {

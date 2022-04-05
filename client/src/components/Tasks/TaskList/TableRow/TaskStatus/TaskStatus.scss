@@ -1,0 +1,19 @@
+@import "../../../../../assets/global.scss";
+
+#task-status {
+    svg {
+        font-size: 2em;
+    }
+
+    .done {
+        color: $green;
+    }
+
+    .expired {
+        color: $red;
+    }
+
+    .created {
+        color: $warning;
+    }
+}
