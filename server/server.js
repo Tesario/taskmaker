@@ -28,7 +28,7 @@ const taskDB = [
   {
     id: 3,
     title: "Science test",
-    desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque ipsum. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+    desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elitd. Pellentesque ipsum. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
     status: "done",
     created: new Date("2022-04-4"),
     due: new Date("2022-04-4"),
