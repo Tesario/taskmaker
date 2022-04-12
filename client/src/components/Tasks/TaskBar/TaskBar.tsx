@@ -10,13 +10,13 @@ const TaskBar: React.FC = () => {
   return (
     <div id="taskbar">
       <div className="tool-group tasks">
+        <FormLayout title="Layout" />
+        <FormFilter title="Filter" />
         <FormCreateTask title="Create task" />
-        <FormSearchTask title="Search task" />
       </div>
       <h1 className="title">Tasks</h1>
       <div className="tool-group option">
-        <FormFilter title="Filter" />
-        <FormLayout title="Layout" />
+        <FormSearchTask />
       </div>
     </div>
   );

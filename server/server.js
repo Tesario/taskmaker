@@ -2,39 +2,19 @@ const express = require("express");
 const { ApolloServer, UserInputError } = require("apollo-server-express");
 const { GraphQLScalarType, Kind } = require("graphql");
 const fs = require("fs");
-
-let aboutMessage = "TaskMaker";
+const { MongoClient } = require("mongodb");
 
 const app = express();
 
-const taskDB = [
-  {
-    id: 1,
-    title: "Math test",
-    desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque ipsum. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
-    status: "expired",
-    created: new Date("2019-01-15"),
-    due: new Date("2021-04-4"),
-    priority: 1,
-  },
-  {
-    id: 2,
-    title: "Physic test",
-    status: "done",
-    created: new Date("2022-04-4"),
-    due: new Date("2022-04-4"),
-    priority: 3,
-  },
-  {
-    id: 3,
-    title: "Science test",
-    desc: "Lorem ipsum dolor sit amet, consectetuer adipiscing elitd. Pellentesque ipsum. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
-    status: "done",
-    created: new Date("2022-04-4"),
-    due: new Date("2022-04-4"),
-    priority: 5,
-  },
-];
+const url = "mongodb://localhost:27017/taskmaker";
+let db;
+
+const connectToDb = async () => {
+  const client = new MongoClient(url, { useNewUrlParser: true });
+  await client.connect();
+  console.log(`Database is connected at ${url}`);
+  db = client.db();
+};
 
 const GraphQLDate = new GraphQLScalarType({
   name: "GraphQLDate",
@@ -56,27 +36,50 @@ const GraphQLDate = new GraphQLScalarType({
 
 const resolvers = {
   Query: {
-    about: () => aboutMessage,
-    taskList: () => taskDB,
+    taskList,
   },
   Mutation: {
-    setAboutMessage,
     taskAdd,
+    taskFilter,
   },
   GraphQLDate,
 };
 
-function setAboutMessage(_, { message }) {
-  return (aboutMessage = message);
+async function getNextSequence(collection) {
+  const result = await db
+    .collection("counters")
+    .findOneAndUpdate(
+      { _id: collection },
+      { $inc: { current: 1 } },
+      { returnOriginal: false }
+    );
+  return result.value.current;
 }
 
-function taskAdd(_, { task }) {
+async function taskList() {
+  const tasks = await db.collection("tasks").find({}).toArray();
+  return tasks;
+}
+
+async function taskFilter(_, { filter }) {
+  const tasks = await db
+    .collection("tasks")
+    .find()
+    .sort({ [filter.filter]: [filter.order] })
+    .toArray();
+  return tasks;
+}
+
+async function taskAdd(_, { task }) {
   validateTasks({ task });
   task.created = new Date();
-  task.id = taskDB.length + 1;
+  task.id = await getNextSequence("tasks");
+  const result = await db.collection("tasks").insertOne(task);
 
-  taskDB.push(task);
-  return task;
+  const savedTask = await db
+    .collection("tasks")
+    .findOne({ _id: result.insertedId });
+  return savedTask;
 }
 
 function validateTasks({ task }) {
@@ -113,8 +116,15 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path: "/graphql" });
 
-app.listen(process.env.PORT || 5000, () => {
-  console.log(
-    `App is running on port ${5000}, GraphQL: http:/localhost:5000/graphql`
-  );
-});
+(async function () {
+  try {
+    await connectToDb();
+    app.listen(process.env.PORT || 5000, () => {
+      console.log(
+        `App is running on port ${5000}, GraphQL: http:/localhost:5000/graphql`
+      );
+    });
+  } catch (error) {
+    console.log(error);
+  }
+})();

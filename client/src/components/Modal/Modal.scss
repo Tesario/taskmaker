@@ -27,6 +27,11 @@
         padding: 3.5rem 0 0;
         max-width: 575px;
         width: 100%;
+
+        @media (max-width: $sm) {
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
     }
 
     .modal-header {
@@ -35,6 +40,10 @@
         justify-content: center;
         position: relative;
         margin-bottom: 3rem;
+
+        @media (max-width: $sm) {
+            margin-bottom: 2rem;
+        }
 
         .btn {
             position: absolute;

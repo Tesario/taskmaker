@@ -1,6 +1,7 @@
 scalar GraphQLDate
 
 type Task {
+  _id: ID!
   id: Int!
   title: String!
   desc: String
@@ -24,6 +25,11 @@ input TaskInputs {
   priority: Int!
 }
 
+input Filter {
+  filter: String!
+  order: Int!
+}
+
 ##### Top level declarations
 
 type Query {
@@ -34,4 +40,5 @@ type Query {
 type Mutation {
   setAboutMessage(message: String!): String
   taskAdd(task: TaskInputs): Task!
+  taskFilter(filter: Filter): [Task!]!
 }
