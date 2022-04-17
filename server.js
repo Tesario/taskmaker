@@ -105,7 +105,7 @@ function validateTasks({ task }) {
   }
 }
 
-// app.use(express.static("client/build"));
+app.use(express.static("client/build"));
 
 const server = new ApolloServer({
   typeDefs: fs.readFileSync(`./schema.graphql`, "utf-8"),
