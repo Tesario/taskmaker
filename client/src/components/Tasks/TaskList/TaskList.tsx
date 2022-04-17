@@ -11,6 +11,7 @@ import { useLayout } from "../../../LayoutProvider";
 import TaskCard from "./TaskCard/TaskCard";
 
 import "./TaskList.scss";
+import { useFilter } from "../../../FilterProvider";
 
 export interface Tasks {
   tasks: Task[] | null;
@@ -31,15 +32,28 @@ const TaskList: React.FC = () => {
   const { setTasks } = bindActionCreators(actionCreators, dispatch);
   const state = useSelector((state: State) => state.tasks);
   const layoutContext = useLayout();
+  const filterContext = useFilter();
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const query =
-        "query{taskList{id title desc status created due priority }}";
-      const data = await graphQLFetch(query);
+      const query = `mutation taskFilter($filter: Filter!) {
+        taskFilter(filter: $filter) {
+          id
+          title
+          desc
+          status
+          created
+          due
+          priority
+        }
+      }
+      `;
+      const data: { taskFilter: Task[] } = await graphQLFetch(query, {
+        filter: filterContext,
+      });
 
       if (data) {
-        setTasks(data.taskList);
+        setTasks(data.taskFilter);
       }
     };
     fetchTasks();
