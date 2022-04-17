@@ -53,7 +53,7 @@ async function getNextSequence(collection) {
     .findOneAndUpdate(
       { _id: collection },
       { $inc: { current: 1 } },
-      { returnOriginal: false }
+      { returnDocument: "after" }
     );
   return result.value.current;
 }
@@ -76,6 +76,7 @@ async function taskAdd(_, { task }) {
   validateTasks({ task });
   task.created = new Date();
   task.id = await getNextSequence("tasks");
+
   const result = await db.collection("tasks").insertOne(task);
 
   const savedTask = await db

@@ -1,5 +1,5 @@
 import React from "react";
-import { Task as Props } from "../TaskList";
+import { Task } from "../TaskList";
 import TaskStatus from "../TableRow/TaskStatus/TaskStatus";
 import { timeLeft } from "../../../../Helpers";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -7,9 +7,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./TaskCard.scss";
 
-const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
-  const { id, title, desc, priority, status, due } = task;
+interface Props extends Task {
+  key: number;
+}
 
+const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
+  const { key, title, desc, priority, status, due } = task;
+  console.log(key);
   const renderStars = (stars: 1 | 2 | 3 | 4 | 5) => {
     var rows = [];
     for (var i = 0; i < stars; i++) {
@@ -25,7 +29,7 @@ const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
   return (
     <div id="task-card">
       <div className="task-header">
-        <div className="id">{id}</div>
+        <div className="id">{key}</div>
         <div className="task-title">{title}</div>
       </div>
       {desc && <p className="desc">{desc}</p>}

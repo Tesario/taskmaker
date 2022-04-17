@@ -65,11 +65,11 @@ const TaskList: React.FC = () => {
       {state === null ? (
         <Loader />
       ) : (
-        state.map((task) => {
+        state.map((task, index) => {
           return layoutContext.type === "rows" ? (
-            <TaskRow key={task.id} task={task} />
+            <TaskRow key={task.id} task={{ ...task, key: ++index }} />
           ) : (
-            <TaskCard key={task.id} task={task} />
+            <TaskCard key={task.id} task={{ ...task, key: ++index }} />
           );
         })
       )}

@@ -10,7 +10,7 @@ interface Props {
 }
 
 const DatetimePicker: React.FC<Props> = ({ setDatetime }) => {
-  const [value, onChange] = useState<Date>(new Date());
+  const [value, onChange] = useState<Date>(new Date(Date.now() + 2000 * 60));
 
   useEffect(() => {
     setDatetime(value);
