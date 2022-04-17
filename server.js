@@ -4,10 +4,11 @@ const { GraphQLScalarType, Kind } = require("graphql");
 const fs = require("fs");
 const path = require("path");
 const { MongoClient } = require("mongodb");
+require("dotenv").config();
 
 const app = express();
 
-const url = "mongodb://localhost:27017/taskmaker";
+const url = process.env.MONGO_URI || "mongodb://localhost:27017/taskmaker";
 let db;
 
 const connectToDb = async () => {
