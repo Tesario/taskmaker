@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"nodemon -e js,graphql,env -w .env -w . server.js\" \"cd client & npm start\""
+    "start": "concurrently \"nodemon -e js,graphql,env -w .env -w . server.js\" \"cd client & npm start\"",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
