@@ -2,6 +2,7 @@ const express = require("express");
 const { ApolloServer, UserInputError } = require("apollo-server-express");
 const { GraphQLScalarType, Kind } = require("graphql");
 const fs = require("fs");
+const path = require("path");
 const { MongoClient } = require("mongodb");
 
 const app = express();
@@ -105,7 +106,11 @@ function validateTasks({ task }) {
   }
 }
 
-app.use(express.static("client/build"));
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/client/build", "index.html"));
+});
 
 const server = new ApolloServer({
   typeDefs: fs.readFileSync(`./schema.graphql`, "utf-8"),
