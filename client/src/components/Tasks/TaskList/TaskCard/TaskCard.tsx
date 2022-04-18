@@ -13,7 +13,7 @@ interface Props extends Task {
 
 const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
   const { key, title, desc, priority, status, due } = task;
-  console.log(key);
+
   const renderStars = (stars: 1 | 2 | 3 | 4 | 5) => {
     var rows = [];
     for (var i = 0; i < stars; i++) {
