@@ -4,21 +4,22 @@ import TaskStatus from "./TaskStatus/TaskStatus";
 import { timeLeft } from "../../../../Helpers";
 
 import "./TaskRow.scss";
+import { Link } from "react-router-dom";
 
 interface Props extends Task {
   key: number;
 }
 
 const TaskRow: React.FC<{ task: Props }> = ({ task }) => {
-  const { key, title, status, due } = task;
+  const { key, id, title, status, due } = task;
 
   return (
-    <div id="task">
+    <Link to={`/tasks/${id}`} id="task">
       <div className="id">{key}</div>
       <div className="task-title">{title}</div>
       <div className="remain">{status !== "done" && timeLeft(due)}</div>
       <TaskStatus status={status} />
-    </div>
+    </Link>
   );
 };
 

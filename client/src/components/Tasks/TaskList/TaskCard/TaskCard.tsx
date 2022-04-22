@@ -2,8 +2,8 @@ import React from "react";
 import { Task } from "../TaskList";
 import TaskStatus from "../TableRow/TaskStatus/TaskStatus";
 import { timeLeft } from "../../../../Helpers";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { renderStars } from "../../../StarsInput/StarsInput";
+import { Link } from "react-router-dom";
 
 import "./TaskCard.scss";
 
@@ -12,22 +12,10 @@ interface Props extends Task {
 }
 
 const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
-  const { key, title, desc, priority, status, due } = task;
-
-  const renderStars = (stars: 1 | 2 | 3 | 4 | 5) => {
-    var rows = [];
-    for (var i = 0; i < stars; i++) {
-      rows.push(
-        <div key={i} className="star">
-          <FontAwesomeIcon icon={faStar} />
-        </div>
-      );
-    }
-    return <div className="priority">{rows}</div>;
-  };
+  const { key, id, title, desc, priority, status, due } = task;
 
   return (
-    <div id="task-card">
+    <Link to={`/tasks/${id}`} id="task-card">
       <div className="task-header">
         <div className="id">{key}</div>
         <div className="task-title">{title}</div>
@@ -40,7 +28,7 @@ const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
         </div>
         <TaskStatus status={status} />
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -1,0 +1,46 @@
+@import "../../assets/global.scss";
+
+#task-show {
+    .title {
+        margin-bottom: 1.75rem;
+    }
+
+    .desc {
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px dashed $primary-color;
+    }
+
+    .priority {
+        display: flex;
+        margin-bottom: 1.5rem;
+
+        .star {
+            color: $yellow;
+            font-size: 1.7em;
+            margin-right: .45rem;
+        }
+    }
+
+    .created {
+        margin-bottom: .5rem;
+    }
+
+    .created span,
+    .due span {
+        min-width: 85px;
+        color: $primary-color;
+        display: inline-block;
+    }
+
+    .task-footer {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+}

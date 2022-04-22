@@ -1,9 +1,17 @@
 const { UserInputError } = require("apollo-server-express");
 const { getDb, getNextSequence } = require("./db");
 
-async function list() {
+async function list(_, { id }) {
+  if (isNaN(id) || !id) {
+    return [];
+  }
+  console.log(id);
   const db = getDb();
-  const tasks = await db.collection("tasks").find({}).toArray();
+  const tasks = await db
+    .collection("tasks")
+    .find(id ? { id } : {})
+    .toArray();
+
   return tasks;
 }
 

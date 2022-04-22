@@ -5,6 +5,12 @@
     align-items: center;
     background-color: $grey-1;
     padding: 1rem 1.5rem;
+    color: $black;
+    transition: .2s ease-in-out;
+
+    &:hover {
+        background-color: darken($grey-1, 2.5%);
+    }
 
     @media (max-width: $md) {
         padding: 1rem .5rem;

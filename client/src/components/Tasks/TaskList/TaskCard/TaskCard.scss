@@ -5,6 +5,12 @@
     padding: 2rem 2.5rem;
     display: flex;
     flex-direction: column;
+    color: $black;
+    transition: .2s ease-in-out;
+
+    &:hover {
+        background-color: darken($grey-1, 2.5%);
+    }
 
     @media (max-width: $md) {
         padding: 2rem 1.5rem;

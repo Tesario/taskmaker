@@ -33,12 +33,10 @@ input Filter {
 ##### Top level declarations
 
 type Query {
-  about: String!
-  taskList: [Task!]!
+  taskList(id: Int): [Task!]!
 }
 
 type Mutation {
-  setAboutMessage(message: String!): String
   taskAdd(task: TaskInputs): Task!
   taskFilter(filter: Filter): [Task!]!
 }

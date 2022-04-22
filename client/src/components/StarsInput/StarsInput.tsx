@@ -8,6 +8,18 @@ interface Props {
   setPriority: (value: number) => void;
 }
 
+export const renderStars = (stars: 1 | 2 | 3 | 4 | 5) => {
+  var rows = [];
+  for (var i = 0; i < stars; i++) {
+    rows.push(
+      <div key={i} className="star">
+        <FontAwesomeIcon icon={faStar} />
+      </div>
+    );
+  }
+  return <div className="priority">{rows}</div>;
+};
+
 const StarsInput: React.FC<Props> = ({ setPriority }) => {
   useEffect(() => {
     setPriority(2);
