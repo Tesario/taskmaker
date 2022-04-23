@@ -3,9 +3,9 @@ import Modal from "../../../Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
 import { faBorderAll } from "@fortawesome/free-solid-svg-icons";
+import { useLayout, useUpdateLayout } from "../../../../LayoutProvider";
 
 import "./ToolForms.scss";
-import { useLayout, useUpdateLayout } from "../../../../LayoutProvider";
 
 type FormData = {
   columns: 1 | 2;

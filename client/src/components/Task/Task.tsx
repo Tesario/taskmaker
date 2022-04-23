@@ -7,12 +7,14 @@ import { renderStars } from "../StarsInput/StarsInput";
 import { timeLeft } from "../../Helpers";
 import Loader from "../Loader/Loader";
 import dateformat from "dateformat";
+import { useUpdateBreadcrump } from "../../BreadcrumpProvider";
 
 import "./Task.scss";
 
 const Task: React.FC = () => {
   const { id } = useParams<{ id: string | undefined }>();
   const [task, setTask] = useState<TaskI | null>(null);
+  const BreadcrumpUpdateContext = useUpdateBreadcrump();
 
   useEffect(() => {
     const loadData = async () => {
@@ -32,10 +34,17 @@ const Task: React.FC = () => {
 
       if (data) {
         setTask(data.taskList[0]);
+        BreadcrumpUpdateContext({
+          routes: [
+            { pathname: "/tasks", title: "Tasks" },
+            { title: data.taskList[0].title },
+          ],
+        });
       }
     };
 
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (

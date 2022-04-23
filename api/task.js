@@ -5,7 +5,6 @@ async function list(_, { id }) {
   if (isNaN(id) || !id) {
     return [];
   }
-  console.log(id);
   const db = getDb();
   const tasks = await db
     .collection("tasks")

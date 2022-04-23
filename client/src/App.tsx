@@ -5,6 +5,7 @@ import Tasks from "./components/Tasks/Tasks";
 import Footer from "./components/Footer/Footer";
 import Error from "./components/Error/Error";
 import Task from "./components/Task/Task";
+import TasksLayout from "./components/Layouts/TasksLayout";
 
 import "./assets/global.scss";
 
@@ -22,8 +23,8 @@ const App: React.FC = () => {
       <Navbar />
       <main>
         <Routes>
-          <Route index element={<Tasks />} />
-          <Route path="tasks" element={<Outlet />}>
+          <Route index element={<div>Dashboard</div>} />
+          <Route path="tasks" element={<TasksLayout />}>
             <Route index element={<Tasks />} />
             <Route path=":id" element={<Task />} />
           </Route>
