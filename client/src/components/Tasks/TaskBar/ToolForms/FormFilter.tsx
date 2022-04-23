@@ -43,7 +43,7 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
   const onSubmit = handleSubmit(async (filter: FormData) => {
     FilterUpdateContext(filter);
 
-    const query = `mutation taskFilter($filter: Filter!) {
+    const query = `query taskFilter($filter: Filter!) {
       taskFilter(filter: $filter) {
         id
         title

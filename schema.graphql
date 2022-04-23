@@ -34,9 +34,9 @@ input Filter {
 
 type Query {
   taskList(id: Int): [Task!]!
+  taskFilter(filter: Filter): [Task!]!
 }
 
 type Mutation {
   taskAdd(task: TaskInputs): Task!
-  taskFilter(filter: Filter): [Task!]!
 }

@@ -7,10 +7,10 @@ const task = require("./task.js");
 const resolvers = {
   Query: {
     taskList: task.list,
+    taskFilter: task.filter,
   },
   Mutation: {
     taskAdd: task.add,
-    taskFilter: task.filter,
   },
   GraphQLDate,
 };

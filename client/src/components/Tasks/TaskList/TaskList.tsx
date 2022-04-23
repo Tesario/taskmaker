@@ -36,7 +36,7 @@ const TaskList: React.FC = () => {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const query = `mutation taskFilter($filter: Filter!) {
+      const query = `query taskFilter($filter: Filter!) {
         taskFilter(filter: $filter) {
           id
           title
