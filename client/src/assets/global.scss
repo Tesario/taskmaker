@@ -90,6 +90,11 @@ main {
             background: darken($primary-color, 8%);
             border-color: darken($primary-color, 8%);
         }
+
+        &:disabled {
+            background: darken($primary-color, 8%);
+            border-color: darken($primary-color, 8%);
+        }
     }
 
     &.btn-secondary {
