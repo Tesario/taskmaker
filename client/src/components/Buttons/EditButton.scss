@@ -1,0 +1,16 @@
+@import "../../assets/global.scss";
+
+.btn-edit {
+    font-size: 1.4em;
+    color: $white;
+    width: 45px;
+    height: 45px;
+
+    &.delete {
+        background-color: $red;
+    }
+
+    &.edit {
+        background-color: $yellow;
+    }
+}
