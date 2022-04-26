@@ -64,6 +64,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { addTask } = bindActionCreators(actionCreators, dispatch);
+  const [creatingTask, setCreatingTask] = useState<boolean>(false);
   const {
     register,
     formState: { errors },
@@ -72,7 +73,9 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     reset,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
-  const onSubmit = handleSubmit((data: FormData) => createTask(data));
+  const onSubmit = handleSubmit((data: FormData) => {
+    createTask(data);
+  });
 
   const toggleModal = () => {
     setModalState(!modalState);
@@ -105,6 +108,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
       addTask(data.taskAdd);
       reset();
       toggleModal();
+      setCreatingTask(false);
     }
   };
 
@@ -117,7 +121,15 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
         desc={desc}
         toggleModal={toggleModal}
       >
-        <form onSubmit={onSubmit} id="tool-form">
+        <form
+          onSubmit={(e) => {
+            onSubmit(e);
+            if (Object.keys(errors).length) {
+              setCreatingTask(true);
+            }
+          }}
+          id="tool-form"
+        >
           <div className="form-body">
             <div className="form-control">
               <label>Title</label>
@@ -165,7 +177,11 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
             >
               Cancel
             </button>
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              disabled={creatingTask}
+              className="btn btn-primary"
+            >
               Create task
             </button>
           </div>

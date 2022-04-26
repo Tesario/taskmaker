@@ -1,31 +1,23 @@
 import React from "react";
-import { Task as Props } from "../TaskList";
+import { Task } from "../TaskList";
 import TaskStatus from "../TableRow/TaskStatus/TaskStatus";
 import { timeLeft } from "../../../../Helpers";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { renderStars } from "../../../StarsInput/StarsInput";
+import { Link } from "react-router-dom";
 
 import "./TaskCard.scss";
 
-const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
-  const { id, title, desc, priority, status, due } = task;
+interface Props extends Task {
+  key: number;
+}
 
-  const renderStars = (stars: 1 | 2 | 3 | 4 | 5) => {
-    var rows = [];
-    for (var i = 0; i < stars; i++) {
-      rows.push(
-        <div key={i} className="star">
-          <FontAwesomeIcon icon={faStar} />
-        </div>
-      );
-    }
-    return <div className="priority">{rows}</div>;
-  };
+const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
+  const { key, id, title, desc, priority, status, due } = task;
 
   return (
-    <div id="task-card">
+    <Link to={`/tasks/${id}`} id="task-card">
       <div className="task-header">
-        <div className="id">{id}</div>
+        <div className="id">{key}</div>
         <div className="task-title">{title}</div>
       </div>
       {desc && <p className="desc">{desc}</p>}
@@ -36,7 +28,7 @@ const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
         </div>
         <TaskStatus status={status} />
       </div>
-    </div>
+    </Link>
   );
 };
 

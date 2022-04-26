@@ -1,19 +1,19 @@
 @import "../../../assets/global.scss";
 
 #taskbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     margin-bottom: 2rem;
 
     .title {
         margin-top: .3rem;
+        text-align: center;
     }
 
     .tool-group {
         display: flex;
 
-        .btn-tool {
+        .btn {
             margin-right: 1.5rem;
         }
     }
@@ -21,6 +21,23 @@
     .option {
         .btn-tool {
             margin: 0 0 0 1.5rem;
+        }
+    }
+
+    .filter-reset {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: translate(0, 2px);
+
+        &:hover {
+            transform: translateY(0);
+        }
+
+        svg {
+            font-size: 1.8em;
+            color: $red;
         }
     }
 }
