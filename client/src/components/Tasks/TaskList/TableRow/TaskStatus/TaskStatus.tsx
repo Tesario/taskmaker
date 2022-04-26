@@ -36,7 +36,7 @@ const TaskStatus: React.FC<Props> = ({ status }) => {
     }
   };
 
-  return <div id="task-status">{getStatus(status)}</div>;
+  return <div className="task-status">{getStatus(status)}</div>;
 };
 
 export default TaskStatus;

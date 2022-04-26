@@ -6,7 +6,7 @@ body {
     font-family: $main-font;
     line-height: $line-height;
     letter-spacing: .15px;
-    background-color: $bg;
+    background: radial-gradient(75.2% 83.25% at 47.95% 50%, rgba(97, 0, 194, .06) 0%, rgba(97, 0, 194, 0) 100%);
 }
 
 a {
@@ -18,6 +18,14 @@ img {
     height: 100%;
     width: 100%;
     object-fit: contain;
+}
+
+.main-title {
+    font-size: $main-title-size;
+
+    @media (max-width: $lg) {
+        font-size: 2.2em;
+    }
 }
 
 .title {
@@ -44,8 +52,8 @@ main {
 .container {
     box-sizing: border-box;
     width: 100%;
-    padding-right: 0.75rem;
-    padding-left: 0.75rem;
+    padding-right: .75rem;
+    padding-left: .75rem;
     margin-right: auto;
     margin-left: auto;
 

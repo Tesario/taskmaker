@@ -9,7 +9,7 @@ $grey-1: #f9f9f9;
 $grey-2: #ced4da;
 $yellow: #ffc107;
 $bg: #f2f6fc;
-$box-shadow-1: 0px 0px 15px -9px rgba(0, 0, 0, 0.25);
+$box-shadow-1: 0 0 15px -9px rgba(0, 0, 0, .25);
 
 // Line height
 $line-height: 1.35em;
@@ -20,6 +20,7 @@ $main-font: "Inter",
 sans-serif;
 
 // Font Sizes
+$main-title-size: 3em;
 $title-size: 2em;
 $subtitle-size: 1.8em;
 $label-size: .9em;
