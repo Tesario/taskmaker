@@ -22,7 +22,6 @@ const DatetimePicker: React.FC<Props> = ({ setDatetime }) => {
         onChange={onChange}
         value={value}
         format={"d.M.y HH:mm"}
-        autoFocus
         calendarIcon={<FontAwesomeIcon icon={faCalendar} />}
         clearIcon={<FontAwesomeIcon icon={faXmark} />}
       />
