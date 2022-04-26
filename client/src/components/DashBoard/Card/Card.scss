@@ -1,0 +1,83 @@
+@import "../../../assets/global.scss";
+
+.dashboard-card {
+    background-color: $white;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, .15));
+    transition: .2s ease-in-out;
+    overflow: hidden;
+    position: relative;
+    border-radius: .5rem;
+    max-width: 450px;
+    min-height: 350px;
+    width: 100%;
+    margin: 0 auto;
+
+    @media (max-width: $md) {
+        min-height: 250px;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: $black;
+        opacity: 0;
+        top: 0;
+        left: 0;
+        transition: .2s ease-in-out;
+    }
+
+    .title {
+        padding: 2.5rem;
+        color: $black;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: .2s ease-in-out;
+        z-index: 10;
+
+        @media (max-width: $lg) {
+            padding: 1.5rem;
+        }
+    }
+
+    .image {
+        overflow: hidden;
+        filter: drop-shadow(0 0 2px rgba(0, 0, 0, .25));
+        height: calc(100% - 6.2rem);
+        transition: .2s ease-in-out;
+
+        @media (max-width: $lg) {
+            height: calc(100% - 4.5rem);
+        }
+
+        img {
+            object-fit: cover;
+        }
+    }
+
+    &:hover {
+        transform: translateY(-8px);
+        padding-bottom: 0;
+
+        @media (max-width: $lg) {
+            transform: translateY(0);
+        }
+
+        &::after {
+            opacity: .5;
+        }
+
+        .title {
+            bottom: 50%;
+            transform: translate(-50%, 50%);
+            color: $white;
+        }
+
+        .image {
+            height: 100%;
+        }
+    }
+}

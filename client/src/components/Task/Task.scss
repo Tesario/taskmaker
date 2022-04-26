@@ -41,6 +41,19 @@
     .group {
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         align-items: flex-end;
+
+        .task-status {
+            margin-bottom: .25rem;
+        }
+    }
+
+    .btns-edit {
+        margin-top: 1.5rem;
+
+        .btn:first-child {
+            margin-right: .75rem;
+        }
     }
 }

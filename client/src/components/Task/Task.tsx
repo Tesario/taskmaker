@@ -10,6 +10,8 @@ import dateformat from "dateformat";
 import { useUpdateBreadcrump } from "../../BreadcrumpProvider";
 
 import "./Task.scss";
+import EditButton from "../Buttons/EditButton";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Task: React.FC = () => {
   const { id } = useParams<{ id: string | undefined }>();
@@ -67,6 +69,10 @@ const Task: React.FC = () => {
                       {timeLeft(task.due)})
                     </div>
                   )}
+                  <div className="btns-edit">
+                    <EditButton icon={faEdit} type={"edit"} />
+                    <EditButton icon={faTrash} type={"delete"} />
+                  </div>
                 </div>
                 <div className="group">
                   {renderStars(task.priority)}

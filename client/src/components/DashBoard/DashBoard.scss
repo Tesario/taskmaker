@@ -1,0 +1,23 @@
+@import "../../assets/global.scss";
+
+#dashboard {
+    .main-title {
+        text-align: center;
+        margin-bottom: 4.5rem;
+
+        @media (max-width: $lg) {
+            margin-bottom: 3rem;
+        }
+    }
+
+    .grid-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+
+        @media (max-width: $lg) {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+    }
+}
