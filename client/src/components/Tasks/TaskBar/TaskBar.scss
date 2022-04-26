@@ -5,9 +5,20 @@
     grid-template-columns: 1fr 1fr 1fr;
     margin-bottom: 2rem;
 
+    @media (max-width: $lg) {
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 1rem;
+        gap: 1rem 0;
+    }
+
     .title {
         margin-top: .3rem;
         text-align: center;
+
+        @media (max-width: $lg) {
+            order: -1;
+            text-align: left;
+        }
     }
 
     .tool-group {
@@ -21,6 +32,28 @@
     .option {
         .btn-tool {
             margin: 0 0 0 1.5rem;
+        }
+
+        @media (max-width: $lg) {
+            grid-column: 1/3;
+        }
+
+        .search {
+            @media (max-width: $lg) {
+                width: 100%;
+            }
+        }
+    }
+
+    .tasks {
+        @media (max-width: $lg) {
+            justify-content: flex-end;
+        }
+
+        .btn {
+            @media (max-width: $lg) {
+                margin: 0 0 0 1.5rem;
+            }
         }
     }
 
