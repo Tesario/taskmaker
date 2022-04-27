@@ -6,6 +6,9 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import Modal from "../../../Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
+import MarkdownIt from "markdown-it";
+import MdEditor from "react-markdown-editor-lite";
+import "react-markdown-editor-lite/lib/index.css";
 import { faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
 import DatetimePicker from "../../../DatetimePicker/DatetimePicker";
 import { Task } from "../../TaskList/TaskList";
@@ -65,6 +68,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const dispatch = useDispatch();
   const { addTask } = bindActionCreators(actionCreators, dispatch);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
+  const mdParser = new MarkdownIt(/* Markdown-it options */);
   const {
     register,
     formState: { errors },
@@ -79,6 +83,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
 
   const toggleModal = () => {
     setModalState(!modalState);
+    document.body.classList.toggle("lock-scroll");
   };
 
   const setDatetime = (value: Date) => {
@@ -112,6 +117,16 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     }
   };
 
+  const handleEditorChange = ({
+    html,
+    text,
+  }: {
+    html: string;
+    text: string;
+  }) => {
+    console.log("handleEditorChange", html, text);
+  };
+
   return (
     <>
       <ToolButton toggleModal={toggleModal} icon={faCalendarPlus} />
@@ -120,6 +135,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
         title={title}
         desc={desc}
         toggleModal={toggleModal}
+        widthClass="lg-width"
       >
         <form
           onSubmit={(e) => {
@@ -144,7 +160,14 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
             </div>
             <div className="form-control">
               <label>Description</label>
-              <textarea {...register("desc")}></textarea>
+              {/* <textarea {...register("desc")}></textarea> */}
+              <div className="markdown-editor">
+                <MdEditor
+                  style={{ height: "300px" }}
+                  renderHTML={(text) => mdParser.render(text)}
+                  onChange={handleEditorChange}
+                />
+              </div>
               <div
                 className={
                   "error-message " + (errors.desc?.message ? "show" : "")

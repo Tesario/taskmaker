@@ -7,6 +7,10 @@ body {
     line-height: $line-height;
     letter-spacing: .15px;
     background: radial-gradient(75.2% 83.25% at 47.95% 50%, rgba(97, 0, 194, .06) 0%, rgba(97, 0, 194, 0) 100%);
+
+    &.lock-scroll {
+        overflow: hidden;
+    }
 }
 
 a {
@@ -36,7 +40,7 @@ img {
     font-size: $subtitle-size;
 }
 
-section {
+section:not(.sec-md, .sec-html) {
     padding: 4rem 0;
 
     @media (max-width: $lg) {
@@ -75,6 +79,13 @@ main {
 
     @media (min-width: 1400px) {
         max-width: 1200px;
+    }
+}
+
+.custom-html-style {
+    ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
     }
 }
 

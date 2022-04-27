@@ -8,6 +8,8 @@
     width: 100%;
     height: 100%;
     z-index: 100;
+    overflow-y: auto;
+    display: block;
     pointer-events: none;
     opacity: 0;
     transition: .1s ease-in-out;
@@ -18,19 +20,15 @@
     }
 
     .modal-dialog {
-        position: absolute;
-        top: 6.5rem;
-        left: 50%;
+        position: relative;
+        margin: 4rem auto;
+        max-width: 600px;
         z-index: 1000;
         background-color: $white;
-        transform: translate(-50%, 0);
         padding: 3.5rem 0 0;
-        max-width: 575px;
-        width: 100%;
 
-        @media (max-width: $sm) {
-            top: 50%;
-            transform: translate(-50%, -50%);
+        &.lg-width {
+            max-width: 850px;
         }
     }
 
@@ -83,5 +81,9 @@
             color: $primary-color;
             font-size: 1.8em;
         }
+    }
+
+    .rc-md-editor {
+        border-radius: .25rem;
     }
 }

@@ -6,6 +6,7 @@ import "./Modal.scss";
 interface Props extends ParentProps {
   toggleModal: () => void;
   modalState: boolean;
+  widthClass?: "lg-width";
 }
 
 const Modal: React.FC<Props> = ({
@@ -13,6 +14,7 @@ const Modal: React.FC<Props> = ({
   modalState,
   title,
   desc,
+  widthClass,
   toggleModal,
 }) => {
   useEffect(() => {
@@ -30,7 +32,7 @@ const Modal: React.FC<Props> = ({
 
   return (
     <div id="modal" className={modalState ? "show" : ""}>
-      <div className="modal-dialog">
+      <div className={`modal-dialog ${widthClass}`}>
         <div className="modal-header">
           <div className="subtitle">{title}</div>
           <div className="desc">{desc}</div>
