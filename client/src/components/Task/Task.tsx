@@ -7,6 +7,7 @@ import { renderStars } from "../StarsInput/StarsInput";
 import { timeLeft } from "../../Helpers";
 import Loader from "../Loader/Loader";
 import dateformat from "dateformat";
+import MarkdownPreview from "../../Markdown/MarkdownPreview";
 import { useUpdateBreadcrump } from "../../BreadcrumpProvider";
 
 import "./Task.scss";
@@ -56,7 +57,7 @@ const Task: React.FC = () => {
           {task ? (
             <>
               <div className="title">{task.title}</div>
-              <div className="desc">{task?.desc}</div>
+              {task.desc && <MarkdownPreview desc={task.desc} />}
               <div className="task-footer">
                 <div>
                   <div className="created">

@@ -6,14 +6,13 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import Modal from "../../../Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
-import MarkdownIt from "markdown-it";
-import MdEditor from "react-markdown-editor-lite";
-import "react-markdown-editor-lite/lib/index.css";
 import { faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
 import DatetimePicker from "../../../DatetimePicker/DatetimePicker";
 import { Task } from "../../TaskList/TaskList";
 import StarsInput from "../../../StarsInput/StarsInput";
 import { yupResolver } from "@hookform/resolvers/yup";
+import MarkdownEditor from "../../../../Markdown/MarkdownEditor";
+import MarkdownPreview from "../../../../Markdown/MarkdownPreview";
 import * as yup from "yup";
 
 import "./ToolForms.scss";
@@ -68,7 +67,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const dispatch = useDispatch();
   const { addTask } = bindActionCreators(actionCreators, dispatch);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
-  const mdParser = new MarkdownIt(/* Markdown-it options */);
+  const [mdText, setMdText] = useState<string>();
   const {
     register,
     formState: { errors },
@@ -117,14 +116,9 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     }
   };
 
-  const handleEditorChange = ({
-    html,
-    text,
-  }: {
-    html: string;
-    text: string;
-  }) => {
-    console.log("handleEditorChange", html, text);
+  const handleDesc = (text: string) => {
+    setValue("desc", text);
+    setMdText(text);
   };
 
   return (
@@ -160,14 +154,8 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
             </div>
             <div className="form-control">
               <label>Description</label>
-              {/* <textarea {...register("desc")}></textarea> */}
-              <div className="markdown-editor">
-                <MdEditor
-                  style={{ height: "300px" }}
-                  renderHTML={(text) => mdParser.render(text)}
-                  onChange={handleEditorChange}
-                />
-              </div>
+              <MarkdownEditor handleDesc={handleDesc} />
+              <MarkdownPreview desc={mdText} preview />
               <div
                 className={
                   "error-message " + (errors.desc?.message ? "show" : "")

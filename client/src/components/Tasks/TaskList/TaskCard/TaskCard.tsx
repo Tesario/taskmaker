@@ -4,6 +4,7 @@ import TaskStatus from "../TableRow/TaskStatus/TaskStatus";
 import { timeLeft } from "../../../../Helpers";
 import { renderStars } from "../../../StarsInput/StarsInput";
 import { Link } from "react-router-dom";
+import MarkdownPreview from "../../../../Markdown/MarkdownPreview";
 
 import "./TaskCard.scss";
 
@@ -15,12 +16,14 @@ const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
   const { key, id, title, desc, priority, status, due } = task;
 
   return (
-    <Link to={`/tasks/${id}`} id="task-card">
+    <div id="task-card">
       <div className="task-header">
         <div className="id">{key}</div>
-        <div className="task-title">{title}</div>
+        <Link to={`/tasks/${id}`} className="task-title">
+          {title}
+        </Link>
       </div>
-      {desc && <p className="desc">{desc}</p>}
+      {desc && <MarkdownPreview desc={desc} />}
       <div className="task-footer">
         <div className="group">
           {status !== "done" && <div className="remain">{timeLeft(due)}</div>}
@@ -28,7 +31,7 @@ const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
         </div>
         <TaskStatus status={status} />
       </div>
-    </Link>
+    </div>
   );
 };
 

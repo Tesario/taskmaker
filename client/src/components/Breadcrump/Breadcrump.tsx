@@ -9,7 +9,6 @@ import "./Breadcrump.scss";
 const Breadcrump: React.FC = () => {
   const { routes } = useBreadcrump();
   let prevRoutes: string = "";
-  console.log(routes);
 
   return (
     <nav id="breadcrump">

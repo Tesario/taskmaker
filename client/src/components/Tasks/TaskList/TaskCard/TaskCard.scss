@@ -8,10 +8,6 @@
     color: $black;
     transition: .2s ease-in-out;
 
-    &:hover {
-        background-color: darken($grey-1, 2.5%);
-    }
-
     @media (max-width: $md) {
         padding: 2rem 1.5rem;
     }
@@ -30,13 +26,14 @@
         padding: 0 .5rem;
         display: flex;
         font-size: 1.1em;
+
+        &:hover {
+            color: $primary-color;
+        }
     }
 
-    .desc {
+    .react-markdown {
         margin-top: 1rem;
-        line-height: 1.5em;
-        text-align: justify;
-        word-break: break-all;
     }
 
     .remain {
