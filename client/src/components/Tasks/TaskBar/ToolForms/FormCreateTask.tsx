@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { graphQLFetch } from "../../../../Helpers";
 import { useDispatch } from "react-redux";
 import { actionCreators } from "../../../../state";
@@ -76,6 +76,10 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     reset,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
+  useEffect(() => {
+    setValue("desc", "");
+  });
+
   const onSubmit = handleSubmit((data: FormData) => {
     createTask(data);
   });
@@ -108,7 +112,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     }`;
 
     const data: { taskAdd: Task } = await graphQLFetch(query, { task });
-    console.log(data);
+
     if (data) {
       addTask(data.taskAdd);
       reset();
