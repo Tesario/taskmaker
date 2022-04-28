@@ -16,13 +16,24 @@ const MarkdownPreview: React.FC<Props> = ({ desc, preview }) => {
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         className="react-markdown"
-        disallowedElements={["h3", "h4", "h5", "h6"]}
         components={{
           h1: ({ children }: { children: React.ReactChildren }) => (
             <div className="title">{children}</div>
           ),
           h2: ({ children }: { children: React.ReactChildren }) => (
             <div className="subtitle">{children}</div>
+          ),
+          h3: ({ children }: { children: React.ReactChildren }) => (
+            <div className="subtitle-3">{children}</div>
+          ),
+          h4: ({ children }: { children: React.ReactChildren }) => (
+            <div className="subtitle-4">{children}</div>
+          ),
+          h5: ({ children }: { children: React.ReactChildren }) => (
+            <div className="subtitle-5">{children}</div>
+          ),
+          h6: ({ children }: { children: React.ReactChildren }) => (
+            <div className="subtitle-6">{children}</div>
           ),
           p: ({ children }: { children: React.ReactChildren }) => (
             <span className="paragraph">{children}</span>

@@ -94,6 +94,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   };
 
   const createTask = async (task: FormData) => {
+    setCreatingTask(true);
     const query = `mutation taskAdd($task: TaskInputs!) {
       taskAdd(task: $task) {
         id
@@ -107,13 +108,13 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     }`;
 
     const data: { taskAdd: Task } = await graphQLFetch(query, { task });
-
+    console.log(data);
     if (data) {
       addTask(data.taskAdd);
       reset();
       toggleModal();
-      setCreatingTask(false);
     }
+    setCreatingTask(false);
   };
 
   const handleDesc = (text: string) => {
@@ -131,15 +132,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
         toggleModal={toggleModal}
         widthClass="lg-width"
       >
-        <form
-          onSubmit={(e) => {
-            onSubmit(e);
-            if (Object.keys(errors).length) {
-              setCreatingTask(true);
-            }
-          }}
-          id="tool-form"
-        >
+        <form onSubmit={onSubmit} id="tool-form">
           <div className="form-body">
             <div className="form-control">
               <label>Title</label>

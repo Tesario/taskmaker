@@ -24,7 +24,27 @@
     }
 
     .subtitle {
+        font-size: 1.4em;
+        margin-bottom: 1rem;
+    }
+
+    .subtitle-3 {
+        font-size: 1.3em;
+        margin-bottom: 1rem;
+    }
+
+    .subtitle-4 {
         font-size: 1.2em;
+        margin-bottom: 1rem;
+    }
+
+    .subtitle-5 {
+        font-size: 1.1em;
+        margin-bottom: 1rem;
+    }
+
+    .subtitle-6 {
+        font-size: 1.05em;
         margin-bottom: 1rem;
     }
 
@@ -39,11 +59,14 @@
     .code {
         background-color: $grey-1;
         padding: 1rem;
-        display: block;
+        display: grid;
         margin-bottom: 1rem;
-        overflow: auto;
         font-family: "Source Code Pro", monospace;
         border: 1px dashed $primary-color;
+
+        pre {
+            overflow-x: auto;
+        }
     }
 
     hr {
