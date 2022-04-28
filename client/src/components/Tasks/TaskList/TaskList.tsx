@@ -64,7 +64,7 @@ const TaskList: React.FC = () => {
     <div className={`task-grid columns-${layoutContext.columns}`}>
       {state === null ? (
         <Loader />
-      ) : (
+      ) : state.length ? (
         state.map((task, index) => {
           return layoutContext.type === "rows" ? (
             <TaskRow key={task.id} task={{ ...task, key: ++index }} />
@@ -72,6 +72,8 @@ const TaskList: React.FC = () => {
             <TaskCard key={task.id} task={{ ...task, key: ++index }} />
           );
         })
+      ) : (
+        <div className="empty">There are no tasks yet.</div>
       )}
     </div>
   );

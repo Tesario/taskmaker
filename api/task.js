@@ -24,6 +24,13 @@ async function filter(_, { filter }) {
   return tasks;
 }
 
+async function remove(_, { id }) {
+  const db = getDb();
+  const result = await db.collection("tasks").deleteOne({ id });
+  console.log(result.deletedCount);
+  return { deletedCount: result.deletedCount };
+}
+
 async function add(_, { task }) {
   validate({ task });
   task.created = new Date();
@@ -61,4 +68,4 @@ function validate({ task }) {
   }
 }
 
-module.exports = { add, list, filter };
+module.exports = { add, list, filter, remove };
