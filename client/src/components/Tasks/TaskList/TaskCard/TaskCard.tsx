@@ -4,16 +4,17 @@ import TaskStatus from "../TableRow/TaskStatus/TaskStatus";
 import { timeLeft } from "../../../../Helpers";
 import { renderStars } from "../../../StarsInput/StarsInput";
 import { Link } from "react-router-dom";
-import MarkdownPreview from "../../../../Markdown/MarkdownPreview";
 
 import "./TaskCard.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 interface Props extends Task {
   key: number;
 }
 
 const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
-  const { key, id, title, desc, priority, status, due } = task;
+  const { key, id, title, priority, status, due } = task;
 
   return (
     <div id="task-card">
@@ -22,8 +23,10 @@ const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
         <Link to={`/tasks/${id}`} className="task-title">
           {title}
         </Link>
+        <Link to={`/tasks/${id}`} className="show">
+          <FontAwesomeIcon icon={faEye} />
+        </Link>
       </div>
-      {desc && <MarkdownPreview desc={desc} />}
       <div className="task-footer">
         <div className="group">
           {status !== "done" && <div className="remain">{timeLeft(due)}</div>}

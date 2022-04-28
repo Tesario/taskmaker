@@ -16,6 +16,10 @@ body {
 a {
     outline: none !important;
     text-decoration: none;
+
+    &:focus {
+        color: $primary-color;
+    }
 }
 
 img {
