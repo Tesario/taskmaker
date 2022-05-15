@@ -85,12 +85,10 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const toggleModal = () => {
     setModalState(!modalState);
     document.body.classList.toggle("lock-scroll");
-    futureDate = new Date(Date.now() + 1000 * 60);
   };
 
   const setDatetime = (value: Date) => {
     setValue("due", value);
-    futureDate = new Date(Date.now() + 1000 * 60);
   };
 
   const setPriority = (value: number) => {
@@ -189,6 +187,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
               type="submit"
               disabled={creatingTask}
               className="btn btn-primary"
+              onClick={() => (futureDate = new Date(Date.now() + 1000 * 60))}
             >
               Create task
             </button>
