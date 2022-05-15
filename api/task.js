@@ -27,7 +27,6 @@ async function filter(_, { filter }) {
 async function remove(_, { id }) {
   const db = getDb();
   const result = await db.collection("tasks").deleteOne({ id });
-  console.log(result.deletedCount);
   return { deletedCount: result.deletedCount };
 }
 

@@ -34,8 +34,8 @@
 
     .modal-header {
         display: flex;
-        align-items: flex-end;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
         position: relative;
         margin-bottom: 3rem;
 
@@ -55,6 +55,10 @@
                     background-color: $primary-color;
                 }
             }
+        }
+
+        .desc {
+            margin-top: 1rem;
         }
     }
 
