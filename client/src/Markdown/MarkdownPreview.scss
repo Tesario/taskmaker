@@ -1,0 +1,136 @@
+@import "../assets/global.scss";
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&display=swap');
+
+.markdown-preview {
+    &.preview {
+        margin-top: 1rem;
+
+        .react-markdown {
+            border: 1px solid #e0e0e0;
+            border-radius: .25rem;
+            padding: 1rem;
+        }
+    }
+
+    .preview-label {
+        margin: 0 0 0.2rem 0.5rem;
+        font-size: 0.9em;
+    }
+
+    .title {
+        text-align: left !important;
+        font-size: 1.5em;
+        margin-bottom: 1rem !important;
+    }
+
+    .subtitle {
+        font-size: 1.4em;
+        margin-bottom: 1rem;
+    }
+
+    .subtitle-3 {
+        font-size: 1.3em;
+        margin-bottom: 1rem;
+    }
+
+    .subtitle-4 {
+        font-size: 1.2em;
+        margin-bottom: 1rem;
+    }
+
+    .subtitle-5 {
+        font-size: 1.1em;
+        margin-bottom: 1rem;
+    }
+
+    .subtitle-6 {
+        font-size: 1.05em;
+        margin-bottom: 1rem;
+    }
+
+    em {
+        font-style: italic;
+    }
+
+    strong {
+        font-weight: 600;
+    }
+
+    .code {
+        background-color: $grey-1;
+        padding: 1rem;
+        display: grid;
+        margin-bottom: 1rem;
+        font-family: "Source Code Pro", monospace;
+        border: 1px dashed $primary-color;
+
+        pre {
+            overflow-x: auto;
+        }
+    }
+
+    hr {
+        border: 3px solid lighten($primary-color, 55%);
+        margin: 1.5rem 0;
+    }
+
+    ol {
+        list-style-type: decimal;
+        padding-left: 1.7rem;
+    }
+
+    .paragraph {
+        margin-bottom: .75rem;
+        display: block;
+    }
+
+    a {
+        color: $primary-color;
+        text-decoration: underline;
+    }
+
+    ul {
+        padding-left: 1.6rem;
+        list-style-type: disc;
+    }
+
+    th,
+    td {
+        border: 1px solid $grey-2;
+        background-color: $white;
+    }
+
+    td,
+    th {
+        padding: .6rem 1.3rem;
+    }
+
+    th {
+        background-color: $primary-color;
+        color: $white;
+        border-color: $primary-color;
+    }
+
+    .table-wrapper {
+        overflow: auto;
+    }
+
+    img {
+        max-width: 400px;
+        max-height: 400px;
+        margin: 1.5rem auto;
+        display: block;
+    }
+
+    blockquote {
+        display: block;
+        background-color: $grey-1;
+        padding: 1rem;
+        border-left: 8px solid lighten($primary-color, 55%);
+        margin: 1.5rem 0;
+
+        .paragraph {
+            margin: 0;
+        }
+    }
+}

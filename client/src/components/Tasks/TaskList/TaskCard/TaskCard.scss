@@ -8,16 +8,18 @@
     color: $black;
     transition: .2s ease-in-out;
 
-    &:hover {
-        background-color: darken($grey-1, 2.5%);
-    }
-
     @media (max-width: $md) {
         padding: 2rem 1.5rem;
     }
 
     .task-header {
         display: flex;
+        align-items: center;
+
+        .show {
+            margin-left: auto;
+            font-size: 2em;
+        }
     }
 
     .id {
@@ -30,13 +32,15 @@
         padding: 0 .5rem;
         display: flex;
         font-size: 1.1em;
+        color: $black;
+
+        &:hover {
+            color: $primary-color;
+        }
     }
 
-    .desc {
+    .react-markdown {
         margin-top: 1rem;
-        line-height: 1.5em;
-        text-align: justify;
-        word-break: break-all;
     }
 
     .remain {
@@ -66,5 +70,9 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+    }
+
+    .show {
+        color: $primary-color;
     }
 }

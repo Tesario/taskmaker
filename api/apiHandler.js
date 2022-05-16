@@ -11,6 +11,7 @@ const resolvers = {
   },
   Mutation: {
     taskAdd: task.add,
+    taskRemove: task.remove,
   },
   GraphQLDate,
 };

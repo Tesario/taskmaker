@@ -7,11 +7,13 @@ import { renderStars } from "../StarsInput/StarsInput";
 import { timeLeft } from "../../Helpers";
 import Loader from "../Loader/Loader";
 import dateformat from "dateformat";
+import MarkdownPreview from "../../Markdown/MarkdownPreview";
 import { useUpdateBreadcrump } from "../../BreadcrumpProvider";
+import EditButton from "../Buttons/EditButton";
+import RemoveButton from "../Buttons/RemoveButton";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import "./Task.scss";
-import EditButton from "../Buttons/EditButton";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Task: React.FC = () => {
   const { id } = useParams<{ id: string | undefined }>();
@@ -56,7 +58,7 @@ const Task: React.FC = () => {
           {task ? (
             <>
               <div className="title">{task.title}</div>
-              <div className="desc">{task?.desc}</div>
+              {task.desc && <MarkdownPreview desc={task.desc} />}
               <div className="task-footer">
                 <div>
                   <div className="created">
@@ -70,8 +72,8 @@ const Task: React.FC = () => {
                     </div>
                   )}
                   <div className="btns-edit">
-                    <EditButton icon={faEdit} type={"edit"} />
-                    <EditButton icon={faTrash} type={"delete"} />
+                    <EditButton icon={faEdit} id={task.id} />
+                    <RemoveButton icon={faTrash} id={task.id} />
                   </div>
                 </div>
                 <div className="group">

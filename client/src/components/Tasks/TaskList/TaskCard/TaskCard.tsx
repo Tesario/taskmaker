@@ -6,21 +6,27 @@ import { renderStars } from "../../../StarsInput/StarsInput";
 import { Link } from "react-router-dom";
 
 import "./TaskCard.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 interface Props extends Task {
   key: number;
 }
 
 const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
-  const { key, id, title, desc, priority, status, due } = task;
+  const { key, id, title, priority, status, due } = task;
 
   return (
-    <Link to={`/tasks/${id}`} id="task-card">
+    <div id="task-card">
       <div className="task-header">
         <div className="id">{key}</div>
-        <div className="task-title">{title}</div>
+        <Link to={`/tasks/${id}`} className="task-title">
+          {title}
+        </Link>
+        <Link to={`/tasks/${id}`} className="show">
+          <FontAwesomeIcon icon={faEye} />
+        </Link>
       </div>
-      {desc && <p className="desc">{desc}</p>}
       <div className="task-footer">
         <div className="group">
           {status !== "done" && <div className="remain">{timeLeft(due)}</div>}
@@ -28,7 +34,7 @@ const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
         </div>
         <TaskStatus status={status} />
       </div>
-    </Link>
+    </div>
   );
 };
 

@@ -7,11 +7,19 @@ body {
     line-height: $line-height;
     letter-spacing: .15px;
     background: radial-gradient(75.2% 83.25% at 47.95% 50%, rgba(97, 0, 194, .06) 0%, rgba(97, 0, 194, 0) 100%);
+
+    &.lock-scroll {
+        overflow: hidden;
+    }
 }
 
 a {
     outline: none !important;
     text-decoration: none;
+
+    &:focus {
+        color: $primary-color;
+    }
 }
 
 img {
@@ -36,7 +44,7 @@ img {
     font-size: $subtitle-size;
 }
 
-section {
+section:not(.sec-md, .sec-html) {
     padding: 4rem 0;
 
     @media (max-width: $lg) {
@@ -78,6 +86,13 @@ main {
     }
 }
 
+.custom-html-style {
+    ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+    }
+}
+
 .btn {
     outline: none;
     border: 0;
@@ -95,6 +110,11 @@ main {
         border: 2px solid $primary-color;
 
         &:hover {
+            background: darken($primary-color, 8%);
+            border-color: darken($primary-color, 8%);
+        }
+
+        &:disabled {
             background: darken($primary-color, 8%);
             border-color: darken($primary-color, 8%);
         }

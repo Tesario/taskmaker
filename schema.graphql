@@ -11,6 +11,10 @@ type Task {
   priority: Int!
 }
 
+type DeleteResponse {
+  deletedCount: Int!
+}
+
 enum StatusType {
   created
   expired
@@ -39,4 +43,5 @@ type Query {
 
 type Mutation {
   taskAdd(task: TaskInputs): Task!
+  taskRemove(id: Int!): DeleteResponse
 }

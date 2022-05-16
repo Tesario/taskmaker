@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 
 import "./Navbar.scss";
@@ -8,7 +8,6 @@ const Navbar: React.FC = () => {
   const togglerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLSpanElement>(null);
-  const page = useLocation().pathname;
 
   const toggleMenu = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.preventDefault();
@@ -29,36 +28,24 @@ const Navbar: React.FC = () => {
         <div className="menu" ref={menuRef}>
           <ul className="left-menu">
             <li className="menu-item">
-              <Link
-                className={`link ${page === "/tasks" ? "current" : ""}`}
-                to="/tasks"
-              >
+              <NavLink className="link" to="/tasks">
                 Tasks
-              </Link>
+              </NavLink>
             </li>
             <li className="menu-item">
-              <Link
-                className={`link ${page === "/stats" ? "current" : ""}`}
-                to="/stats"
-              >
+              <NavLink className="link" to="/stats">
                 Statistics
-              </Link>
+              </NavLink>
             </li>
             <li className="menu-item">
-              <Link
-                className={`link ${page === "/calendar" ? "current" : ""}`}
-                to="/calendar"
-              >
+              <NavLink className="link" to="/calendar">
                 Calendar
-              </Link>
+              </NavLink>
             </li>
             <li className="menu-item">
-              <Link
-                className={`link ${page === "/goals" ? "current" : ""}`}
-                to="/goals"
-              >
+              <NavLink className="link" to="/goals">
                 Goals
-              </Link>
+              </NavLink>
             </li>
           </ul>
           <div className="right-menu">

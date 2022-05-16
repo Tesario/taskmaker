@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { graphQLFetch } from "../../../../Helpers";
 import { useDispatch } from "react-redux";
 import { actionCreators } from "../../../../state";
@@ -11,6 +11,8 @@ import DatetimePicker from "../../../DatetimePicker/DatetimePicker";
 import { Task } from "../../TaskList/TaskList";
 import StarsInput from "../../../StarsInput/StarsInput";
 import { yupResolver } from "@hookform/resolvers/yup";
+import MarkdownEditor from "../../../../Markdown/MarkdownEditor";
+import MarkdownPreview from "../../../../Markdown/MarkdownPreview";
 import * as yup from "yup";
 
 import "./ToolForms.scss";
@@ -22,6 +24,7 @@ type FormData = {
   priority: number;
 };
 
+let futureDate = new Date(Date.now() + 1000 * 60);
 const schema = yup
   .object({
     title: yup
@@ -47,10 +50,7 @@ const schema = yup
     due: yup
       .date()
       .required((value) => `The ${value.path} field is required.`)
-      .min(
-        new Date(Date.now() + 1000 * 60),
-        (value) => `The ${value.path} must be in the past.`
-      )
+      .min(futureDate, (value) => `The ${value.path} must be in the past.`)
       .typeError((value) => `The ${value.path} is not a valid date.`),
   })
   .required();
@@ -65,6 +65,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const dispatch = useDispatch();
   const { addTask } = bindActionCreators(actionCreators, dispatch);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
+  const [mdText, setMdText] = useState<string>();
   const {
     register,
     formState: { errors },
@@ -73,12 +74,19 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     reset,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
+  useEffect(() => {
+    setValue("desc", "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onSubmit = handleSubmit((data: FormData) => {
+    console.log(data);
     createTask(data);
   });
 
   const toggleModal = () => {
     setModalState(!modalState);
+    document.body.classList.toggle("lock-scroll");
   };
 
   const setDatetime = (value: Date) => {
@@ -90,6 +98,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   };
 
   const createTask = async (task: FormData) => {
+    setCreatingTask(true);
     const query = `mutation taskAdd($task: TaskInputs!) {
       taskAdd(task: $task) {
         id
@@ -108,8 +117,13 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
       addTask(data.taskAdd);
       reset();
       toggleModal();
-      setCreatingTask(false);
     }
+    setCreatingTask(false);
+  };
+
+  const handleDesc = (text: string) => {
+    setValue("desc", text);
+    setMdText(text);
   };
 
   return (
@@ -120,16 +134,9 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
         title={title}
         desc={desc}
         toggleModal={toggleModal}
+        widthClass="lg-width"
       >
-        <form
-          onSubmit={(e) => {
-            onSubmit(e);
-            if (Object.keys(errors).length) {
-              setCreatingTask(true);
-            }
-          }}
-          id="tool-form"
-        >
+        <form onSubmit={onSubmit} id="tool-form">
           <div className="form-body">
             <div className="form-control">
               <label>Title</label>
@@ -144,7 +151,8 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
             </div>
             <div className="form-control">
               <label>Description</label>
-              <textarea {...register("desc")}></textarea>
+              <MarkdownEditor handleDesc={handleDesc} />
+              <MarkdownPreview desc={mdText} preview />
               <div
                 className={
                   "error-message " + (errors.desc?.message ? "show" : "")
@@ -181,6 +189,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
               type="submit"
               disabled={creatingTask}
               className="btn btn-primary"
+              onClick={() => (futureDate = new Date(Date.now() + 1000 * 60))}
             >
               Create task
             </button>
