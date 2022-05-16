@@ -76,9 +76,11 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
 
   useEffect(() => {
     setValue("desc", "");
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = handleSubmit((data: FormData) => {
+    console.log(data);
     createTask(data);
   });
 
