@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 
@@ -7,10 +7,15 @@ import "./MarkdownPreview.scss";
 
 interface Props {
   handleDesc: (text: string) => void;
+  mdText: string;
 }
 
-const MarkdownEditor: React.FC<Props> = ({ handleDesc }) => {
+const MarkdownEditor: React.FC<Props> = ({ handleDesc, mdText }) => {
   const mdParser = new MarkdownIt();
+
+  useEffect(() => {
+    document.querySelector("input[type=file]")?.setAttribute("tabindex", "-1");
+  }, []);
 
   const handleEditorChange = ({ text }: { html: string; text: string }) => {
     handleDesc(text);
@@ -19,6 +24,7 @@ const MarkdownEditor: React.FC<Props> = ({ handleDesc }) => {
   return (
     <div className="markdown-editor">
       <MdEditor
+        value={mdText}
         style={{ height: "300px" }}
         view={{ menu: true, md: true, html: false }}
         renderHTML={(text) => mdParser.render(text)}

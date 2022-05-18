@@ -65,7 +65,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const dispatch = useDispatch();
   const { addTask } = bindActionCreators(actionCreators, dispatch);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
-  const [mdText, setMdText] = useState<string>();
+  const [mdText, setMdText] = useState<string>("");
   const {
     register,
     formState: { errors },
@@ -79,10 +79,12 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = handleSubmit((data: FormData) => {
-    console.log(data);
-    createTask(data);
-  });
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    futureDate = new Date(Date.now() + 1000 * 60);
+    handleSubmit((data: FormData) => {
+      createTask(data);
+    })(e);
+  };
 
   const toggleModal = () => {
     setModalState(!modalState);
@@ -117,6 +119,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
       addTask(data.taskAdd);
       reset();
       toggleModal();
+      setMdText("");
     }
     setCreatingTask(false);
   };
@@ -136,7 +139,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
         toggleModal={toggleModal}
         widthClass="lg-width"
       >
-        <form onSubmit={onSubmit} id="tool-form">
+        <form onSubmit={(e) => onSubmit(e)} id="tool-form">
           <div className="form-body">
             <div className="form-control">
               <label>Title</label>
@@ -151,7 +154,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
             </div>
             <div className="form-control">
               <label>Description</label>
-              <MarkdownEditor handleDesc={handleDesc} />
+              <MarkdownEditor handleDesc={handleDesc} mdText={mdText} />
               <MarkdownPreview desc={mdText} preview />
               <div
                 className={
@@ -189,7 +192,6 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
               type="submit"
               disabled={creatingTask}
               className="btn btn-primary"
-              onClick={() => (futureDate = new Date(Date.now() + 1000 * 60))}
             >
               Create task
             </button>
