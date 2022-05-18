@@ -1,7 +1,15 @@
 @import "../assets/global.scss";
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&display=swap');
 
+.markdown-editor {
+
+    .button.button-type-underline {
+        display: none !important;
+    }
+}
+
 .markdown-preview {
+
     &.preview {
         margin-top: 1rem;
 

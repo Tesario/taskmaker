@@ -24,7 +24,6 @@ type FormData = {
   priority: number;
 };
 
-let futureDate = new Date(Date.now() + 1000 * 60);
 const schema = yup
   .object({
     title: yup
@@ -50,7 +49,10 @@ const schema = yup
     due: yup
       .date()
       .required((value) => `The ${value.path} field is required.`)
-      .min(futureDate, (value) => `The ${value.path} must be in the past.`)
+      .min(
+        new Date(Date.now() + 1000 * 60),
+        (value) => `The ${value.path} must be in the past.`
+      )
       .typeError((value) => `The ${value.path} is not a valid date.`),
   })
   .required();
@@ -71,6 +73,8 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     formState: { errors },
     handleSubmit,
     setValue,
+    setError,
+    getValues,
     reset,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
@@ -80,7 +84,10 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   }, []);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    futureDate = new Date(Date.now() + 1000 * 60);
+    if (new Date(Date.now() + 1000 * 60) <= getValues("due")) {
+      setError("due", { type: "min" }, { shouldFocus: true });
+    }
+
     handleSubmit((data: FormData) => {
       createTask(data);
     })(e);
