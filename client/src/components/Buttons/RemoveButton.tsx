@@ -24,6 +24,7 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
   const removeTask = async (e: React.FormEvent, id: number) => {
     e.preventDefault();
     setCreatingTask(true);
+
     const query = `
         mutation taskRemove($id: Int!) {
             taskRemove(id: $id) {
@@ -37,6 +38,7 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
       navigate("/tasks");
     }
     setCreatingTask(false);
+    toggleModal();
   };
 
   const toggleModal = () => {
