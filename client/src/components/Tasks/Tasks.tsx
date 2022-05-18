@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useUpdateBreadcrump } from "../../BreadcrumpProvider";
+import CategoryBar from "../Categories/CategoryBar/CategoryBar";
 import TaskBar from "./TaskBar/TaskBar";
 import TaskList from "./TaskList/TaskList";
 
@@ -21,6 +22,7 @@ const Tasks: React.FC = () => {
       <div className="container">
         <div className="white-card">
           <TaskBar />
+          <CategoryBar />
           <TaskList />
         </div>
       </div>
