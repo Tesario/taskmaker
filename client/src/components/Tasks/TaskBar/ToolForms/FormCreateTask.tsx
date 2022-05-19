@@ -84,8 +84,14 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   }, []);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (new Date(Date.now() + 1000 * 60) <= getValues("due")) {
-      setError("due", { type: "min" }, { shouldFocus: true });
+    if (new Date(Date.now() + 1000 * 60) >= getValues("due")) {
+      setError(
+        "due",
+        { type: "min", message: "The due must be in the past." },
+        { shouldFocus: true }
+      );
+      e.preventDefault();
+      return;
     }
 
     handleSubmit((data: FormData) => {

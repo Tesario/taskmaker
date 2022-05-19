@@ -49,7 +49,7 @@ function validate({ task }) {
   if (task.title.length < 3 || task.title.length > 200) {
     errors.push("Wrong length of the title.");
   }
-  if (task.desc.length > 2000) {
+  if (task.desc && task.desc.length > 2000) {
     errors.push("Wrong length of the description.");
   }
   if (task.due < new Date()) {
