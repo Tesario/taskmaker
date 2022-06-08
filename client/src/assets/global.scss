@@ -30,6 +30,7 @@ img {
 
 .main-title {
     font-size: $main-title-size;
+    line-height: $line-height;
 
     @media (max-width: $lg) {
         font-size: 2.2em;
@@ -38,10 +39,12 @@ img {
 
 .title {
     font-size: $title-size;
+    line-height: $line-height;
 }
 
 .subtitle {
     font-size: $subtitle-size;
+    line-height: $line-height;
 }
 
 section:not(.sec-md, .sec-html) {
