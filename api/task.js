@@ -10,7 +10,6 @@ async function list(_, { id }) {
     .collection("tasks")
     .find(id ? { id } : {})
     .toArray();
-
   return tasks;
 }
 

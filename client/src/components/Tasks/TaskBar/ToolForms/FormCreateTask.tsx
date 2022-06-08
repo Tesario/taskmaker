@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { graphQLFetch } from "../../../../Helpers";
-import { useDispatch } from "react-redux";
-import { actionCreators } from "../../../../state";
-import { bindActionCreators } from "@reduxjs/toolkit";
 import Modal from "../../../Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
@@ -13,7 +10,10 @@ import StarsInput from "../../../StarsInput/StarsInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import MarkdownEditor from "../../../../Markdown/MarkdownEditor";
 import MarkdownPreview from "../../../../Markdown/MarkdownPreview";
+import { useAppDispatch } from "../../../../hooks";
+import { addTask } from "../../../../state/tasks/tasksSlice";
 import * as yup from "yup";
+import { useFilter } from "../../../../FilterProvider";
 
 import "./ToolForms.scss";
 
@@ -64,10 +64,9 @@ export interface Props {
 
 const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const [modalState, setModalState] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const { addTask } = bindActionCreators(actionCreators, dispatch);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
   const [mdText, setMdText] = useState<string>("");
+  const filterContext = useFilter();
   const {
     register,
     formState: { errors },
@@ -77,6 +76,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     getValues,
     reset,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setValue("desc", "");
@@ -129,7 +129,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     const data: { taskAdd: Task } = await graphQLFetch(query, { task });
 
     if (data) {
-      addTask(data.taskAdd);
+      dispatch(addTask({ task: data.taskAdd, filter: filterContext }));
       reset();
       toggleModal();
       setMdText("");

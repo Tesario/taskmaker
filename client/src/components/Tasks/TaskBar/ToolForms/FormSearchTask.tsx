@@ -1,8 +1,5 @@
 import React from "react";
 import { graphQLFetch } from "../../../../Helpers";
-import { useDispatch } from "react-redux";
-import { actionCreators } from "../../../../state";
-import { bindActionCreators } from "@reduxjs/toolkit";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -21,8 +18,6 @@ const schema = yup.object({
 });
 
 const FormSearchTask: React.FC = () => {
-  const dispatch = useDispatch();
-  const { addTask } = bindActionCreators(actionCreators, dispatch);
   const { register, handleSubmit, reset } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -42,7 +37,7 @@ const FormSearchTask: React.FC = () => {
     }`;
     const data: { taskAdd: Task } = await graphQLFetch(query, { search });
     if (data) {
-      addTask(data.taskAdd);
+      //addTask(data.taskAdd);
       reset();
     }
   };
