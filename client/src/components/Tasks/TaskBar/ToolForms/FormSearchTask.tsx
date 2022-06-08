@@ -46,7 +46,7 @@ const FormSearchTask: React.FC = () => {
     <>
       <form onSubmit={onSubmit} id="tool-form" className="search">
         <div className="form-control">
-          <input {...register("search")} />
+          <input {...register("search")} placeholder="Write something..." />
           <ToolButton icon={faSearch} />
         </div>
       </form>

@@ -130,8 +130,8 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
 
     if (data) {
       dispatch(addTask({ task: data.taskAdd, filter: filterContext }));
-      reset();
       toggleModal();
+      reset();
       setMdText("");
     }
     setCreatingTask(false);

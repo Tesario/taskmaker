@@ -12,7 +12,7 @@ import { useUpdateBreadcrump } from "../../BreadcrumpProvider";
 import EditButton from "../Buttons/EditButton";
 import RemoveButton from "../Buttons/RemoveButton";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppSelector } from "../../hooks";
 
 import "./Task.scss";
 
@@ -20,7 +20,6 @@ const Task: React.FC = () => {
   const { id } = useParams<{ id: string | undefined }>();
   const [task, setTask] = useState<TaskI | null>(null);
   const BreadcrumpUpdateContext = useUpdateBreadcrump();
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const state = useAppSelector((state) => state.tasks.tasks);
 

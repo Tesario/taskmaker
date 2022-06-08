@@ -30,6 +30,16 @@ const tasksSlice = createSlice({
     setTasks: (state: Tasks, action: PayloadAction) => {
       return { tasks: action.payload, loading: false };
     },
+    removeTask: (state: Tasks, action: PayloadAction) => {
+      return {
+        tasks: sortJsonArray(
+          state.tasks.filter((task) => task.id !== action.payload.id),
+          action.payload.filter.filter,
+          action.payload.filter.order === 1 ? "asc" : "des"
+        ),
+        loading: false,
+      };
+    },
     sortTasks: (state: Tasks, action: PayloadAction) => {
       const tasks = current(state.tasks).slice();
 
@@ -45,6 +55,6 @@ const tasksSlice = createSlice({
   },
 });
 
-export const { addTask, setTasks, sortTasks } = tasksSlice.actions;
+export const { addTask, setTasks, removeTask, sortTasks } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

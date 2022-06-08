@@ -19,4 +19,12 @@
     a {
         color: $primary-color;
     }
+
+    span {
+        @media (max-width: 440px) {
+            display: block;
+            margin-top: -15px;
+            visibility: hidden;
+        }
+    }
 }
