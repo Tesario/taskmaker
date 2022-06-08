@@ -45,7 +45,7 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
 
   return (
     <>
-      <ToolButton toggleModal={toggleModal} icon={faFilter} />
+      <ToolButton onClick={toggleModal} icon={faFilter} />
       <Modal
         modalState={modalState}
         title={title}

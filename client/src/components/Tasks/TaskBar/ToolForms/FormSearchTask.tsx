@@ -1,56 +1,73 @@
-import React from "react";
-import { graphQLFetch } from "../../../../Helpers";
+import React, { useState, useRef } from "react";
 import ToolButton from "./ToolButton/ToolButton";
-import { useForm } from "react-hook-form";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { Task } from "../../TaskList/TaskList";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { faSearch, faRemove } from "@fortawesome/free-solid-svg-icons";
+import { useFilter } from "../../../../FilterProvider";
+import { useAppDispatch } from "../../../../hooks";
+import { graphQLFetch } from "../../../../Helpers";
+import { setTasks } from "../../../../state/tasks/tasksSlice";
 
 import "./ToolForms.scss";
 
-type FormData = {
-  search: string;
-};
-
-const schema = yup.object({
-  search: yup.string(),
-});
-
 const FormSearchTask: React.FC = () => {
-  const { register, handleSubmit, reset } = useForm<FormData>({
-    resolver: yupResolver(schema),
-  });
+  const filterContext = useFilter();
+  const dispatch = useAppDispatch();
+  const [search, setSearch] = useState<string>("");
+  const searchRef = useRef<HTMLInputElement>(null);
 
-  const onSubmit = handleSubmit((data) => createTask(data));
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSearch(searchRef.current ? searchRef.current.value : "");
 
-  const createTask = async (search: FormData) => {
-    const query = `mutation taskAdd($task: TaskInputs!) {
-      taskAdd(task: $task) {
+    const query = `query taskSearch($search: Search!) {
+      taskSearch(search: $search) {
         id
         title
         desc
+        status
         created
         due
         priority
       }
-    }`;
-    const data: { taskAdd: Task } = await graphQLFetch(query, { search });
+    }
+    `;
+
+    const data = await graphQLFetch(query, {
+      search: {
+        search: searchRef.current ? searchRef.current.value : "",
+        filter: filterContext,
+      },
+    });
+
     if (data) {
-      //addTask(data.taskAdd);
-      reset();
+      dispatch(setTasks(data.taskSearch));
+    }
+  };
+
+  const clearSearch = () => {
+    if (searchRef.current) {
+      searchRef.current.value = "";
     }
   };
 
   return (
-    <>
-      <form onSubmit={onSubmit} id="tool-form" className="search">
-        <div className="form-control">
-          <input {...register("search")} placeholder="Write something..." />
-          <ToolButton icon={faSearch} />
-        </div>
-      </form>
-    </>
+    <form onSubmit={(e) => onSubmit(e)} id="tool-form" className="search">
+      <div className="form-control">
+        <input
+          placeholder="Write something..."
+          onChange={(e) => onSubmit(e)}
+          ref={searchRef}
+        />
+        {search ? (
+          <ToolButton
+            icon={faRemove}
+            onClick={clearSearch}
+            className="btn-search btn-clear-search"
+          />
+        ) : (
+          <ToolButton icon={faSearch} className="btn-search" />
+        )}
+      </div>
+    </form>
   );
 };
 

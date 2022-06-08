@@ -144,7 +144,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
 
   return (
     <>
-      <ToolButton toggleModal={toggleModal} icon={faCalendarPlus} />
+      <ToolButton onClick={toggleModal} icon={faCalendarPlus} />
       <Modal
         modalState={modalState}
         title={title}

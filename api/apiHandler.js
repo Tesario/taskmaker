@@ -8,6 +8,7 @@ const resolvers = {
   Query: {
     taskList: task.list,
     taskFilter: task.filter,
+    taskSearch: task.search,
   },
   Mutation: {
     taskAdd: task.add,

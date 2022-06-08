@@ -1,4 +1,5 @@
 const { UserInputError } = require("apollo-server-express");
+const { copySync } = require("file-system");
 const { getDb, getNextSequence } = require("./db");
 
 async function list(_, { id }) {
@@ -19,6 +20,16 @@ async function filter(_, { filter }) {
     .collection("tasks")
     .find()
     .sort({ [filter.filter]: [filter.order] })
+    .toArray();
+  return tasks;
+}
+
+async function search(_, { search }) {
+  const db = getDb();
+  const tasks = await db
+    .collection("tasks")
+    .find({ title: new RegExp(".*" + search.search + ".*", "i") })
+    .sort({ [search.filter.filter]: [search.filter.order] })
     .toArray();
   return tasks;
 }
@@ -66,4 +77,4 @@ function validate({ task }) {
   }
 }
 
-module.exports = { add, list, filter, remove };
+module.exports = { add, list, search, filter, remove };
