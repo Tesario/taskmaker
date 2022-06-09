@@ -96,6 +96,8 @@
 
     .right-menu {
         margin-left: auto;
+        display: flex;
+        align-items: center;
 
         @media (max-width: $lg) {
             display: flex;
@@ -181,6 +183,31 @@
         &.collapsed {
             pointer-events: unset;
             opacity: $opacity;
+        }
+    }
+
+    &.dark {
+        background-color: $dark;
+        box-shadow: $box-shadow-1-dark;
+
+        .link {
+            color: $white;
+
+            &:hover {
+                color: $primary-color-dark;
+            }
+
+            &.active {
+                color: $primary-color-dark;
+            }
+        }
+
+        .menu {
+            background-color: $dark;
+        }
+
+        .line {
+            background-color: $white;
         }
     }
 }

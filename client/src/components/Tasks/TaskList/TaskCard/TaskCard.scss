@@ -6,7 +6,6 @@
     display: flex;
     flex-direction: column;
     color: $black;
-    transition: .2s ease-in-out;
 
     @media (max-width: $md) {
         padding: 2rem 1.5rem;
@@ -74,5 +73,19 @@
 
     .show {
         color: $primary-color;
+    }
+
+    &.dark {
+        background-color: $dark-2;
+
+        .task-title {
+            color: $white;
+        }
+
+        .show,
+        .remain,
+        .id {
+            color: $primary-color-dark;
+        }
     }
 }

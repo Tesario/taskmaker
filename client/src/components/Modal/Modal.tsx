@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useTheme } from "../../ThemeProvider";
 import { Props as ParentProps } from "../Tasks/TaskBar/ToolForms/FormCreateTask";
 
 import "./Modal.scss";
@@ -17,6 +18,8 @@ const Modal: React.FC<Props> = ({
   widthClass,
   toggleModal,
 }) => {
+  const themeContext = useTheme();
+
   useEffect(() => {
     const closeModal = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape" && modalState) {
@@ -31,7 +34,7 @@ const Modal: React.FC<Props> = ({
   });
 
   return (
-    <div id="modal" className={modalState ? "show" : ""}>
+    <div id="modal" className={themeContext + (modalState ? " show" : "")}>
       <div className={`modal-dialog ${widthClass}`}>
         <div className="modal-header">
           <div className="subtitle">{title}</div>

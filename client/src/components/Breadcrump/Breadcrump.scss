@@ -28,4 +28,12 @@
     .separator {
         margin: 0 .5rem;
     }
+
+    &.dark {
+
+        a,
+        svg {
+            color: $primary-color-dark;
+        }
+    }
 }

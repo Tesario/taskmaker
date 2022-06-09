@@ -6,6 +6,7 @@ import { faBorderAll } from "@fortawesome/free-solid-svg-icons";
 import { useLayout, useUpdateLayout } from "../../../../LayoutProvider";
 
 import "./ToolForms.scss";
+import { useTheme } from "../../../../ThemeProvider";
 
 type FormData = {
   columns: 1 | 2;
@@ -22,6 +23,7 @@ const FormLayout: React.FC<Props> = ({ title, desc }) => {
   const layoutContext = useLayout();
   const layoutUpdateContext = useUpdateLayout();
   const { register, handleSubmit } = useForm<FormData>();
+  const themeContext = useTheme();
 
   const onSubmit = handleSubmit((data) => {
     layoutUpdateContext(data);
@@ -41,7 +43,7 @@ const FormLayout: React.FC<Props> = ({ title, desc }) => {
         desc={desc}
         toggleModal={toggleModal}
       >
-        <form onSubmit={onSubmit} id="tool-form">
+        <form onSubmit={onSubmit} id="tool-form" className={themeContext}>
           <div className="form-body form-flex">
             <div className="form-group">
               <div className="form-radio">

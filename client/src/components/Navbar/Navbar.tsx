@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
+import { useTheme } from "../../ThemeProvider";
+import ThemeButton from "../Buttons/ThemeButton";
 
 import "./Navbar.scss";
 
@@ -8,6 +10,7 @@ const Navbar: React.FC = () => {
   const togglerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLSpanElement>(null);
+  const themeContext = useTheme();
 
   const toggleMenu = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.preventDefault();
@@ -20,7 +23,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav id="navbar">
+    <nav id="navbar" className={themeContext}>
       <div className="container">
         <Link to="/" className="brand">
           <img src={logo} alt="Logo" />
@@ -49,6 +52,7 @@ const Navbar: React.FC = () => {
             </li>
           </ul>
           <div className="right-menu">
+            <ThemeButton />
             <Link to="/login" className="btn btn-primary">
               Login
             </Link>

@@ -6,13 +6,16 @@ import store from "./state/store";
 import LayoutProvider from "./LayoutProvider";
 import FilterProvider from "./FilterProvider";
 import BreadcrumpProvider from "./BreadcrumpProvider";
+import ThemeProvider from "./ThemeProvider";
 
 ReactDOM.render(
   <Provider store={store}>
     <LayoutProvider>
       <BreadcrumpProvider>
         <FilterProvider>
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </FilterProvider>
       </BreadcrumpProvider>
     </LayoutProvider>

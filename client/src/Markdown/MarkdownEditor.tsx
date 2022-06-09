@@ -4,6 +4,7 @@ import MdEditor from "react-markdown-editor-lite";
 
 import "react-markdown-editor-lite/lib/index.css";
 import "./MarkdownPreview.scss";
+import "./MarkdownEditor.scss";
 
 interface Props {
   handleDesc: (text: string) => void;

@@ -8,6 +8,7 @@ import { useFilter, useUpdateFilter } from "../../../../FilterProvider";
 import * as yup from "yup";
 
 import "./ToolForms.scss";
+import { useTheme } from "../../../../ThemeProvider";
 
 type FormData = {
   filter: string;
@@ -27,6 +28,7 @@ const schema = yup.object({
 const FormFilter: React.FC<Props> = ({ title, desc }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const filterContext = useFilter();
+  const themeContext = useTheme();
   const FilterUpdateContext = useUpdateFilter();
 
   const { register, handleSubmit, reset } = useForm<FormData>({
@@ -52,7 +54,7 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
         desc={desc}
         toggleModal={toggleModal}
       >
-        <form onSubmit={onSubmit} id="tool-form">
+        <form onSubmit={onSubmit} id="tool-form" className={themeContext}>
           <div className="form-body form-flex">
             <div className="form-group">
               <div className="form-radio">

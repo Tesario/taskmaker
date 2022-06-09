@@ -199,4 +199,15 @@
             margin: 0;
         }
     }
+
+    &.dark {
+        .code {
+            background-color: $dark;
+            border-color: $primary-color-dark;
+
+            svg {
+                color: $primary-color-dark;
+            }
+        }
+    }
 }

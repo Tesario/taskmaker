@@ -15,6 +15,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useAppSelector } from "../../hooks";
 
 import "./Task.scss";
+import { useTheme } from "../../ThemeProvider";
 
 const Task: React.FC = () => {
   const { id } = useParams<{ id: string | undefined }>();
@@ -22,6 +23,7 @@ const Task: React.FC = () => {
   const BreadcrumpUpdateContext = useUpdateBreadcrump();
   const navigate = useNavigate();
   const state = useAppSelector((state) => state.tasks.tasks);
+  const themeContext = useTheme();
 
   useEffect(() => {
     const loadData = async () => {
@@ -66,7 +68,7 @@ const Task: React.FC = () => {
   }, [id]);
 
   return (
-    <section id="task-show">
+    <section id="task-show" className={themeContext}>
       <div className="container">
         <div className="white-card">
           {task ? (

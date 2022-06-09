@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Tasks from "./components/Tasks/Tasks";
@@ -7,17 +7,17 @@ import Error from "./components/Error/Error";
 import Task from "./components/Task/Task";
 import TasksLayout from "./components/Layouts/TasksLayout";
 import DashBoard from "./components/DashBoard/DashBoard";
+import { useTheme } from "./ThemeProvider";
 
 import "./assets/global.scss";
 
 const App: React.FC = () => {
-  const overlayLoaderRef = useRef<HTMLSpanElement>(null);
+  const themeContext = useTheme();
 
   useEffect(() => {
-    if (overlayLoaderRef.current) {
-      overlayLoaderRef.current.classList.remove("show");
-    }
-  }, []);
+    document.body.className = "";
+    document.body.classList.add(themeContext);
+  }, [themeContext]);
 
   return (
     <BrowserRouter>

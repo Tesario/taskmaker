@@ -5,11 +5,27 @@
     border-bottom: 2px solid transparent;
     border-radius: 0 !important;
 
+    @media (max-width: $md) {
+        padding: .8rem 1rem;
+    }
+
     &.active {
         border-bottom: 2px solid $primary-color;
     }
 
     &:hover {
         color: $primary-color;
+    }
+
+    &.dark {
+        color: $white;
+
+        &:hover {
+            color: $primary-color-dark;
+        }
+
+        &.active {
+            border-bottom: 2px solid $primary-color-dark;
+        }
     }
 }

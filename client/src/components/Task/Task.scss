@@ -56,4 +56,16 @@
             margin-right: .75rem;
         }
     }
+
+    &.dark {
+
+        .created span,
+        .due span {
+            color: $primary-color-dark;
+        }
+
+        .react-markdown {
+            border-bottom: 1px dashed $primary-color-dark;
+        }
+    }
 }

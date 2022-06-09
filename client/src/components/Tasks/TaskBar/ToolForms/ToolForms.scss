@@ -148,4 +148,16 @@
             min-width: 150px;
         }
     }
+
+    &.dark {
+        .wave-1::before {
+            background: url(../../../../assets/img/waves/wave-1-dark.svg);
+            background-size: 100%;
+        }
+
+        .wave-2::before {
+            background: url(../../../../assets/img/waves/wave-2-dark.svg);
+            background-size: 100%;
+        }
+    }
 }
