@@ -3,7 +3,7 @@
 #taskbar {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
 
     @media (max-width: $lg) {
         grid-template-columns: 1fr 1fr;

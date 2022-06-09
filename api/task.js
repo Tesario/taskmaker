@@ -1,4 +1,5 @@
 const { UserInputError } = require("apollo-server-express");
+const { copySync } = require("file-system");
 const { getDb, getNextSequence } = require("./db");
 
 async function list(_, { id }) {
@@ -10,7 +11,6 @@ async function list(_, { id }) {
     .collection("tasks")
     .find(id ? { id } : {})
     .toArray();
-
   return tasks;
 }
 
@@ -20,6 +20,16 @@ async function filter(_, { filter }) {
     .collection("tasks")
     .find()
     .sort({ [filter.filter]: [filter.order] })
+    .toArray();
+  return tasks;
+}
+
+async function search(_, { search }) {
+  const db = getDb();
+  const tasks = await db
+    .collection("tasks")
+    .find({ title: new RegExp(".*" + search.search + ".*", "i") })
+    .sort({ [search.filter.filter]: [search.filter.order] })
     .toArray();
   return tasks;
 }
@@ -49,7 +59,7 @@ function validate({ task }) {
   if (task.title.length < 3 || task.title.length > 200) {
     errors.push("Wrong length of the title.");
   }
-  if (task.desc.length > 2000) {
+  if (task.desc && task.desc.length > 2000) {
     errors.push("Wrong length of the description.");
   }
   if (task.due < new Date()) {
@@ -67,4 +77,4 @@ function validate({ task }) {
   }
 }
 
-module.exports = { add, list, filter, remove };
+module.exports = { add, list, search, filter, remove };

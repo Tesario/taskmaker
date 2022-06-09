@@ -1,7 +1,15 @@
 @import "../assets/global.scss";
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&display=swap');
 
+.markdown-editor {
+
+    .button.button-type-underline {
+        display: none !important;
+    }
+}
+
 .markdown-preview {
+
     &.preview {
         margin-top: 1rem;
 
@@ -15,6 +23,15 @@
     .preview-label {
         margin: 0 0 0.2rem 0.5rem;
         font-size: 0.9em;
+    }
+
+    .title,
+    .subtitle,
+    .subtitle-3,
+    .subtitle-4,
+    .subtitle-5,
+    .subtitle-6 {
+        line-height: $line-height;
     }
 
     .title {
@@ -63,6 +80,55 @@
         margin-bottom: 1rem;
         font-family: "Source Code Pro", monospace;
         border: 1px dashed $primary-color;
+        position: relative;
+
+        .btn-copy {
+            position: absolute;
+            top: .5rem;
+            right: .5rem;
+            margin: 0 !important;
+
+            svg {
+                font-size: 1.2em;
+                color: $primary-color;
+            }
+
+            &:hover {
+                .message {
+                    opacity: 1;
+                    pointer-events: unset;
+                }
+            }
+        }
+
+        .message {
+            position: absolute;
+            width: 100px;
+            background-color: $black;
+            color: $white;
+            font-size: .8em;
+            padding: .5rem .4rem;
+            top: 50%;
+            right: 2.75rem;
+            transform: translate(.5rem, -50%);
+            opacity: 0;
+            pointer-events: none;
+            transition: .2s ease-in-out;
+            border-radius: .25rem;
+
+            &::after {
+                position: absolute;
+                content: "";
+                top: 50%;
+                transform: translateY(-50%);
+                right: -6px;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 6px 0 6px 6px;
+                border-color: transparent transparent transparent #000000;
+            }
+        }
 
         pre {
             overflow-x: auto;

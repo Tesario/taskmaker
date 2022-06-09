@@ -14,4 +14,10 @@
         font-size: 1.8em;
         color: $primary-color;
     }
+
+    &.btn-clear-search {
+        svg {
+            color: $red;
+        }
+    }
 }

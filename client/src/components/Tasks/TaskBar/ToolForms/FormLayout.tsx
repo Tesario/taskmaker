@@ -34,7 +34,7 @@ const FormLayout: React.FC<Props> = ({ title, desc }) => {
 
   return (
     <>
-      <ToolButton toggleModal={toggleModal} icon={faBorderAll} />
+      <ToolButton onClick={toggleModal} icon={faBorderAll} />
       <Modal
         modalState={modalState}
         title={title}

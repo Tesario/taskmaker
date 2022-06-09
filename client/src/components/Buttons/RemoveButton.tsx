@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import { graphQLFetch } from "../../Helpers";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
+import { useAppDispatch } from "../../hooks";
+import { removeTask } from "../../state/tasks/tasksSlice";
+import { useFilter } from "../../FilterProvider";
 
 import "./Button.scss";
 
@@ -16,14 +19,17 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
   const navigate = useNavigate();
   const [modalState, setModalState] = useState<boolean>(false);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const filterContext = useFilter();
 
   useEffect(() => {
     return () => setCreatingTask(false);
   });
 
-  const removeTask = async (e: React.FormEvent, id: number) => {
+  const onSubmit = async (e: React.FormEvent, id: number) => {
     e.preventDefault();
     setCreatingTask(true);
+
     const query = `
         mutation taskRemove($id: Int!) {
             taskRemove(id: $id) {
@@ -34,9 +40,11 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
     const data = await graphQLFetch(query, { id });
 
     if (data) {
+      dispatch(removeTask({ id, filter: filterContext }));
       navigate("/tasks");
     }
     setCreatingTask(false);
+    toggleModal();
   };
 
   const toggleModal = () => {
@@ -59,7 +67,7 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
         desc="Do you want to remove the task?"
         modalState={modalState}
       >
-        <form onSubmit={(e) => removeTask(e, id)} id="tool-form">
+        <form onSubmit={(e) => onSubmit(e, id)} id="tool-form">
           <div className="form-footer wave-2">
             <button
               type="button"

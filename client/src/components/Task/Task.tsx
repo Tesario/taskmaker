@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { graphQLFetch } from "../../Helpers";
 import TaskStatus from "../Tasks/TaskList/TableRow/TaskStatus/TaskStatus";
 import { Task as TaskI } from "../Tasks/TaskList/TaskList";
@@ -12,6 +12,7 @@ import { useUpdateBreadcrump } from "../../BreadcrumpProvider";
 import EditButton from "../Buttons/EditButton";
 import RemoveButton from "../Buttons/RemoveButton";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useAppSelector } from "../../hooks";
 
 import "./Task.scss";
 
@@ -19,6 +20,8 @@ const Task: React.FC = () => {
   const { id } = useParams<{ id: string | undefined }>();
   const [task, setTask] = useState<TaskI | null>(null);
   const BreadcrumpUpdateContext = useUpdateBreadcrump();
+  const navigate = useNavigate();
+  const state = useAppSelector((state) => state.tasks.tasks);
 
   useEffect(() => {
     const loadData = async () => {
@@ -36,7 +39,7 @@ const Task: React.FC = () => {
 
       const data = await graphQLFetch(query, { id: id ? parseInt(id) : id });
 
-      if (data) {
+      if (data.taskList.length) {
         setTask(data.taskList[0]);
         BreadcrumpUpdateContext({
           routes: [
@@ -44,10 +47,21 @@ const Task: React.FC = () => {
             { title: data.taskList[0].title },
           ],
         });
+        return;
       }
+
+      return navigate("/not-found");
     };
 
-    loadData();
+    const data = state.find((task: TaskI) => task.id.toString() === id);
+    if (!data) {
+      loadData();
+      return;
+    }
+    setTask(data);
+    BreadcrumpUpdateContext({
+      routes: [{ pathname: "/tasks", title: "Tasks" }, { title: data.title }],
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 

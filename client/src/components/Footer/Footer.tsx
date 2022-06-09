@@ -7,7 +7,8 @@ const Footer: React.FC = () => {
     <footer id="footer">
       <div className="container">
         <p>
-          &copy; {new Date().getFullYear()} TaskMaker | Code & design by&#8201;
+          &copy; {new Date().getFullYear()} TaskMaker <span>|</span> Code &
+          design by&#8201;
           <a href="https://tesarvojtech.cz/">Vojtěch Tesař</a>
         </p>
       </div>

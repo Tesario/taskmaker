@@ -4,3 +4,4 @@ declare module "@fortawesome/react-fontawesome";
 declare module "react-datetime-picker";
 declare module "markdown-it";
 declare module "react-markdown";
+declare module "sort-json-array";

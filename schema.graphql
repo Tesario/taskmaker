@@ -34,11 +34,17 @@ input Filter {
   order: Int!
 }
 
+input Search {
+  search: String!
+  filter: Filter!
+}
+
 ##### Top level declarations
 
 type Query {
   taskList(id: Int): [Task!]!
   taskFilter(filter: Filter): [Task!]!
+  taskSearch(search: Search): [Task!]!
 }
 
 type Mutation {

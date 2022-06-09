@@ -1,0 +1,11 @@
+@import "../../../assets/global.scss";
+
+#category-bar {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+
+    .btn-edit-categories {
+        margin-left: auto;
+    }
+}

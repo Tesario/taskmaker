@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import { graphQLFetch } from "../../../../Helpers";
-import { useDispatch } from "react-redux";
-import { actionCreators } from "../../../../state";
-import { bindActionCreators } from "@reduxjs/toolkit";
 import Modal from "../../../Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import { Task } from "../../TaskList/TaskList";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useFilter, useUpdateFilter } from "../../../../FilterProvider";
 import * as yup from "yup";
@@ -31,8 +26,6 @@ const schema = yup.object({
 
 const FormFilter: React.FC<Props> = ({ title, desc }) => {
   const [modalState, setModalState] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const { setTasks } = bindActionCreators(actionCreators, dispatch);
   const filterContext = useFilter();
   const FilterUpdateContext = useUpdateFilter();
 
@@ -42,29 +35,8 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
 
   const onSubmit = handleSubmit(async (filter: FormData) => {
     FilterUpdateContext(filter);
-
-    const query = `query taskFilter($filter: Filter!) {
-      taskFilter(filter: $filter) {
-        id
-        title
-        desc
-        status
-        created
-        due
-        priority
-      }
-    }
-    `;
-
-    const data: { taskFilter: Task[] } = await graphQLFetch(query, {
-      filter,
-    });
-
-    if (data) {
-      setTasks(data.taskFilter);
-      reset();
-      toggleModal();
-    }
+    reset();
+    toggleModal();
   });
 
   const toggleModal = () => {
@@ -73,7 +45,7 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
 
   return (
     <>
-      <ToolButton toggleModal={toggleModal} icon={faFilter} />
+      <ToolButton onClick={toggleModal} icon={faFilter} />
       <Modal
         modalState={modalState}
         title={title}

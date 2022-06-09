@@ -1,20 +1,18 @@
 import React, { useEffect } from "react";
-import { bindActionCreators } from "redux";
-import { actionCreators } from "../../../state";
-import { useDispatch } from "react-redux";
 import TaskRow from "./TableRow/TaskRow";
-import { useSelector } from "react-redux";
-import { State } from "../../../state/reducers";
 import Loader from "../../Loader/Loader";
 import { graphQLFetch } from "../../../Helpers";
 import { useLayout } from "../../../LayoutProvider";
 import TaskCard from "./TaskCard/TaskCard";
+import { useAppSelector, useAppDispatch } from "../../../hooks";
+import { useFilter } from "../../../FilterProvider";
+import { setTasks } from "../../../state/tasks/tasksSlice";
 
 import "./TaskList.scss";
-import { useFilter } from "../../../FilterProvider";
 
 export interface Tasks {
-  tasks: Task[] | null;
+  tasks: Task[];
+  loading: boolean;
 }
 
 export interface Task {
@@ -28,11 +26,10 @@ export interface Task {
 }
 
 const TaskList: React.FC = () => {
-  const dispatch = useDispatch();
-  const { setTasks } = bindActionCreators(actionCreators, dispatch);
-  const state = useSelector((state: State) => state.tasks);
   const layoutContext = useLayout();
   const filterContext = useFilter();
+  const state = useAppSelector((state) => state.tasks);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -53,7 +50,7 @@ const TaskList: React.FC = () => {
       });
 
       if (data) {
-        setTasks(data.taskFilter);
+        dispatch(setTasks(data.taskFilter));
       }
     };
     fetchTasks();
@@ -62,10 +59,10 @@ const TaskList: React.FC = () => {
 
   return (
     <div className={`task-grid columns-${layoutContext.columns}`}>
-      {state === null ? (
+      {state.loading ? (
         <Loader />
-      ) : state.length ? (
-        state.map((task, index) => {
+      ) : state.tasks.length > 0 ? (
+        state.tasks.map((task: Task, index: number) => {
           return layoutContext.type === "rows" ? (
             <TaskRow key={task.id} task={{ ...task, key: ++index }} />
           ) : (

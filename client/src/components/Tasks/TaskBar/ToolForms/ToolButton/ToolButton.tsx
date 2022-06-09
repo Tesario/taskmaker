@@ -5,13 +5,18 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import "./ToolButton.scss";
 
 export interface Props {
-  toggleModal?: () => void;
   icon: IconDefinition;
+  onClick?: () => void;
+  className?: string;
 }
 
-const ToolButton: React.FC<Props> = ({ icon, toggleModal }) => {
+const ToolButton: React.FC<Props> = ({ icon, onClick, className }) => {
   return (
-    <button type="submit" className="btn tool-button" onClick={toggleModal}>
+    <button
+      type="submit"
+      className={`btn tool-button ${className ? className : ""}`}
+      onClick={onClick}
+    >
       <FontAwesomeIcon icon={icon} />
     </button>
   );

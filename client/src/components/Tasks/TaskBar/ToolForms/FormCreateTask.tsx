@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { graphQLFetch } from "../../../../Helpers";
-import { useDispatch } from "react-redux";
-import { actionCreators } from "../../../../state";
-import { bindActionCreators } from "@reduxjs/toolkit";
 import Modal from "../../../Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
@@ -13,7 +10,10 @@ import StarsInput from "../../../StarsInput/StarsInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import MarkdownEditor from "../../../../Markdown/MarkdownEditor";
 import MarkdownPreview from "../../../../Markdown/MarkdownPreview";
+import { useAppDispatch } from "../../../../hooks";
+import { addTask } from "../../../../state/tasks/tasksSlice";
 import * as yup from "yup";
+import { useFilter } from "../../../../FilterProvider";
 
 import "./ToolForms.scss";
 
@@ -24,7 +24,6 @@ type FormData = {
   priority: number;
 };
 
-let futureDate = new Date(Date.now() + 1000 * 60);
 const schema = yup
   .object({
     title: yup
@@ -50,7 +49,10 @@ const schema = yup
     due: yup
       .date()
       .required((value) => `The ${value.path} field is required.`)
-      .min(futureDate, (value) => `The ${value.path} must be in the past.`)
+      .min(
+        new Date(Date.now() + 1000 * 60),
+        (value) => `The ${value.path} must be in the past.`
+      )
       .typeError((value) => `The ${value.path} is not a valid date.`),
   })
   .required();
@@ -62,27 +64,40 @@ export interface Props {
 
 const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const [modalState, setModalState] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const { addTask } = bindActionCreators(actionCreators, dispatch);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
-  const [mdText, setMdText] = useState<string>();
+  const [mdText, setMdText] = useState<string>("");
+  const filterContext = useFilter();
   const {
     register,
     formState: { errors },
     handleSubmit,
     setValue,
+    setError,
+    getValues,
     reset,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setValue("desc", "");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = handleSubmit((data: FormData) => {
-    console.log(data);
-    createTask(data);
-  });
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (new Date(Date.now() + 1000 * 60) >= getValues("due")) {
+      setError(
+        "due",
+        { type: "min", message: "The due must be in the past." },
+        { shouldFocus: true }
+      );
+      e.preventDefault();
+      return;
+    }
+
+    handleSubmit((data: FormData) => {
+      createTask(data);
+    })(e);
+  };
 
   const toggleModal = () => {
     setModalState(!modalState);
@@ -114,9 +129,10 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     const data: { taskAdd: Task } = await graphQLFetch(query, { task });
 
     if (data) {
-      addTask(data.taskAdd);
-      reset();
+      dispatch(addTask({ task: data.taskAdd, filter: filterContext }));
       toggleModal();
+      reset();
+      setMdText("");
     }
     setCreatingTask(false);
   };
@@ -128,7 +144,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
 
   return (
     <>
-      <ToolButton toggleModal={toggleModal} icon={faCalendarPlus} />
+      <ToolButton onClick={toggleModal} icon={faCalendarPlus} />
       <Modal
         modalState={modalState}
         title={title}
@@ -136,7 +152,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
         toggleModal={toggleModal}
         widthClass="lg-width"
       >
-        <form onSubmit={onSubmit} id="tool-form">
+        <form onSubmit={(e) => onSubmit(e)} id="tool-form">
           <div className="form-body">
             <div className="form-control">
               <label>Title</label>
@@ -151,7 +167,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
             </div>
             <div className="form-control">
               <label>Description</label>
-              <MarkdownEditor handleDesc={handleDesc} />
+              <MarkdownEditor handleDesc={handleDesc} mdText={mdText} />
               <MarkdownPreview desc={mdText} preview />
               <div
                 className={
@@ -189,7 +205,6 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
               type="submit"
               disabled={creatingTask}
               className="btn btn-primary"
-              onClick={() => (futureDate = new Date(Date.now() + 1000 * 60))}
             >
               Create task
             </button>

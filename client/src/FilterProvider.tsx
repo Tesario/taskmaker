@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
+import { useAppDispatch } from "./hooks";
+import { sortTasks } from "./state/tasks/tasksSlice";
 
 interface Filter {
   filter: string;
@@ -26,10 +28,12 @@ export const useUpdateFilter = () => {
 
 const FilterProvider: React.FC = ({ children }) => {
   const [filter, setFilter] = useState<Filter>(loadedFilter);
+  const dispatch = useAppDispatch();
 
   const changeFilter = ({ filter, order }: Filter) => {
     setFilter({ filter, order });
     localStorage.setItem("filter", JSON.stringify({ filter, order }));
+    dispatch(sortTasks({ filter, order }));
   };
 
   return (
