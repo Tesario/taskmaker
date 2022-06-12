@@ -76,7 +76,7 @@ const Task: React.FC = () => {
               <div className="title">{task.title}</div>
               {task.desc && <MarkdownPreview desc={task.desc} />}
               <div className="task-footer">
-                <div>
+                <div className="dates">
                   <div className="created">
                     <span>Created</span>{" "}
                     {dateformat(task.created, "h:MM d.m.yyyy")}
@@ -87,10 +87,10 @@ const Task: React.FC = () => {
                       {timeLeft(task.due)})
                     </div>
                   )}
-                  <div className="btns-edit">
-                    <EditButton icon={faEdit} id={task.id} />
-                    <RemoveButton icon={faTrash} id={task.id} />
-                  </div>
+                </div>
+                <div className="btns-edit">
+                  <EditButton icon={faEdit} id={task.id} />
+                  <RemoveButton icon={faTrash} id={task.id} />
                 </div>
                 <div className="group">
                   {renderStars(task.priority)}

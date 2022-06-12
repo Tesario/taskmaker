@@ -13,7 +13,7 @@
 
     .toggle {
         border: 4px solid $white;
-        transform: scale(.3) translate(-75%, -72%);
+        transform: scale(.3) translate(-100%, -72%);
         position: absolute;
         top: -50%;
         left: -50%;
@@ -27,7 +27,7 @@
         overflow: hidden;
 
         @media (max-width: $lg) {
-            transform: scale(.3) translate(-67%, -80%);
+            transform: scale(.3) translate(-67%, -30vh);
         }
     }
 

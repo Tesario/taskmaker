@@ -9,6 +9,7 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useTheme } from "../../../../ThemeProvider";
 
 import "./TaskCard.scss";
+import RemoveButton from "../../../Buttons/RemoveButton";
 
 interface Props extends Task {
   key: number;
@@ -25,7 +26,7 @@ const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
         <Link to={`/tasks/${id}`} className="task-title">
           {title}
         </Link>
-        <Link to={`/tasks/${id}`} className="show">
+        <Link to={`/tasks/${id}`} className="btn-show">
           <FontAwesomeIcon icon={faEye} />
         </Link>
       </div>

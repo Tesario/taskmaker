@@ -1,16 +1,18 @@
 @import "../../assets/global.scss";
 
 #breadcrump {
-    position: absolute;
     width: 100%;
+    margin-bottom: -2.5rem;
 
     .breadcrump {
         margin: 1.25rem 0 0 4rem;
         display: flex;
         align-items: center;
 
-        @media (max-width: $lg) {
-            margin: 1.1rem 0 0 .75rem;
+        @media (max-width: $sm) {
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 1.1rem 0 0;
         }
     }
 
@@ -27,6 +29,30 @@
 
     .separator {
         margin: 0 .5rem;
+    }
+
+    .link {
+        display: flex;
+        align-items: flex-end;
+
+        @media (max-width: $sm) {
+            &:not(:last-child) {
+                margin-bottom: .25rem;
+            }
+        }
+
+        &:first-child::after,
+        &:not(:first-child) {
+            position: relative;
+            top: .1rem;
+        }
+
+        &:not(:last-child)::after {
+            content: "/";
+            display: inline-block;
+            color: $white;
+            margin: 0 .5rem;
+        }
     }
 
     &.dark {

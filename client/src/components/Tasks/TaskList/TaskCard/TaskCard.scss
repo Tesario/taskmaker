@@ -15,7 +15,7 @@
         display: flex;
         align-items: center;
 
-        .show {
+        .btn-show {
             margin-left: auto;
             font-size: 2em;
         }
@@ -71,10 +71,6 @@
         justify-content: flex-end;
     }
 
-    .show {
-        color: $primary-color;
-    }
-
     &.dark {
         background-color: $dark-2;
 
@@ -82,7 +78,7 @@
             color: $white;
         }
 
-        .show,
+        .btn-show,
         .remain,
         .id {
             color: $primary-color-dark;
