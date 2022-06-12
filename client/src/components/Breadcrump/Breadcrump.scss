@@ -27,10 +27,6 @@
         }
     }
 
-    .separator {
-        margin: 0 .5rem;
-    }
-
     .link {
         display: flex;
         align-items: flex-end;
@@ -50,7 +46,6 @@
         &:not(:last-child)::after {
             content: "/";
             display: inline-block;
-            color: $white;
             margin: 0 .5rem;
         }
     }
@@ -60,6 +55,10 @@
         a,
         svg {
             color: $primary-color-dark;
+        }
+
+        .link::after {
+            color: $white;
         }
     }
 }
