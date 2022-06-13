@@ -59,11 +59,7 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-remove"
-        onClick={() => toggleModal()}
-      >
+      <button type="button" className="btn btn-remove" onClick={toggleModal}>
         <FontAwesomeIcon icon={icon} />
       </button>
       <Modal

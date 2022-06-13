@@ -79,17 +79,17 @@ const Task: React.FC = () => {
                 <div className="dates">
                   <div className="created">
                     <span>Created</span>{" "}
-                    {dateformat(task.created, "h:MM d.m.yyyy")}
+                    {dateformat(task.created, "H:MM d.m.yyyy")}
                   </div>
                   {task?.status !== "done" && (
                     <div className="due">
-                      <span>Due</span> {dateformat(task.due, "h:MM d.m.yyyy")} (
+                      <span>Due</span> {dateformat(task.due, "H:MM d.m.yyyy")} (
                       {timeLeft(task.due)})
                     </div>
                   )}
                 </div>
                 <div className="btns-edit">
-                  <EditButton icon={faEdit} id={task.id} />
+                  <EditButton icon={faEdit} id={task.id} task={task} />
                   <RemoveButton icon={faTrash} id={task.id} />
                 </div>
                 <div className="group">

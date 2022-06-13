@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { handleValueFunc } from "../Buttons/EditButton";
 
 import "./StarsInput.scss";
 
 interface Props {
-  setPriority: (value: number) => void;
+  handleValue: handleValueFunc;
+  priority: 1 | 2 | 3 | 4 | 5;
 }
 
 export const renderStars = (stars: 1 | 2 | 3 | 4 | 5) => {
@@ -20,11 +22,7 @@ export const renderStars = (stars: 1 | 2 | 3 | 4 | 5) => {
   return <div className="priority">{rows}</div>;
 };
 
-const StarsInput: React.FC<Props> = ({ setPriority }) => {
-  useEffect(() => {
-    setPriority(2);
-  });
-
+const StarsInput: React.FC<Props> = ({ handleValue, priority }) => {
   return (
     <div id="stars-input">
       <span className="star-cb-group">
@@ -36,7 +34,8 @@ const StarsInput: React.FC<Props> = ({ setPriority }) => {
           id="rating-1"
           name="rating"
           value="1"
-          onChange={() => setPriority(1)}
+          defaultChecked={priority === 1}
+          onChange={() => handleValue("priority", 1)}
         />
         <label htmlFor="rating-2">
           <FontAwesomeIcon icon={faStar} />
@@ -46,8 +45,8 @@ const StarsInput: React.FC<Props> = ({ setPriority }) => {
           id="rating-2"
           name="rating"
           value="2"
-          defaultChecked
-          onChange={() => setPriority(2)}
+          defaultChecked={priority === 2}
+          onChange={() => handleValue("priority", 2)}
         />
         <label htmlFor="rating-3">
           <FontAwesomeIcon icon={faStar} />
@@ -57,7 +56,8 @@ const StarsInput: React.FC<Props> = ({ setPriority }) => {
           id="rating-3"
           name="rating"
           value="3"
-          onChange={() => setPriority(3)}
+          defaultChecked={priority === 3}
+          onChange={() => handleValue("priority", 3)}
         />
         <label htmlFor="rating-4">
           <FontAwesomeIcon icon={faStar} />
@@ -67,7 +67,8 @@ const StarsInput: React.FC<Props> = ({ setPriority }) => {
           id="rating-4"
           name="rating"
           value="4"
-          onChange={() => setPriority(4)}
+          defaultChecked={priority === 4}
+          onChange={() => handleValue("priority", 4)}
         />
         <label htmlFor="rating-5">
           <FontAwesomeIcon icon={faStar} />
@@ -77,7 +78,8 @@ const StarsInput: React.FC<Props> = ({ setPriority }) => {
           id="rating-5"
           name="rating"
           value="5"
-          onChange={() => setPriority(5)}
+          defaultChecked={priority === 5}
+          onChange={() => handleValue("priority", 5)}
         />
       </span>
     </div>

@@ -10,19 +10,20 @@ import StarsInput from "../../../StarsInput/StarsInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import MarkdownEditor from "../../../../Markdown/MarkdownEditor";
 import MarkdownPreview from "../../../../Markdown/MarkdownPreview";
+import { handleValueFunc } from "../../../Buttons/EditButton";
 import { useAppDispatch } from "../../../../hooks";
 import { addTask } from "../../../../state/tasks/tasksSlice";
 import * as yup from "yup";
 import { useFilter } from "../../../../FilterProvider";
+import { useTheme } from "../../../../ThemeProvider";
 
 import "./ToolForms.scss";
-import { useTheme } from "../../../../ThemeProvider";
 
 type FormData = {
   title: string;
   desc?: string;
   due: Date;
-  priority: number;
+  priority: 1 | 2 | 3 | 4 | 5;
 };
 
 const schema = yup
@@ -66,8 +67,13 @@ export interface Props {
 const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
-  const [mdText, setMdText] = useState<string>("");
   const filterContext = useFilter();
+  const [state, setState] = useState<FormData>({
+    title: "",
+    desc: "",
+    due: new Date(Date.now() + 2000 * 60),
+    priority: 2,
+  });
   const themeContext = useTheme();
   const {
     register,
@@ -82,6 +88,9 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
 
   useEffect(() => {
     setValue("desc", "");
+    setValue("due", new Date(Date.now() + 1000 * 120));
+    setValue("priority", 2);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -106,14 +115,6 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     document.body.classList.toggle("lock-scroll");
   };
 
-  const setDatetime = (value: Date) => {
-    setValue("due", value);
-  };
-
-  const setPriority = (value: number) => {
-    setValue("priority", value);
-  };
-
   const createTask = async (task: FormData) => {
     setCreatingTask(true);
     const query = `mutation taskAdd($task: TaskInputs!) {
@@ -134,14 +135,13 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
       dispatch(addTask({ task: data.taskAdd, filter: filterContext }));
       toggleModal();
       reset();
-      setMdText("");
     }
     setCreatingTask(false);
   };
 
-  const handleDesc = (text: string) => {
-    setValue("desc", text);
-    setMdText(text);
+  const handleValue: handleValueFunc = (name, value) => {
+    setValue(name, value);
+    setState({ ...state, [name]: value });
   };
 
   return (
@@ -173,8 +173,11 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
             </div>
             <div className="form-control">
               <label>Description</label>
-              <MarkdownEditor handleDesc={handleDesc} mdText={mdText} />
-              <MarkdownPreview desc={mdText} preview />
+              <MarkdownEditor
+                handleValue={handleValue}
+                mdText={state.desc || ""}
+              />
+              <MarkdownPreview desc={state.desc} preview />
               <div
                 className={
                   "error-message " + (errors.desc?.message ? "show" : "")
@@ -185,7 +188,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
             </div>
             <div className="form-control">
               <label>Due</label>
-              <DatetimePicker setDatetime={setDatetime} />
+              <DatetimePicker handleValue={handleValue} due={state.due} />
               <div
                 className={
                   "error-message " + (errors.due?.message ? "show" : "")
@@ -196,7 +199,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
             </div>
             <div className="form-control">
               <label>Priority</label>
-              <StarsInput setPriority={setPriority} />
+              <StarsInput handleValue={handleValue} priority={state.priority} />
             </div>
           </div>
           <div className="form-footer wave-1">

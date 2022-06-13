@@ -14,7 +14,7 @@
     .id {
         font-size: $title-size;
         color: $primary-color;
-        width: 40px;
+        min-width: 40px;
     }
 
     .task-title {
