@@ -15,6 +15,14 @@ type DeleteResponse {
   deletedCount: Int!
 }
 
+type UpdateResponse {
+  acknowledged: Boolean
+  modifiedCount: Int
+  upsertedCount: Int
+  matchedCount: Int
+  task: Task
+}
+
 enum StatusType {
   created
   expired
@@ -48,6 +56,7 @@ type Query {
 }
 
 type Mutation {
-  taskAdd(task: TaskInputs): Task!
-  taskRemove(id: Int!): DeleteResponse
+  taskAdd(task: TaskInputs!): Task!
+  taskRemove(id: Int!): DeleteResponse!
+  taskUpdate(id: Int!, task: TaskInputs!): UpdateResponse!
 }

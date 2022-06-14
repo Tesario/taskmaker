@@ -54,6 +54,15 @@ async function add(_, { task }) {
   return savedTask;
 }
 
+async function update(_, { id, task }) {
+  validate({ task });
+
+  const db = getDb();
+  const result = await db.collection("tasks").updateOne({ id }, { $set: task });
+  const updatedTask = await db.collection("tasks").findOne({ id });
+  return { ...result, task: updatedTask };
+}
+
 function validate({ task }) {
   const errors = [];
   if (task.title.length < 3 || task.title.length > 200) {
@@ -63,7 +72,7 @@ function validate({ task }) {
     errors.push("Wrong length of the description.");
   }
   if (task.due < new Date()) {
-    errors.push("The due must be in the past.");
+    errors.push("The due must be in the future.");
   }
   if (!["created", "expired", "done"].includes(task.status)) {
     errors.push("The status does not have valid value.");
@@ -77,4 +86,4 @@ function validate({ task }) {
   }
 }
 
-module.exports = { add, list, search, filter, remove };
+module.exports = { add, update, list, search, filter, remove };

@@ -13,9 +13,9 @@ import EditButton from "../Buttons/EditButton";
 import RemoveButton from "../Buttons/RemoveButton";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useAppSelector } from "../../hooks";
+import { useTheme } from "../../ThemeProvider";
 
 import "./Task.scss";
-import { useTheme } from "../../ThemeProvider";
 
 const Task: React.FC = () => {
   const { id } = useParams<{ id: string | undefined }>();
@@ -67,6 +67,10 @@ const Task: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  const handleTask = (task: TaskI) => {
+    setTask(task);
+  };
+
   return (
     <section id="task-show" className={themeContext}>
       <div className="container">
@@ -89,7 +93,12 @@ const Task: React.FC = () => {
                   )}
                 </div>
                 <div className="btns-edit">
-                  <EditButton icon={faEdit} id={task.id} task={task} />
+                  <EditButton
+                    icon={faEdit}
+                    id={task.id}
+                    task={task}
+                    handleTask={handleTask}
+                  />
                   <RemoveButton icon={faTrash} id={task.id} />
                 </div>
                 <div className="group">

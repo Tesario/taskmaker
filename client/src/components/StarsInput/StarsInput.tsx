@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { handleValueFunc } from "../Buttons/EditButton";
@@ -23,6 +23,11 @@ export const renderStars = (stars: 1 | 2 | 3 | 4 | 5) => {
 };
 
 const StarsInput: React.FC<Props> = ({ handleValue, priority }) => {
+  useEffect(() => {
+    handleValue("priority", priority);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div id="stars-input">
       <span className="star-cb-group">

@@ -15,11 +15,13 @@ import DatetimePicker from "../DatetimePicker/DatetimePicker";
 import { Task } from "../Tasks/TaskList/TaskList";
 
 import "./Button.scss";
+import { updateTask } from "../../state/tasks/tasksSlice";
 
 interface Props {
   icon: IconProp;
   id: number;
   task: Task;
+  handleTask?: (task: Task) => void;
 }
 
 type FormData = {
@@ -67,7 +69,7 @@ const schema = yup
   })
   .required();
 
-const EditButton: React.FC<Props> = ({ icon, id, task }) => {
+const EditButton: React.FC<Props> = ({ icon, id, task, handleTask }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
   const [state, setState] = useState<Task>(task);
@@ -78,8 +80,6 @@ const EditButton: React.FC<Props> = ({ icon, id, task }) => {
     formState: { errors },
     handleSubmit,
     setValue,
-    setError,
-    getValues,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
   useEffect(() => {
@@ -87,26 +87,35 @@ const EditButton: React.FC<Props> = ({ icon, id, task }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = async (e: React.FormEvent, id: number) => {
-    e.preventDefault();
+  const onSubmit = async (task: FormData) => {
     setCreatingTask(true);
 
-    const query = `query taskList($id: Int!) {
-      taskList(id: $id) {
-        id
-        title
-        desc
-        status
-        created
-        due
-        priority
+    const query = `mutation taskUpdate($id: Int!, $task: TaskInputs!) {
+      taskUpdate(id: $id, task: $task) {
+        acknowledged
+        modifiedCount
+        task{
+          id
+          title
+          desc
+          priority
+          due
+          created
+        }
       }
     }`;
 
-    const data = await graphQLFetch(query, { id });
+    const data = await graphQLFetch(query, {
+      id,
+      task: { ...task, due: new Date(task.due) },
+    });
 
     if (data) {
-      // dispatch(editTask({ id, filter: filterContext }));
+      dispatch(updateTask(data.taskUpdate.task));
+
+      if (handleTask) {
+        handleTask(data.taskUpdate.task);
+      }
     }
 
     setCreatingTask(false);
@@ -135,7 +144,7 @@ const EditButton: React.FC<Props> = ({ icon, id, task }) => {
         widthClass="lg-width"
       >
         <form
-          onSubmit={(e) => onSubmit(e, id)}
+          onSubmit={handleSubmit(onSubmit)}
           id="tool-form"
           className={themeContext}
         >

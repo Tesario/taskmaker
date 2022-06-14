@@ -1,4 +1,4 @@
-import { Tasks } from "../../components/Tasks/TaskList/TaskList";
+import { Task, Tasks } from "../../components/Tasks/TaskList/TaskList";
 import { createSlice, current } from "@reduxjs/toolkit";
 import sortJsonArray from "sort-json-array";
 
@@ -30,6 +30,13 @@ const tasksSlice = createSlice({
     setTasks: (state: Tasks, action: PayloadAction) => {
       return { tasks: action.payload, loading: false };
     },
+    updateTask: (state: Tasks, action: PayloadAction) => {
+      const tasks = current(state.tasks).slice();
+      const newTasks = tasks.filter(
+        (task: Task) => task.id !== action.payload.id
+      );
+      return { tasks: [...newTasks, action.payload], loading: false };
+    },
     removeTask: (state: Tasks, action: PayloadAction) => {
       return {
         tasks: sortJsonArray(
@@ -55,6 +62,7 @@ const tasksSlice = createSlice({
   },
 });
 
-export const { addTask, setTasks, removeTask, sortTasks } = tasksSlice.actions;
+export const { addTask, setTasks, updateTask, removeTask, sortTasks } =
+  tasksSlice.actions;
 
 export default tasksSlice.reducer;
