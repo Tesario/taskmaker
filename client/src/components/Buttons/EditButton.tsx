@@ -101,6 +101,7 @@ const EditButton: React.FC<Props> = ({ icon, id, task, handleTask }) => {
           priority
           due
           created
+          status
         }
       }
     }`;
