@@ -18,6 +18,10 @@
         }
     }
 
+    .react-datetime-picker__inputGroup__input {
+        background: transparent;
+    }
+
     .react-datetime-picker__clock,
     .react-calendar {
         border-radius: .25rem;

@@ -27,4 +27,13 @@
             visibility: hidden;
         }
     }
+
+    &.dark {
+        background-color: $dark;
+        box-shadow: $box-shadow-1-dark;
+
+        a {
+            color: $primary-color-dark;
+        }
+    }
 }

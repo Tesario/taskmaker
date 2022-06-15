@@ -6,11 +6,6 @@
     background-color: $grey-1;
     padding: 1rem 1.5rem;
     color: $black;
-    transition: .2s ease-in-out;
-
-    &:hover {
-        background-color: darken($grey-1, 2.5%);
-    }
 
     @media (max-width: $md) {
         padding: 1rem .5rem;
@@ -19,7 +14,7 @@
     .id {
         font-size: $title-size;
         color: $primary-color;
-        width: 40px;
+        min-width: 40px;
     }
 
     .task-title {
@@ -37,5 +32,18 @@
 
     .text {
         margin-left: 2rem;
+    }
+
+    &.dark {
+        background-color: $dark-2;
+
+        .task-title {
+            color: $white;
+        }
+
+        .remain,
+        .id {
+            color: $primary-color-dark;
+        }
     }
 }

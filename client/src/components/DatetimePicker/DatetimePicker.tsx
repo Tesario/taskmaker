@@ -2,25 +2,27 @@ import DateTimePicker from "react-datetime-picker";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { handleValueFunc } from "../Buttons/EditButton";
 
 import "./DatetimePicker.scss";
 
 interface Props {
-  setDatetime: (value: Date) => void;
+  handleValue: handleValueFunc;
+  due: Date;
 }
 
-const DatetimePicker: React.FC<Props> = ({ setDatetime }) => {
-  const [value, onChange] = useState<Date>(new Date(Date.now() + 2000 * 60));
-
+const DatetimePicker: React.FC<Props> = ({ handleValue, due }) => {
+  const [value, onChange] = useState<Date>(due);
   useEffect(() => {
-    setDatetime(value);
-  }, [setDatetime, value]);
+    handleValue("due", value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   return (
     <div id="datetime-picker">
       <DateTimePicker
         onChange={onChange}
-        value={value}
+        value={new Date(value)}
         format={"d.M.y HH:mm"}
         calendarIcon={<FontAwesomeIcon icon={faCalendar} />}
         clearIcon={<FontAwesomeIcon icon={faXmark} />}

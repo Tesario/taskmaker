@@ -4,10 +4,11 @@ import TaskStatus from "../TableRow/TaskStatus/TaskStatus";
 import { timeLeft } from "../../../../Helpers";
 import { renderStars } from "../../../StarsInput/StarsInput";
 import { Link } from "react-router-dom";
-
-import "./TaskCard.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { useTheme } from "../../../../ThemeProvider";
+
+import "./TaskCard.scss";
 
 interface Props extends Task {
   key: number;
@@ -15,15 +16,16 @@ interface Props extends Task {
 
 const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
   const { key, id, title, priority, status, due } = task;
+  const themeContext = useTheme();
 
   return (
-    <div id="task-card">
+    <div id="task-card" className={themeContext}>
       <div className="task-header">
         <div className="id">{key}</div>
         <Link to={`/tasks/${id}`} className="task-title">
           {title}
         </Link>
-        <Link to={`/tasks/${id}`} className="show">
+        <Link to={`/tasks/${id}`} className="btn-show">
           <FontAwesomeIcon icon={faEye} />
         </Link>
       </div>

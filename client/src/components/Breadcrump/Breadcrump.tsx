@@ -3,18 +3,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useBreadcrump } from "../../BreadcrumpProvider";
+import { useTheme } from "../../ThemeProvider";
 
 import "./Breadcrump.scss";
 
 const Breadcrump: React.FC = () => {
   const { routes } = useBreadcrump();
+  const themeContext = useTheme();
   let prevRoutes: string = "";
 
   return (
-    <nav id="breadcrump">
+    <nav id="breadcrump" className={themeContext}>
       <div className="container">
         <div className="breadcrump">
-          <Link to={"/"}>
+          <Link to={"/"} className="link">
             <FontAwesomeIcon icon={faHome} />
           </Link>
           {routes.map((route, index) => {
@@ -22,12 +24,10 @@ const Breadcrump: React.FC = () => {
 
             return route.pathname ? (
               <div className="link" key={index}>
-                <span className="separator">/</span>
                 <Link to={prevRoutes}>{route.title}</Link>
               </div>
             ) : (
               <div className="link" key={index}>
-                <span className="separator">/</span>
                 <span>{route.title}</span>
               </div>
             );

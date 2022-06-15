@@ -7,6 +7,7 @@ import Modal from "../Modal/Modal";
 import { useAppDispatch } from "../../hooks";
 import { removeTask } from "../../state/tasks/tasksSlice";
 import { useFilter } from "../../FilterProvider";
+import { useTheme } from "../../ThemeProvider";
 
 import "./Button.scss";
 
@@ -21,9 +22,12 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const filterContext = useFilter();
+  const themeContext = useTheme();
 
   useEffect(() => {
-    return () => setCreatingTask(false);
+    return () => {
+      setCreatingTask(false);
+    };
   });
 
   const onSubmit = async (e: React.FormEvent, id: number) => {
@@ -43,6 +47,7 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
       dispatch(removeTask({ id, filter: filterContext }));
       navigate("/tasks");
     }
+
     setCreatingTask(false);
     toggleModal();
   };
@@ -54,11 +59,7 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-remove"
-        onClick={() => toggleModal()}
-      >
+      <button type="button" className="btn btn-remove" onClick={toggleModal}>
         <FontAwesomeIcon icon={icon} />
       </button>
       <Modal
@@ -67,7 +68,11 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
         desc="Do you want to remove the task?"
         modalState={modalState}
       >
-        <form onSubmit={(e) => onSubmit(e, id)} id="tool-form">
+        <form
+          onSubmit={(e) => onSubmit(e, id)}
+          id="tool-form"
+          className={themeContext}
+        >
           <div className="form-footer wave-2">
             <button
               type="button"

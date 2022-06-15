@@ -90,4 +90,19 @@
     .rc-md-editor {
         border-radius: .25rem;
     }
+
+    &.dark {
+        .modal-dialog {
+            color: $white;
+            background-color: $dark;
+        }
+
+        .line {
+            background-color: $white;
+
+            &:hover {
+                background-color: $primary-color-dark;
+            }
+        }
+    }
 }

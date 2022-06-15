@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 import "./MarkdownPreview.scss";
+import { useTheme } from "../ThemeProvider";
 
 interface Props {
   desc: string | undefined;
@@ -13,6 +14,7 @@ interface Props {
 
 const MarkdownPreview: React.FC<Props> = ({ desc, preview }) => {
   const messageRef = useRef<HTMLSpanElement>(null);
+  const themeContext = useTheme();
 
   const onCopyCode = (children: any) => {
     navigator.clipboard.writeText(children[0].props.children[0]);
@@ -28,7 +30,7 @@ const MarkdownPreview: React.FC<Props> = ({ desc, preview }) => {
   };
 
   return (
-    <div className={`markdown-preview ${preview && "preview"}`}>
+    <div className={`markdown-preview ${preview && "preview"} ${themeContext}`}>
       {preview && <div className="preview-label">Preview</div>}
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}

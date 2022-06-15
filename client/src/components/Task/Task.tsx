@@ -13,6 +13,7 @@ import EditButton from "../Buttons/EditButton";
 import RemoveButton from "../Buttons/RemoveButton";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useAppSelector } from "../../hooks";
+import { useTheme } from "../../ThemeProvider";
 
 import "./Task.scss";
 
@@ -22,6 +23,7 @@ const Task: React.FC = () => {
   const BreadcrumpUpdateContext = useUpdateBreadcrump();
   const navigate = useNavigate();
   const state = useAppSelector((state) => state.tasks.tasks);
+  const themeContext = useTheme();
 
   useEffect(() => {
     const loadData = async () => {
@@ -65,8 +67,12 @@ const Task: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  const handleTask = (task: TaskI) => {
+    setTask(task);
+  };
+
   return (
-    <section id="task-show">
+    <section id="task-show" className={themeContext}>
       <div className="container">
         <div className="white-card">
           {task ? (
@@ -74,21 +80,26 @@ const Task: React.FC = () => {
               <div className="title">{task.title}</div>
               {task.desc && <MarkdownPreview desc={task.desc} />}
               <div className="task-footer">
-                <div>
+                <div className="dates">
                   <div className="created">
                     <span>Created</span>{" "}
-                    {dateformat(task.created, "h:MM d.m.yyyy")}
+                    {dateformat(task.created, "H:MM d.m.yyyy")}
                   </div>
                   {task?.status !== "done" && (
                     <div className="due">
-                      <span>Due</span> {dateformat(task.due, "h:MM d.m.yyyy")} (
+                      <span>Due</span> {dateformat(task.due, "H:MM d.m.yyyy")} (
                       {timeLeft(task.due)})
                     </div>
                   )}
-                  <div className="btns-edit">
-                    <EditButton icon={faEdit} id={task.id} />
-                    <RemoveButton icon={faTrash} id={task.id} />
-                  </div>
+                </div>
+                <div className="btns-edit">
+                  <EditButton
+                    icon={faEdit}
+                    id={task.id}
+                    task={task}
+                    handleTask={handleTask}
+                  />
+                  <RemoveButton icon={faTrash} id={task.id} />
                 </div>
                 <div className="group">
                   {renderStars(task.priority)}

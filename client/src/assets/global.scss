@@ -48,7 +48,7 @@ img {
 }
 
 section:not(.sec-md, .sec-html) {
-    padding: 4rem 0;
+    padding: 4rem 0 2rem;
 
     @media (max-width: $lg) {
         padding: 3.5rem 0;
@@ -67,14 +67,6 @@ main {
     padding-left: .75rem;
     margin-right: auto;
     margin-left: auto;
-
-    @media (min-width: 576px) {
-        max-width: 540px;
-    }
-
-    @media (min-width: 768px) {
-        max-width: 720px;
-    }
 
     @media (min-width: 992px) {
         max-width: 960px;
@@ -216,5 +208,71 @@ textarea {
 
     @media (max-width: $lg) {
         margin: 0 -0.5rem;
+    }
+}
+
+body.dark {
+    background: radial-gradient(75.2% 83.25% at 47.95% 50%, rgba(165, 76, 255, 0.06) 0%, rgba(97, 0, 194, 0) 100%) $dark;
+    color: $white;
+
+    .btn.btn-primary {
+        background: $primary-color-dark;
+        border: 2px solid $primary-color-dark;
+
+        &:hover {
+            background: darken($primary-color-dark, 8%);
+            border-color: darken($primary-color-dark, 8%);
+        }
+
+        &:disabled {
+            background: darken($primary-color-dark, 8%);
+            border-color: darken($primary-color-dark, 8%);
+        }
+    }
+
+    .btn.btn-secondary {
+        border: 2px solid $primary-color-dark;
+        color: $primary-color-dark;
+
+        &:hover {
+            background: $primary-color-dark;
+            color: $white;
+        }
+    }
+
+    .white-card {
+        background-color: $dark;
+    }
+
+    textarea,
+    input:not(.react-datetime-picker__inputGroup__input) {
+        border: 1px solid $grey-2;
+    }
+
+    input,
+    textarea {
+        background-color: $dark-2;
+        color: $white;
+
+        &::placeholder {
+            color: $grey-2;
+        }
+
+        &.is-invalid {
+            border-color: $red;
+        }
+    }
+
+    input[type=radio] {
+        border-color: $primary-color-dark;
+
+        &:checked {
+            background: url(../assets/img/radio-dark.svg);
+            background-size: contain;
+        }
+
+        &:hover {
+            background-color: $dark;
+        }
     }
 }

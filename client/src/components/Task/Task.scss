@@ -5,15 +5,13 @@
         margin-bottom: 1.75rem;
     }
 
-    .react-markdown {
-        padding-bottom: 1.5rem;
-        margin-bottom: 1.5rem;
-        border-bottom: 1px dashed $primary-color;
-    }
-
     .priority {
         display: flex;
         margin-bottom: 1.5rem;
+
+        @media (max-width: $md) {
+            margin: 0;
+        }
 
         .star {
             color: $yellow;
@@ -24,6 +22,10 @@
 
     .created {
         margin-bottom: .5rem;
+
+        @media (max-width: $md) {
+            margin: 0;
+        }
     }
 
     .created span,
@@ -34,8 +36,15 @@
     }
 
     .task-footer {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: auto auto;
+        padding-top: 1.5rem;
+        margin-top: 1.5rem;
+        border-top: 1px dashed $primary-color;
+
+        @media (max-width: $md) {
+            grid-template-columns: 1fr;
+        }
     }
 
     .group {
@@ -43,9 +52,15 @@
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-end;
+        grid-row: 1/3;
+        grid-column: 2/3;
 
-        .task-status {
-            margin-bottom: .25rem;
+        @media (max-width: $md) {
+            flex-direction: row;
+            align-items: center;
+            grid-row: 2/3;
+            grid-column: 1/2;
+            margin: 1rem 0 .5rem;
         }
     }
 
@@ -54,6 +69,18 @@
 
         .btn:first-child {
             margin-right: .75rem;
+        }
+    }
+
+    &.dark {
+
+        .created span,
+        .due span {
+            color: $primary-color-dark;
+        }
+
+        .task-footer {
+            border-top: 1px dashed $primary-color-dark;
         }
     }
 }

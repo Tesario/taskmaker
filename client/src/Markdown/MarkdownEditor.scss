@@ -1,0 +1,18 @@
+@import "../assets/global.scss";
+
+.markdown-editor {
+    &.dark {
+        .section-container {
+            background: $dark !important;
+            color: $white !important;
+        }
+
+        i {
+            color: $white !important;
+        }
+
+        .rc-md-navigation {
+            background-color: $dark-2;
+        }
+    }
+}
