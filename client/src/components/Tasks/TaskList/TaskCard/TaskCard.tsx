@@ -9,7 +9,6 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useTheme } from "../../../../ThemeProvider";
 
 import "./TaskCard.scss";
-import RemoveButton from "../../../Buttons/RemoveButton";
 
 interface Props extends Task {
   key: number;
