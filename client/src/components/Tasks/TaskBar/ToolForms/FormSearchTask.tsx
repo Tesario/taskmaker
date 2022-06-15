@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
 import ToolButton from "./ToolButton/ToolButton";
 import { faSearch, faRemove } from "@fortawesome/free-solid-svg-icons";
-import { useFilter } from "../../../../FilterProvider";
-import { useAppDispatch } from "../../../../hooks";
-import { graphQLFetch } from "../../../../Helpers";
-import { setTasks } from "../../../../state/tasks/tasksSlice";
+import { useFilter } from "@/FilterProvider";
+import { useAppDispatch } from "@/hooks";
+import { graphQLFetch } from "@/Helpers";
+import { setTasks } from "@/state/tasks/tasksSlice";
 
 import "./ToolForms.scss";
 

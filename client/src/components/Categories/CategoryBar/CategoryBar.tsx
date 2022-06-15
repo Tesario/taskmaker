@@ -1,5 +1,5 @@
 import React from "react";
-import CategoryBtn from "../CategoryBtn/CategoryBtn";
+import CategoryBtn from "@components/Categories/CategoryBtn/CategoryBtn";
 
 import "./CategoryBar.scss";
 

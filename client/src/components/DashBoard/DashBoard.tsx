@@ -1,8 +1,8 @@
 import React from "react";
 import Card from "./Card/Card";
-import notesImage from "../../assets/img/notes.webp";
-import tasksImage from "../../assets/img/tasks.webp";
-import timerImage from "../../assets/img/timer.webp";
+import notesImage from "@assets/img/notes.webp";
+import tasksImage from "@assets/img/tasks.webp";
+import timerImage from "@assets/img/timer.webp";
 
 import "./DashBoard.scss";
 

@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
-import Modal from "../Modal/Modal";
+import Modal from "@components/Modal/Modal";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAppDispatch } from "../../hooks";
-import { useTheme } from "../../ThemeProvider";
-import { graphQLFetch } from "../../Helpers";
+import { useAppDispatch } from "@/hooks";
+import { useTheme } from "@/ThemeProvider";
+import { graphQLFetch } from "@/Helpers";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import StarsInput from "../StarsInput/StarsInput";
-import MarkdownPreview from "../../Markdown/MarkdownPreview";
-import MarkdownEditor from "../../Markdown/MarkdownEditor";
-import DatetimePicker from "../DatetimePicker/DatetimePicker";
-import { Task } from "../Tasks/TaskList/TaskList";
+import StarsInput from "@components/StarsInput/StarsInput";
+import MarkdownPreview from "@/Markdown/MarkdownPreview";
+import MarkdownEditor from "@/Markdown/MarkdownEditor";
+import DatetimePicker from "@components/DatetimePicker/DatetimePicker";
+import { Task } from "@components/Tasks/TaskList/TaskList";
+import { updateTask } from "@/state/tasks/tasksSlice";
 
 import "./Button.scss";
-import { updateTask } from "../../state/tasks/tasksSlice";
 
 interface Props {
   icon: IconProp;

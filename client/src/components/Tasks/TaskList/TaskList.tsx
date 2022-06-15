@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import TaskRow from "./TableRow/TaskRow";
-import Loader from "../../Loader/Loader";
-import { graphQLFetch } from "../../../Helpers";
-import { useLayout } from "../../../LayoutProvider";
+import Loader from "@components/Loader/Loader";
+import { graphQLFetch } from "@/Helpers";
+import { useLayout } from "@/LayoutProvider";
 import TaskCard from "./TaskCard/TaskCard";
-import { useAppSelector, useAppDispatch } from "../../../hooks";
-import { useFilter } from "../../../FilterProvider";
-import { setTasks } from "../../../state/tasks/tasksSlice";
+import { useAppSelector, useAppDispatch } from "@/hooks";
+import { useFilter } from "@/FilterProvider";
+import { setTasks } from "@/state/tasks/tasksSlice";
 
 import "./TaskList.scss";
 

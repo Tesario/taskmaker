@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
-import { useTheme } from "../ThemeProvider";
-import { handleValueFunc } from "../components/Buttons/EditButton";
+import { useTheme } from "@/ThemeProvider";
+import { handleValueFunc } from "@components/Buttons/EditButton";
 
 import "react-markdown-editor-lite/lib/index.css";
 import "./MarkdownPreview.scss";

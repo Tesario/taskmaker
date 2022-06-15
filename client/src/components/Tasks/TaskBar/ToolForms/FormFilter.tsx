@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import Modal from "../../../Modal/Modal";
+import Modal from "@components/Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useFilter, useUpdateFilter } from "../../../../FilterProvider";
+import { useFilter, useUpdateFilter } from "@/FilterProvider";
 import * as yup from "yup";
+import { useTheme } from "@/ThemeProvider";
 
 import "./ToolForms.scss";
-import { useTheme } from "../../../../ThemeProvider";
 
 type FormData = {
   filter: string;

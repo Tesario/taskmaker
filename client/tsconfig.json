@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "module": "es2015",
+        "target": "esnext",
+        "module": "esnext",
         "moduleResolution": "node",
         "noImplicitThis": false,
         "strict": true,
@@ -10,17 +10,27 @@
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "lib": [
-            "es5",
-            "es6",
-            "dom",
-            "dom.iterable"
+            "esnext",
+            "dom"
         ],
         "types": [
-            // "vite/client"
+            "vite/client",
         ],
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@components/*": [
+                "./src/components/*"
+            ],
+            "@assets/*": [
+                "./src/assets/*"
+            ]
+        },
     },
     "include": [
-        "src"
-    ],
-    "extends": "./tsconfig.base.json"
+        "src/**/*",
+        "types/*"
+    ]
 }

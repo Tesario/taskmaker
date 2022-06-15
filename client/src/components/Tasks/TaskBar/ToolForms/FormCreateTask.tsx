@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { graphQLFetch } from "../../../../Helpers";
-import Modal from "../../../Modal/Modal";
+import { graphQLFetch } from "@/Helpers";
+import Modal from "@components/Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
 import { faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
-import DatetimePicker from "../../../DatetimePicker/DatetimePicker";
-import { Task } from "../../TaskList/TaskList";
-import StarsInput from "../../../StarsInput/StarsInput";
+import DatetimePicker from "@components/DatetimePicker/DatetimePicker";
+import { Task } from "@components/Tasks/TaskList/TaskList";
+import StarsInput from "@components/StarsInput/StarsInput";
 import { yupResolver } from "@hookform/resolvers/yup";
-import MarkdownEditor from "../../../../Markdown/MarkdownEditor";
-import MarkdownPreview from "../../../../Markdown/MarkdownPreview";
-import { handleValueFunc } from "../../../Buttons/EditButton";
-import { useAppDispatch } from "../../../../hooks";
-import { addTask } from "../../../../state/tasks/tasksSlice";
+import MarkdownEditor from "@/Markdown/MarkdownEditor";
+import MarkdownPreview from "@/Markdown/MarkdownPreview";
+import { handleValueFunc } from "@components/Buttons/EditButton";
+import { useAppDispatch } from "@/hooks";
+import { addTask } from "@/state/tasks/tasksSlice";
 import * as yup from "yup";
-import { useFilter } from "../../../../FilterProvider";
-import { useTheme } from "../../../../ThemeProvider";
+import { useFilter } from "@/FilterProvider";
+import { useTheme } from "@/ThemeProvider";
 
 import "./ToolForms.scss";
 

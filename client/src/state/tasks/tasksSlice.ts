@@ -1,4 +1,4 @@
-import { Task, Tasks } from "../../components/Tasks/TaskList/TaskList";
+import { Task, Tasks } from "@components/Tasks/TaskList/TaskList";
 import { createSlice, current } from "@reduxjs/toolkit";
 import sortJsonArray from "sort-json-array";
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { handleValueFunc } from "../Buttons/EditButton";
+import { handleValueFunc } from "@components/Buttons/EditButton";
 
 import "./StarsInput.scss";
 

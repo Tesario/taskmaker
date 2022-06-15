@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { graphQLFetch } from "../../Helpers";
-import TaskStatus from "../Tasks/TaskList/TableRow/TaskStatus/TaskStatus";
-import { Task as TaskI } from "../Tasks/TaskList/TaskList";
-import { renderStars } from "../StarsInput/StarsInput";
-import { timeLeft } from "../../Helpers";
-import Loader from "../Loader/Loader";
+import { graphQLFetch } from "@/Helpers";
+import TaskStatus from "@components/Tasks/TaskList/TableRow/TaskStatus/TaskStatus";
+import { Task as TaskI } from "@components/Tasks/TaskList/TaskList";
+import { renderStars } from "@components/StarsInput/StarsInput";
+import { timeLeft } from "@/Helpers";
+import Loader from "@components/Loader/Loader";
 import dateformat from "dateformat";
-import MarkdownPreview from "../../Markdown/MarkdownPreview";
-import { useUpdateBreadcrump } from "../../BreadcrumpProvider";
-import EditButton from "../Buttons/EditButton";
-import RemoveButton from "../Buttons/RemoveButton";
+import MarkdownPreview from "@/Markdown/MarkdownPreview";
+import { useUpdateBreadcrump } from "@/BreadcrumpProvider";
+import EditButton from "@components/Buttons/EditButton";
+import RemoveButton from "@components/Buttons/RemoveButton";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useAppSelector } from "../../hooks";
-import { useTheme } from "../../ThemeProvider";
+import { useAppSelector } from "@/hooks";
+import { useTheme } from "@/ThemeProvider";
 
 import "./Task.scss";
 

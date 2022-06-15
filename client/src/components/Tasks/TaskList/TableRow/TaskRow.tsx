@@ -1,9 +1,9 @@
 import React from "react";
-import { Task } from "../TaskList";
+import { Task } from "@components/Tasks/TaskList/TaskList";
 import TaskStatus from "./TaskStatus/TaskStatus";
-import { timeLeft } from "../../../../Helpers";
+import { timeLeft } from "@/Helpers";
 import { Link } from "react-router-dom";
-import { useTheme } from "../../../../ThemeProvider";
+import { useTheme } from "@/ThemeProvider";
 
 import "./TaskRow.scss";
 

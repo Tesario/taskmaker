@@ -1,10 +1,10 @@
 import React from "react";
 import FormCreateTask from "./ToolForms/FormCreateTask";
 import FormSearchTask from "./ToolForms/FormSearchTask";
-
-import "./TaskBar.scss";
 import FormFilter from "./ToolForms/FormFilter";
 import FormLayout from "./ToolForms/FormLayout";
+
+import "./TaskBar.scss";
 
 const TaskBar: React.FC = () => {
   return (
