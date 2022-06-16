@@ -14,7 +14,7 @@ interface Props {
 }
 
 const MarkdownEditor: React.FC<Props> = ({
-  handleValue: handleDesc,
+  handleValue: handleValue,
   mdText,
 }) => {
   const mdParser = new MarkdownIt();
@@ -25,7 +25,7 @@ const MarkdownEditor: React.FC<Props> = ({
   }, []);
 
   const handleEditorChange = ({ text }: { html: string; text: string }) => {
-    handleDesc("desc", text);
+    handleValue("desc", text);
   };
 
   return (

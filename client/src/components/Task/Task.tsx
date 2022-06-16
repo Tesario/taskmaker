@@ -64,7 +64,6 @@ const Task: React.FC = () => {
     BreadcrumpUpdateContext({
       routes: [{ pathname: "/tasks", title: "Tasks" }, { title: data.title }],
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const handleTask = (task: TaskI) => {

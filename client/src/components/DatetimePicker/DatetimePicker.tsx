@@ -15,8 +15,11 @@ const DatetimePicker: React.FC<Props> = ({ handleValue, due }) => {
   const [value, onChange] = useState<Date>(due);
   useEffect(() => {
     handleValue("due", value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
+
+  useEffect(() => {
+    onChange(due);
+  }, [due]);
 
   return (
     <div id="datetime-picker">

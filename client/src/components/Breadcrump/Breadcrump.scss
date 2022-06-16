@@ -20,6 +20,8 @@
     }
 
     a {
+        color: $primary-color;
+
         &:hover {
             color: $primary-color;
         }

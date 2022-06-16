@@ -84,7 +84,6 @@ const EditButton: React.FC<Props> = ({ icon, id, task, handleTask }) => {
 
   useEffect(() => {
     setValue("title", task["title"]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = async (task: FormData) => {

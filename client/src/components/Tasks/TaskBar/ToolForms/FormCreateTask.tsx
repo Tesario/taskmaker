@@ -68,12 +68,13 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
   const filterContext = useFilter();
-  const [state, setState] = useState<FormData>({
+  const initialFormData: FormData = {
     title: "",
     desc: "",
-    due: new Date(Date.now() + 2000 * 60),
+    due: new Date(Date.now() + 2000 * 120),
     priority: 2,
-  });
+  };
+  const [state, setState] = useState<FormData>(initialFormData);
   const themeContext = useTheme();
   const {
     register,
@@ -82,17 +83,19 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     setValue,
     setError,
     getValues,
-    reset,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setValue("desc", "");
-    setValue("due", new Date(Date.now() + 1000 * 120));
-    setValue("priority", 2);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    resetFormData();
   }, []);
+
+  const resetFormData = () => {
+    setValue("title", initialFormData.title);
+    handleValue("desc", initialFormData.desc);
+    handleValue("due", initialFormData.due);
+    handleValue("priority", initialFormData.priority);
+  };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (new Date(Date.now() + 1000 * 60) >= getValues("due")) {
@@ -134,14 +137,17 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     if (data) {
       dispatch(addTask({ task: data.taskAdd, filter: filterContext }));
       toggleModal();
-      reset();
+      resetFormData();
     }
     setCreatingTask(false);
   };
 
   const handleValue: handleValueFunc = (name, value) => {
     setValue(name, value);
-    setState({ ...state, [name]: value });
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   return (

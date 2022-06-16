@@ -71,6 +71,9 @@ function validate({ task }) {
   if (task.desc && task.desc.length > 2000) {
     errors.push("Wrong length of the description.");
   }
+  if (task.desc === "") {
+    delete task.desc;
+  }
   if (task.due < new Date()) {
     errors.push("The due must be in the future.");
   }

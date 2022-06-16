@@ -11,8 +11,6 @@ const Tasks: React.FC = () => {
     BreadcrumpUpdateContext({
       routes: [{ title: "Tasks" }],
     });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
