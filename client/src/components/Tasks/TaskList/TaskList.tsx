@@ -37,7 +37,6 @@ const TaskList: React.FC = () => {
         taskFilter(filter: $filter) {
           id
           title
-          desc
           status
           created
           due

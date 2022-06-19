@@ -1,5 +1,6 @@
+import { Filter } from "@/FilterProvider";
 import { Task, Tasks } from "@components/Tasks/TaskList/TaskList";
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import sortJsonArray from "sort-json-array";
 
 const initialState: Tasks = {
@@ -7,17 +8,14 @@ const initialState: Tasks = {
   loading: true,
 };
 
-// Problém s PayloadAction - měl by se načítat z toolkitu
-interface PayloadAction {
-  type: any;
-  payload: any;
-}
-
 const tasksSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
-    addTask: (state: Tasks, action: PayloadAction) => {
+    addTask: (
+      state: Tasks,
+      action: PayloadAction<{ task: Task; filter: Filter }>
+    ) => {
       return {
         tasks: sortJsonArray(
           [...state.tasks, action.payload.task],
@@ -27,17 +25,31 @@ const tasksSlice = createSlice({
         loading: false,
       };
     },
-    setTasks: (state: Tasks, action: PayloadAction) => {
-      return { tasks: action.payload, loading: false };
+    setTasks: (state: Tasks, action: PayloadAction<Task[]>) => {
+      const tasks = current(state.tasks);
+      const newTasks: Task[] = action.payload.map((task: Task) => {
+        let updatedTask = tasks.find(
+          (updatedTask) => updatedTask.id === task.id
+        );
+        if (updatedTask && updatedTask.id === task.id) {
+          return Object.assign(task, updatedTask);
+        }
+        return task;
+      });
+
+      return { tasks: newTasks, loading: false };
     },
-    updateTask: (state: Tasks, action: PayloadAction) => {
+    updateTask: (state: Tasks, action: PayloadAction<Task>) => {
       const tasks = current(state.tasks).slice();
       const newTasks = tasks.filter(
         (task: Task) => task.id !== action.payload.id
       );
       return { tasks: [...newTasks, action.payload], loading: false };
     },
-    removeTask: (state: Tasks, action: PayloadAction) => {
+    removeTask: (
+      state: Tasks,
+      action: PayloadAction<{ id: number; filter: Filter }>
+    ) => {
       return {
         tasks: sortJsonArray(
           state.tasks.filter((task) => task.id !== action.payload.id),
@@ -47,7 +59,7 @@ const tasksSlice = createSlice({
         loading: false,
       };
     },
-    sortTasks: (state: Tasks, action: PayloadAction) => {
+    sortTasks: (state: Tasks, action: PayloadAction<Filter>) => {
       const tasks = current(state.tasks).slice();
 
       return {

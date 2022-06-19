@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import { useAppDispatch } from "./hooks";
 import { sortTasks } from "./state/tasks/tasksSlice";
 
-interface Filter {
+export interface Filter {
   filter: string;
   order: number;
 }

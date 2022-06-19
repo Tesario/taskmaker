@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { graphQLFetch } from "@/Helpers";
 import TaskStatus from "@components/Tasks/TaskList/TableRow/TaskStatus/TaskStatus";
-import { Task as TaskI } from "@components/Tasks/TaskList/TaskList";
+import { Task, Task as TaskI } from "@components/Tasks/TaskList/TaskList";
 import { renderStars } from "@components/StarsInput/StarsInput";
 import { timeLeft } from "@/Helpers";
 import Loader from "@components/Loader/Loader";
@@ -12,8 +12,10 @@ import { useUpdateBreadcrump } from "@/BreadcrumpProvider";
 import EditButton from "@components/Buttons/EditButton";
 import RemoveButton from "@components/Buttons/RemoveButton";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { useTheme } from "@/ThemeProvider";
+import { addTask, updateTask } from "@/state/tasks/tasksSlice";
+import { useFilter } from "@/FilterProvider";
 
 import "./Task.scss";
 
@@ -24,9 +26,11 @@ const Task: React.FC = () => {
   const navigate = useNavigate();
   const state = useAppSelector((state) => state.tasks.tasks);
   const themeContext = useTheme();
+  const filterContext = useFilter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const loadData = async () => {
+    const loadData = async (task: TaskI | null) => {
       const query = `query taskList($id: Int) {
         taskList(id: $id) {
           id
@@ -39,14 +43,29 @@ const Task: React.FC = () => {
         }
       }`;
 
-      const data = await graphQLFetch(query, { id: id ? parseInt(id) : id });
+      const queryDescOnly = `query taskList($id: Int) {
+        taskList(id: $id) {
+          desc
+        }
+      }`;
+
+      const data = await graphQLFetch(!task ? query : queryDescOnly, {
+        id: id ? parseInt(id) : id,
+      });
 
       if (data.taskList.length) {
-        setTask(data.taskList[0]);
+        if (!task) {
+          setTask(data.taskList[0]);
+          dispatch(addTask({ task: data.taskList[0], filter: filterContext }));
+        } else {
+          setTask({ ...task, desc: data.taskList[0].desc });
+          dispatch(updateTask({ ...task, desc: data.taskList[0].desc }));
+        }
+
         BreadcrumpUpdateContext({
           routes: [
             { pathname: "/tasks", title: "Tasks" },
-            { title: data.taskList[0].title },
+            { title: task?.title || data.taskList[0].title },
           ],
         });
         return;
@@ -55,12 +74,14 @@ const Task: React.FC = () => {
       return navigate("/not-found");
     };
 
-    const data = state.find((task: TaskI) => task.id.toString() === id);
-    if (!data) {
-      loadData();
+    const data = state.find((task: TaskI) => task.id.toString() === id) || null;
+
+    setTask(data);
+    if (!data || data.desc === undefined) {
+      loadData(data);
       return;
     }
-    setTask(data);
+
     BreadcrumpUpdateContext({
       routes: [{ pathname: "/tasks", title: "Tasks" }, { title: data.title }],
     });
