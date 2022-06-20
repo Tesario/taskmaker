@@ -79,7 +79,6 @@ const Task: React.FC = () => {
     if (data?.desc === undefined) {
       if (!data) {
         loadData(data);
-        console.log("Všechno");
         return;
       }
 
@@ -98,7 +97,7 @@ const Task: React.FC = () => {
   const handleTask = (task: TaskI) => {
     setTask(task);
   };
-
+  console.log(task?.desc);
   return (
     <section id="task-show" className={themeContext}>
       <div className="container">
@@ -106,7 +105,11 @@ const Task: React.FC = () => {
           {task ? (
             <>
               <div className="title">{task.title}</div>
-              {task.desc && <MarkdownPreview desc={task.desc} />}
+              {task?.desc === undefined ? (
+                <Loader />
+              ) : (
+                <MarkdownPreview desc={task.desc} />
+              )}
               <div className="task-footer">
                 <div className="dates">
                   <div className="created">
