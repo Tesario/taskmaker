@@ -75,7 +75,17 @@ const Task: React.FC = () => {
     const data = state.find((task: TaskI) => task.id.toString() === id) || null;
 
     setTask(data);
-    if (!data || data.desc === undefined) {
+
+    if (data?.desc === undefined) {
+      if (!data) {
+        loadData(data);
+        console.log("Všechno");
+        return;
+      }
+
+      BreadcrumpUpdateContext({
+        routes: [{ pathname: "/tasks", title: "Tasks" }, { title: data.title }],
+      });
       loadData(data);
       return;
     }
