@@ -1,10 +1,15 @@
 import React, { createContext, useContext, useState } from "react";
-import { useAppDispatch } from "./hooks";
-import { sortTasks } from "./state/tasks/tasksSlice";
 
 export interface Filter {
   filter: string;
   order: number;
+  search?: string;
+}
+
+interface ChangeFilter {
+  filter?: string;
+  order?: number;
+  search?: string;
 }
 
 const filterJson = localStorage.getItem("filter");
@@ -17,7 +22,7 @@ const loadedFilter: Filter = filterJson
 
 export const FilterContext = createContext<Filter>(loadedFilter);
 export const FilterUpdateContext = createContext<
-  ({ filter, order }: Filter) => void
+  ({ filter, order, search }: ChangeFilter) => void
 >({} as any);
 export const useFilter = () => {
   return useContext(FilterContext);
@@ -28,12 +33,13 @@ export const useUpdateFilter = () => {
 
 const FilterProvider: React.FC = ({ children }) => {
   const [filter, setFilter] = useState<Filter>(loadedFilter);
-  const dispatch = useAppDispatch();
 
-  const changeFilter = ({ filter, order }: Filter) => {
-    setFilter({ filter, order });
-    localStorage.setItem("filter", JSON.stringify({ filter, order }));
-    dispatch(sortTasks({ filter, order }));
+  const changeFilter = (values: ChangeFilter) => {
+    let newFilter: Filter = Object.assign({ ...filter, ...values });
+    setFilter({ ...newFilter });
+    delete newFilter.search;
+
+    localStorage.setItem("filter", JSON.stringify(newFilter));
   };
 
   return (

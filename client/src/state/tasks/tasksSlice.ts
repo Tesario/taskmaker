@@ -1,7 +1,5 @@
-import { Filter } from "@/FilterProvider";
 import { Task, Tasks } from "@components/Tasks/TaskList/TaskList";
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
-import sortJsonArray from "sort-json-array";
 
 const initialState: Tasks = {
   tasks: [],
@@ -12,16 +10,9 @@ const tasksSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
-    addTask: (
-      state: Tasks,
-      action: PayloadAction<{ task: Task; filter: Filter }>
-    ) => {
+    addTask: (state: Tasks, action: PayloadAction<{ task: Task }>) => {
       return {
-        tasks: sortJsonArray(
-          [...state.tasks, action.payload.task],
-          action.payload.filter.filter,
-          action.payload.filter.order === 1 ? "asc" : "des"
-        ),
+        tasks: [...state.tasks, action.payload.task],
         loading: false,
       };
     },
@@ -46,35 +37,15 @@ const tasksSlice = createSlice({
       );
       return { tasks: [...newTasks, action.payload], loading: false };
     },
-    removeTask: (
-      state: Tasks,
-      action: PayloadAction<{ id: number; filter: Filter }>
-    ) => {
+    removeTask: (state: Tasks, action: PayloadAction<{ id: number }>) => {
       return {
-        tasks: sortJsonArray(
-          state.tasks.filter((task) => task.id !== action.payload.id),
-          action.payload.filter.filter,
-          action.payload.filter.order === 1 ? "asc" : "des"
-        ),
-        loading: false,
-      };
-    },
-    sortTasks: (state: Tasks, action: PayloadAction<Filter>) => {
-      const tasks = current(state.tasks).slice();
-
-      return {
-        tasks: sortJsonArray(
-          tasks,
-          action.payload.filter,
-          action.payload.order === 1 ? "asc" : "des"
-        ),
+        tasks: state.tasks.filter((task) => task.id !== action.payload.id),
         loading: false,
       };
     },
   },
 });
 
-export const { addTask, setTasks, updateTask, removeTask, sortTasks } =
-  tasksSlice.actions;
+export const { addTask, setTasks, updateTask, removeTask } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

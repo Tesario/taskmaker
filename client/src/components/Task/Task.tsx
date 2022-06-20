@@ -15,7 +15,6 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { useTheme } from "@/ThemeProvider";
 import { addTask, updateTask } from "@/state/tasks/tasksSlice";
-import { useFilter } from "@/FilterProvider";
 
 import "./Task.scss";
 
@@ -26,13 +25,12 @@ const Task: React.FC = () => {
   const navigate = useNavigate();
   const state = useAppSelector((state) => state.tasks.tasks);
   const themeContext = useTheme();
-  const filterContext = useFilter();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const loadData = async (task: TaskI | null) => {
-      const query = `query taskList($id: Int) {
-        taskList(id: $id) {
+      const query = `query taskGet($id: Int!) {
+        taskGet(id: $id) {
           id
           title
           desc
@@ -43,8 +41,8 @@ const Task: React.FC = () => {
         }
       }`;
 
-      const queryDescOnly = `query taskList($id: Int) {
-        taskList(id: $id) {
+      const queryDescOnly = `query taskGet($id: Int!) {
+        taskGet(id: $id) {
           desc
         }
       }`;
@@ -53,19 +51,19 @@ const Task: React.FC = () => {
         id: id ? parseInt(id) : id,
       });
 
-      if (data.taskList.length) {
+      if (data.taskGet) {
         if (!task) {
-          setTask(data.taskList[0]);
-          dispatch(addTask({ task: data.taskList[0], filter: filterContext }));
+          setTask(data.taskGet);
+          dispatch(addTask({ task: data.taskGet }));
         } else {
-          setTask({ ...task, desc: data.taskList[0].desc });
-          dispatch(updateTask({ ...task, desc: data.taskList[0].desc }));
+          setTask({ ...task, desc: data.taskGet.desc });
+          dispatch(updateTask({ ...task, desc: data.taskGet.desc }));
         }
 
         BreadcrumpUpdateContext({
           routes: [
             { pathname: "/tasks", title: "Tasks" },
-            { title: task?.title || data.taskList[0].title },
+            { title: task?.title || data.taskGet.title },
           ],
         });
         return;

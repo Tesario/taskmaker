@@ -37,22 +37,11 @@ input TaskInputs {
   priority: Int!
 }
 
-input Filter {
-  filter: String!
-  order: Int!
-}
-
-input Search {
-  search: String!
-  filter: Filter!
-}
-
 ##### Top level declarations
 
 type Query {
-  taskList(id: Int): [Task!]!
-  taskFilter(filter: Filter): [Task!]!
-  taskSearch(search: Search): [Task!]!
+  taskList: [Task!]!
+  taskGet(id: Int!): Task!
 }
 
 type Mutation {

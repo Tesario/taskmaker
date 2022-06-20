@@ -44,7 +44,7 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
     const data = await graphQLFetch(query, { id });
 
     if (data) {
-      dispatch(removeTask({ id, filter: filterContext }));
+      dispatch(removeTask({ id }));
       navigate("/tasks");
     }
 

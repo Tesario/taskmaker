@@ -1,37 +1,16 @@
 const { UserInputError } = require("apollo-server-express");
-const { copySync } = require("file-system");
 const { getDb, getNextSequence } = require("./db");
 
-async function list(_, { id }) {
-  if (isNaN(id) || !id) {
-    return [];
-  }
+async function list(_) {
   const db = getDb();
-  const tasks = await db
-    .collection("tasks")
-    .find(id ? { id } : {})
-    .toArray();
+  const tasks = await db.collection("tasks").find({}).toArray();
   return tasks;
 }
 
-async function filter(_, { filter }) {
+async function get(_, { id }) {
   const db = getDb();
-  const tasks = await db
-    .collection("tasks")
-    .find()
-    .sort({ [filter.filter]: [filter.order] })
-    .toArray();
-  return tasks;
-}
-
-async function search(_, { search }) {
-  const db = getDb();
-  const tasks = await db
-    .collection("tasks")
-    .find({ title: new RegExp(".*" + search.search + ".*", "i") })
-    .sort({ [search.filter.filter]: [search.filter.order] })
-    .toArray();
-  return tasks;
+  const task = await db.collection("tasks").findOne({ id });
+  return task;
 }
 
 async function remove(_, { id }) {
@@ -89,4 +68,4 @@ function validate({ task }) {
   }
 }
 
-module.exports = { add, update, list, search, filter, remove };
+module.exports = { add, update, list, remove, get };
