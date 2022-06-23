@@ -67,7 +67,6 @@ export interface Props {
 const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
-  const filterContext = useFilter();
   const initialFormData: FormData = {
     title: "",
     desc: "",
@@ -135,7 +134,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     const data: { taskAdd: Task } = await graphQLFetch(query, { task });
 
     if (data) {
-      dispatch(addTask({ task: data.taskAdd, filter: filterContext }));
+      dispatch(addTask({ task: data.taskAdd }));
       toggleModal();
       resetFormData();
     }

@@ -177,6 +177,13 @@ textarea {
     &.is-invalid {
         border-color: $red;
     }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px $white inset !important;
+    }
 }
 
 .error-message {
@@ -185,15 +192,16 @@ textarea {
     opacity: 0;
     box-sizing: border-box;
     display: flex;
-    height: 27px;
     font-size: .9em;
     margin-left: .5rem;
     color: $red;
+    position: relative;
+    top: .4rem;
 
     &.show {
         opacity: 1;
         align-items: flex-end;
-        max-height: 27px;
+        max-height: 50px;
     }
 }
 
@@ -260,6 +268,17 @@ body.dark {
         &.is-invalid {
             border-color: $red;
         }
+
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px $dark-2 inset !important;
+        }
+
+        &:-webkit-autofill {
+            -webkit-text-fill-color: $white !important;
+        }
     }
 
     input[type=radio] {
@@ -274,4 +293,17 @@ body.dark {
             background-color: $dark;
         }
     }
+
+    .form-card {
+        background-color: $black;
+    }
+}
+
+.form-card {
+    background-color: $white;
+    padding: 2.5rem 3.5rem 3rem;
+    box-sizing: $box-shadow-1;
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: .25rem;
 }

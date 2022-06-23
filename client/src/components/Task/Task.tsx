@@ -97,7 +97,7 @@ const Task: React.FC = () => {
   const handleTask = (task: TaskI) => {
     setTask(task);
   };
-  console.log(task?.desc);
+
   return (
     <section id="task-show" className={themeContext}>
       <div className="container">
