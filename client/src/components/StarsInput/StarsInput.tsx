@@ -23,6 +23,10 @@ export const renderStars = (stars: 1 | 2 | 3 | 4 | 5) => {
 };
 
 const StarsInput: React.FC<Props> = ({ handleValue, priority }) => {
+  useEffect(() => {
+    handleValue("priority", priority);
+  }, []);
+
   return (
     <div id="stars-input">
       <span className="star-cb-group">

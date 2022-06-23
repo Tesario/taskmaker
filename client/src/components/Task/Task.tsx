@@ -126,7 +126,6 @@ const Task: React.FC = () => {
                 <div className="btns-edit">
                   <EditButton
                     icon={faEdit}
-                    id={task.id}
                     task={task}
                     handleTask={handleTask}
                   />

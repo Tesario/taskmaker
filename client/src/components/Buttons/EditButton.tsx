@@ -19,7 +19,6 @@ import "./Button.scss";
 
 interface Props {
   icon: IconProp;
-  id: number;
   task: Task;
   handleTask?: (task: Task) => void;
 }
@@ -69,7 +68,7 @@ const schema = yup
   })
   .required();
 
-const EditButton: React.FC<Props> = ({ icon, id, task, handleTask }) => {
+const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
   const [state, setState] = useState<Task>(task);
@@ -106,7 +105,7 @@ const EditButton: React.FC<Props> = ({ icon, id, task, handleTask }) => {
     }`;
 
     const data = await graphQLFetch(query, {
-      id,
+      id: state.id,
       task: { ...task, due: new Date(task.due) },
     });
 
