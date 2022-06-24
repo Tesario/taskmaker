@@ -82,6 +82,10 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
   useEffect(() => {
+    setState(task);
+  }, [task]);
+
+  useEffect(() => {
     setValue("title", task["title"]);
   }, []);
 
