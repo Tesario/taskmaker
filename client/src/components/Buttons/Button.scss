@@ -13,3 +13,15 @@
 .btn-remove {
     background-color: $red !important;
 }
+
+.btn-text {
+    color: $primary-color;
+
+    &:disabled {
+        background-color: red;
+    }
+
+    &.dark {
+        color: $primary-color-dark;
+    }
+}

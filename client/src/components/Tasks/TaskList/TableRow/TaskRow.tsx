@@ -12,15 +12,15 @@ interface Props extends Task {
 }
 
 const TaskRow: React.FC<{ task: Props }> = ({ task }) => {
-  const { key, id, title, status, due } = task;
+  const { key, id, title, completed, due } = task;
   const themeContext = useTheme();
 
   return (
     <Link to={`/tasks/${id}`} id="task" className={themeContext}>
       <div className="id">{key}</div>
       <div className="task-title">{title}</div>
-      <div className="remain">{status !== "done" && timeLeft(due)}</div>
-      <TaskStatus status={status} />
+      <div className="remain">{!completed && timeLeft(due)}</div>
+      <TaskStatus completed={completed} due={due} />
     </Link>
   );
 };

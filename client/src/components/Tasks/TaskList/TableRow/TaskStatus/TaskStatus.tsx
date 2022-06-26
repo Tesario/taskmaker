@@ -1,3 +1,4 @@
+import { useTheme } from "@/ThemeProvider";
 import {
   faCircleCheck,
   faHourglassEmpty,
@@ -9,34 +10,43 @@ import React from "react";
 import "./TaskStatus.scss";
 
 interface Props {
-  status: string;
+  completed: boolean;
+  due: Date;
 }
 
-const TaskStatus: React.FC<Props> = ({ status }) => {
-  const getStatus = (status: string) => {
-    switch (status) {
-      case "created":
-        return (
-          <div className={status}>
-            <FontAwesomeIcon icon={faThumbTack} fixedWidth />
-          </div>
-        );
-      case "expired":
-        return (
-          <div className={status}>
-            <FontAwesomeIcon icon={faHourglassEmpty} fixedWidth />
-          </div>
-        );
-      default:
-        return (
-          <div className={status}>
-            <FontAwesomeIcon icon={faCircleCheck} fixedWidth />
-          </div>
-        );
+const TaskStatus: React.FC<Props> = ({ completed, due }) => {
+  const themeContext = useTheme();
+
+  const getStatus = ({ completed, due }: Props) => {
+    if (completed) {
+      return (
+        <div className="completed">
+          <FontAwesomeIcon icon={faCircleCheck} fixedWidth />
+          <span className="status-tooltip">Completed</span>
+        </div>
+      );
     }
+    if (new Date(due) < new Date()) {
+      return (
+        <div className="expired">
+          <FontAwesomeIcon icon={faHourglassEmpty} fixedWidth />
+          <span className="status-tooltip">Expired</span>
+        </div>
+      );
+    }
+    return (
+      <div className="uncompleted">
+        <FontAwesomeIcon icon={faThumbTack} fixedWidth />
+        <span className="status-tooltip">Uncompleted</span>
+      </div>
+    );
   };
 
-  return <div className="task-status">{getStatus(status)}</div>;
+  return (
+    <div className={`task-status ${themeContext}`}>
+      {getStatus({ completed, due })}
+    </div>
+  );
 };
 
 export default TaskStatus;

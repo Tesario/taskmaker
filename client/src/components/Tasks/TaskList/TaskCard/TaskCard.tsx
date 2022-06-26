@@ -15,7 +15,7 @@ interface Props extends Task {
 }
 
 const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
-  const { key, id, title, priority, status, due } = task;
+  const { key, id, title, priority, completed, due } = task;
   const themeContext = useTheme();
 
   return (
@@ -31,10 +31,10 @@ const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
       </div>
       <div className="task-footer">
         <div className="group">
-          {status !== "done" && <div className="remain">{timeLeft(due)}</div>}
+          {!completed && <div className="remain">{timeLeft(due)}</div>}
           {renderStars(priority)}
         </div>
-        <TaskStatus status={status} />
+        <TaskStatus completed={completed} due={due} />
       </div>
     </div>
   );

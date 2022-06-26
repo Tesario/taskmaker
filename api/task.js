@@ -53,12 +53,6 @@ function validate({ task }) {
   if (task.desc === "") {
     delete task.desc;
   }
-  if (task.due < new Date()) {
-    errors.push("The due must be in the future.");
-  }
-  if (!["created", "expired", "done"].includes(task.status)) {
-    errors.push("The status does not have valid value.");
-  }
   if (task.priority < 0 || task.priority > 5) {
     errors.push("The priority must be between 1 and 5.");
   }

@@ -11,12 +11,20 @@ import MarkdownPreview from "@/Markdown/MarkdownPreview";
 import { useUpdateBreadcrump } from "@/BreadcrumpProvider";
 import EditButton from "@components/Buttons/EditButton";
 import RemoveButton from "@components/Buttons/RemoveButton";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faCross,
+  faEdit,
+  faTrash,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { useTheme } from "@/ThemeProvider";
 import { addTask, updateTask } from "@/state/tasks/tasksSlice";
 
 import "./Task.scss";
+import ToolButton from "../Tasks/TaskBar/ToolForms/ToolButton/ToolButton";
+import TextButton from "../Buttons/TextButton";
 
 const Task: React.FC = () => {
   const { id } = useParams<{ id: string | undefined }>();
@@ -26,6 +34,7 @@ const Task: React.FC = () => {
   const state = useAppSelector((state) => state.tasks.tasks);
   const themeContext = useTheme();
   const dispatch = useAppDispatch();
+  const [creatingTask, setCreatingTask] = useState<boolean>(false);
 
   useEffect(() => {
     const loadData = async (task: TaskI | null) => {
@@ -34,7 +43,7 @@ const Task: React.FC = () => {
           id
           title
           desc
-          status
+          completed
           created
           due
           priority
@@ -98,6 +107,42 @@ const Task: React.FC = () => {
     setTask(task);
   };
 
+  const onCompletedTask = async (task: TaskI, completed: boolean) => {
+    setCreatingTask(true);
+
+    const query = `mutation taskUpdate($id: Int!, $task: TaskInputs!) {
+      taskUpdate(id: $id, task: $task) {
+        acknowledged
+        modifiedCount
+        task{
+          id
+          title
+          desc
+          priority
+          due
+          created
+          completed
+        }
+      }
+    }`;
+
+    const { title, desc, priority, due } = task;
+    const data = await graphQLFetch(query, {
+      id: task.id,
+      task: { title, desc, priority, due, completed },
+    });
+
+    if (data) {
+      dispatch(updateTask(data.taskUpdate.task));
+
+      if (handleTask) {
+        handleTask(data.taskUpdate.task);
+      }
+    }
+
+    setCreatingTask(false);
+  };
+
   return (
     <section id="task-show" className={themeContext}>
       <div className="container">
@@ -116,7 +161,7 @@ const Task: React.FC = () => {
                     <span>Created</span>{" "}
                     {dateformat(task.created, "H:MM d.m.yyyy")}
                   </div>
-                  {task?.status !== "done" && (
+                  {!task.completed && (
                     <div className="due">
                       <span>Due</span> {dateformat(task.due, "H:MM d.m.yyyy")} (
                       {timeLeft(task.due)})
@@ -133,7 +178,16 @@ const Task: React.FC = () => {
                 </div>
                 <div className="group">
                   {renderStars(task.priority)}
-                  <TaskStatus status={task.status} />
+                  <div className="status-group">
+                    <TextButton
+                      text={`Mark as ${
+                        task.completed ? "uncompleted" : "completed"
+                      }?`}
+                      disabled={creatingTask}
+                      onClick={() => onCompletedTask(task, !task.completed)}
+                    />
+                    <TaskStatus completed={task.completed} due={task.due} />
+                  </div>
                 </div>
               </div>
             </>

@@ -31,7 +31,7 @@ const taskDB = [
             piconet_browser /= sync_mebibyte_wavelength(rw_solid);
         }
         var rate = white_switch_raid;`,
-    status: "expired",
+    completed: true,
     created: new Date("2019-01-15"),
     due: new Date("2021-04-4"),
     priority: 1,
@@ -39,7 +39,7 @@ const taskDB = [
   {
     id: 2,
     title: "Physic test",
-    status: "done",
+    completed: false,
     created: new Date("2022-04-4"),
     due: new Date("2022-04-4"),
     priority: 3,
@@ -48,7 +48,7 @@ const taskDB = [
     id: 3,
     title: "Science test",
     desc: `Est vulnere conplexu crimen etiam, urbe astra, et tremulo canos, avellere\nresonat multa ferarum. Quam sunt nempe! Rubentis deus datum et esse nec;\nbracchia iners: cultor quod ore unius dea, antris liquidum sanguine Palameden.\nPulcherrime ocius repulsa, peregit quaerit, hoc maturior adfuit medicamine erat.\nSit gravitate quoque, in e nigrior nostro **adspergine petit** adversaque\npuerilibus loquendi et.\n\nHabebat cortex. Non [nec virga](http://hastilibusneque.org/nubibus-equorum.html)\net pars tum; opem nostri Phlegyis sagittis vertitur pectora.\n\n- Abit disertus comitem percensuit uterque atque dapes\n- Venit furta lacrimas inmemor nec deducentia sacris\n- Quod venere loqui tela restabat Epopeus quoque`,
-    status: "done",
+    completed: false,
     created: new Date("2022-04-4"),
     due: new Date("2022-04-4"),
     priority: 5,

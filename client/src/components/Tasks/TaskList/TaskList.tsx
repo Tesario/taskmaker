@@ -23,7 +23,7 @@ export interface Task {
   id: number;
   title: string;
   desc?: string;
-  status: string;
+  completed: boolean;
   priority: 1 | 2 | 3 | 4 | 5;
   created: Date;
   due: Date;
@@ -42,7 +42,7 @@ const TaskList: React.FC = () => {
         taskList {
           id
           title
-          status
+          completed
           created
           due
           priority

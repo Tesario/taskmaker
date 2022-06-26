@@ -5,7 +5,7 @@ type Task {
   id: Int!
   title: String!
   desc: String
-  status: StatusType!
+  completed: Boolean!
   created: GraphQLDate!
   due: GraphQLDate!
   priority: Int!
@@ -23,16 +23,10 @@ type UpdateResponse {
   task: Task
 }
 
-enum StatusType {
-  created
-  expired
-  done
-}
-
 input TaskInputs {
   title: String!
   desc: String
-  status: StatusType! = created
+  completed: Boolean! = false
   due: GraphQLDate!
   priority: Int!
 }

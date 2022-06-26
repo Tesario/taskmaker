@@ -124,7 +124,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
         id
         title
         desc
-        status
+        completed
         created
         due
         priority
