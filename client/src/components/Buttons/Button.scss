@@ -18,7 +18,7 @@
     color: $primary-color;
 
     &:disabled {
-        background-color: red;
+        cursor: default;
     }
 
     &.dark {
