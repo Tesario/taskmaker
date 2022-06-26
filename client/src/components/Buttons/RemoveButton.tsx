@@ -8,6 +8,7 @@ import { useAppDispatch } from "@/hooks";
 import { removeTask } from "@/state/tasks/tasksSlice";
 import { useFilter } from "@/FilterProvider";
 import { useTheme } from "@/ThemeProvider";
+import { notify } from "@/Helpers";
 
 import "./Button.scss";
 
@@ -45,6 +46,7 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
 
     if (data) {
       dispatch(removeTask({ id }));
+      notify("success", "Task was removed successfully.");
       navigate("/tasks");
     }
 

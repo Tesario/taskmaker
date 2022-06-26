@@ -11,6 +11,7 @@ import { useTheme } from "./ThemeProvider";
 import Login from "./components/Login/Login";
 import LoginLayout from "./components/Layouts/LoginLayout";
 import Register from "./components/Register/Register";
+import { Toaster } from "react-hot-toast";
 
 import "./assets/global.scss";
 
@@ -26,6 +27,22 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Navbar />
       <main>
+        <Toaster
+          toastOptions={{
+            success: {
+              style: {
+                background: "#198754",
+                color: "#fff",
+              },
+            },
+            error: {
+              style: {
+                background: "#dc3545",
+                color: "#fff",
+              },
+            },
+          }}
+        />
         <Routes>
           <Route index element={<DashBoard />} />
           <Route path="tasks" element={<TasksLayout />}>

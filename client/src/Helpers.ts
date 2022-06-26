@@ -1,3 +1,5 @@
+import toast, { Toast } from "react-hot-toast";
+
 export const graphQLFetch = async (query: string, variables = {}) => {
   try {
     const response = await fetch("/graphql", {
@@ -51,4 +53,34 @@ export const timeLeft = (date: Date) => {
   }
   let months = days / 30;
   return `${Math.floor(months)} months ${state}`;
+};
+
+export const notify = (type: "success" | "error", text: string) => {
+  const opts:
+    | Partial<
+        Pick<
+          Toast,
+          | "id"
+          | "icon"
+          | "duration"
+          | "ariaProps"
+          | "className"
+          | "style"
+          | "position"
+          | "iconTheme"
+        >
+      >
+    | undefined = {
+    duration: 4000,
+    position: "bottom-right",
+  };
+
+  switch (type) {
+    case "success":
+      toast.success(text, opts);
+      break;
+    case "error":
+      toast.error(text, opts);
+      break;
+  }
 };

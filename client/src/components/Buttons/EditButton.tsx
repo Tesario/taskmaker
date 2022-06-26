@@ -14,6 +14,7 @@ import MarkdownEditor from "@/Markdown/MarkdownEditor";
 import DatetimePicker from "@components/DatetimePicker/DatetimePicker";
 import { Task } from "@components/Tasks/TaskList/TaskList";
 import { updateTask } from "@/state/tasks/tasksSlice";
+import { notify } from "@/Helpers";
 
 import "./Button.scss";
 
@@ -115,6 +116,7 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
 
     if (data) {
       dispatch(updateTask(data.taskUpdate.task));
+      notify("success", "Task was edited successfully.");
 
       if (handleTask) {
         handleTask(data.taskUpdate.task);

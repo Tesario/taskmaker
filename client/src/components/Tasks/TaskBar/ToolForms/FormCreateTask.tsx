@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { graphQLFetch } from "@/Helpers";
+import { graphQLFetch, notify } from "@/Helpers";
 import Modal from "@components/Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
@@ -14,7 +14,6 @@ import { handleValueFunc } from "@components/Buttons/EditButton";
 import { useAppDispatch } from "@/hooks";
 import { addTask } from "@/state/tasks/tasksSlice";
 import * as yup from "yup";
-import { useFilter } from "@/FilterProvider";
 import { useTheme } from "@/ThemeProvider";
 
 import "./ToolForms.scss";
@@ -137,6 +136,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
       dispatch(addTask({ task: data.taskAdd }));
       toggleModal();
       resetFormData();
+      notify("success", "Task was added successfully.");
     }
     setCreatingTask(false);
   };

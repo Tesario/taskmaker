@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { graphQLFetch } from "@/Helpers";
+import { graphQLFetch, notify } from "@/Helpers";
 import TaskStatus from "@components/Tasks/TaskList/TableRow/TaskStatus/TaskStatus";
 import { Task, Task as TaskI } from "@components/Tasks/TaskList/TaskList";
 import { renderStars } from "@components/StarsInput/StarsInput";
@@ -11,20 +11,13 @@ import MarkdownPreview from "@/Markdown/MarkdownPreview";
 import { useUpdateBreadcrump } from "@/BreadcrumpProvider";
 import EditButton from "@components/Buttons/EditButton";
 import RemoveButton from "@components/Buttons/RemoveButton";
-import {
-  faCheck,
-  faCross,
-  faEdit,
-  faTrash,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { useTheme } from "@/ThemeProvider";
 import { addTask, updateTask } from "@/state/tasks/tasksSlice";
+import TextButton from "../Buttons/TextButton";
 
 import "./Task.scss";
-import ToolButton from "../Tasks/TaskBar/ToolForms/ToolButton/ToolButton";
-import TextButton from "../Buttons/TextButton";
 
 const Task: React.FC = () => {
   const { id } = useParams<{ id: string | undefined }>();
@@ -134,6 +127,7 @@ const Task: React.FC = () => {
 
     if (data) {
       dispatch(updateTask(data.taskUpdate.task));
+      notify("success", "Task was marked successfully.");
 
       if (handleTask) {
         handleTask(data.taskUpdate.task);
