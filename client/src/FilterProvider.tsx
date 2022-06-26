@@ -4,12 +4,14 @@ export interface Filter {
   filter: string;
   order: number;
   search?: string;
+  status: ["completed" | "expired" | "uncompleted"];
 }
 
 interface ChangeFilter {
   filter?: string;
   order?: number;
   search?: string;
+  status?: ["completed" | "expired" | "uncompleted"];
 }
 
 const filterJson = localStorage.getItem("filter");
@@ -18,11 +20,12 @@ const loadedFilter: Filter = filterJson
   : {
       filter: "created",
       order: 1,
+      status: ["completed", "expired", "uncompleted"],
     };
 
 export const FilterContext = createContext<Filter>(loadedFilter);
 export const FilterUpdateContext = createContext<
-  ({ filter, order, search }: ChangeFilter) => void
+  ({ filter, order, search, status }: ChangeFilter) => void
 >({} as any);
 export const useFilter = () => {
   return useContext(FilterContext);

@@ -45,7 +45,7 @@ const FormLayout: React.FC<Props> = ({ title, desc }) => {
       >
         <form onSubmit={onSubmit} id="tool-form" className={themeContext}>
           <div className="form-body form-flex">
-            <div className="form-group">
+            <div className="form-group columns">
               <div className="form-radio">
                 <input
                   type="radio"

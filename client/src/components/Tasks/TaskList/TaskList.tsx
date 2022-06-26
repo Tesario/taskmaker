@@ -78,10 +78,24 @@ const TaskList: React.FC = () => {
           return task;
         }
       });
+    }
 
-      if (!sortedTasks.length) {
-        return <div className="empty">There are no results.</div>;
+    sortedTasks = sortedTasks.filter((task: Task) => {
+      if (
+        (filterContext.status.includes("completed") && task.completed) ||
+        (filterContext.status.includes("expired") &&
+          new Date(task.due) < new Date() &&
+          !task.completed) ||
+        (filterContext.status.includes("uncompleted") &&
+          new Date(task.due) > new Date() &&
+          !task.completed)
+      ) {
+        return task;
       }
+    });
+
+    if (!sortedTasks.length) {
+      return <div className="empty">There are no results.</div>;
     }
 
     return sortedTasks.map((task: Task, index: number) => {

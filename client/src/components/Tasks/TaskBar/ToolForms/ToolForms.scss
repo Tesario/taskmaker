@@ -48,7 +48,34 @@
 
             @media (max-width: $sm) {
                 flex-direction: column;
+                align-items: center;
             }
+        }
+
+        &.form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+
+            @media (max-width: $md) {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                place-items: center;
+            }
+        }
+    }
+
+    .checkboxes {
+        @media (max-width: $md) {
+            order: 1;
+        }
+    }
+
+    .columns {
+        margin-right: 2rem;
+
+        @media (max-width: $sm) {
+            margin: 0 0 1rem;
         }
     }
 
@@ -68,8 +95,20 @@
             z-index: 200;
         }
 
+        .btn-secondary {
+            margin: 0 1.5rem 0 0 !important;
+
+            @media (max-width: $sm) {
+                margin: 0 .75rem 0 0 !important;
+            }
+        }
+
         .btn-primary {
             margin: 0 0 0 1.5rem !important;
+
+            @media (max-width: $sm) {
+                margin: 0 0 0 .75rem !important;
+            }
         }
     }
 
@@ -137,13 +176,8 @@
     .form-group {
         flex: 1;
 
-        &:first-child {
-            margin-right: 1.5rem;
-        }
-
-        @media (max-width: $sm) {
-            margin: 1rem auto 0 !important;
-            min-width: 150px;
+        @media (max-width: $md) {
+            min-width: 175px;
         }
     }
 
