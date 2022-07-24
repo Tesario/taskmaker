@@ -1,5 +1,3 @@
-@import "../../../../assets/global.scss";
-
 #task-card {
     background-color: $grey-1;
     padding: 2rem 2.5rem;
@@ -16,6 +14,7 @@
         align-items: center;
 
         .btn-show {
+            color: $primary-color;
             margin-left: auto;
             font-size: 2em;
         }

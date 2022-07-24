@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
-import { useTheme } from "../ThemeProvider";
-import { handleValueFunc } from "../components/Buttons/EditButton";
+import { useTheme } from "@/ThemeProvider";
+import { handleValueFunc } from "@components/Buttons/EditButton";
 
 import "react-markdown-editor-lite/lib/index.css";
 import "./MarkdownPreview.scss";
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const MarkdownEditor: React.FC<Props> = ({
-  handleValue: handleDesc,
+  handleValue: handleValue,
   mdText,
 }) => {
   const mdParser = new MarkdownIt();
@@ -25,7 +25,7 @@ const MarkdownEditor: React.FC<Props> = ({
   }, []);
 
   const handleEditorChange = ({ text }: { html: string; text: string }) => {
-    handleDesc("desc", text);
+    handleValue("desc", text);
   };
 
   return (

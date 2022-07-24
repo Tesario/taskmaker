@@ -7,8 +7,7 @@ const task = require("./task.js");
 const resolvers = {
   Query: {
     taskList: task.list,
-    taskFilter: task.filter,
-    taskSearch: task.search,
+    taskGet: task.get,
   },
   Mutation: {
     taskAdd: task.add,

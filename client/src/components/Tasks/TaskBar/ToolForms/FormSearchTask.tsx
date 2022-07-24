@@ -1,46 +1,22 @@
 import React, { useState, useRef } from "react";
 import ToolButton from "./ToolButton/ToolButton";
 import { faSearch, faRemove } from "@fortawesome/free-solid-svg-icons";
-import { useFilter } from "../../../../FilterProvider";
-import { useAppDispatch } from "../../../../hooks";
-import { graphQLFetch } from "../../../../Helpers";
-import { setTasks } from "../../../../state/tasks/tasksSlice";
+import { useFilter, useUpdateFilter } from "@/FilterProvider";
 
 import "./ToolForms.scss";
 
 const FormSearchTask: React.FC = () => {
+  const filterUpdateContext = useUpdateFilter();
   const filterContext = useFilter();
-  const dispatch = useAppDispatch();
   const [search, setSearch] = useState<string>("");
   const searchRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSearch(searchRef.current ? searchRef.current.value : "");
-
-    const query = `query taskSearch($search: Search!) {
-      taskSearch(search: $search) {
-        id
-        title
-        desc
-        status
-        created
-        due
-        priority
-      }
-    }
-    `;
-
-    const data = await graphQLFetch(query, {
-      search: {
-        search: searchRef.current ? searchRef.current.value : "",
-        filter: filterContext,
-      },
+    filterUpdateContext({
+      search: searchRef.current ? searchRef.current.value.toLowerCase() : "",
     });
-
-    if (data) {
-      dispatch(setTasks(data.taskSearch));
-    }
   };
 
   const clearSearch = () => {

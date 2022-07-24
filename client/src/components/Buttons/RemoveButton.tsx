@@ -1,13 +1,14 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
-import { graphQLFetch } from "../../Helpers";
+import { graphQLFetch } from "@/Helpers";
 import { useNavigate } from "react-router-dom";
-import Modal from "../Modal/Modal";
-import { useAppDispatch } from "../../hooks";
-import { removeTask } from "../../state/tasks/tasksSlice";
-import { useFilter } from "../../FilterProvider";
-import { useTheme } from "../../ThemeProvider";
+import Modal from "@components/Modal/Modal";
+import { useAppDispatch } from "@/hooks";
+import { removeTask } from "@/state/tasks/tasksSlice";
+import { useFilter } from "@/FilterProvider";
+import { useTheme } from "@/ThemeProvider";
+import { notify } from "@/Helpers";
 
 import "./Button.scss";
 
@@ -44,7 +45,8 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
     const data = await graphQLFetch(query, { id });
 
     if (data) {
-      dispatch(removeTask({ id, filter: filterContext }));
+      dispatch(removeTask({ id }));
+      notify("success", "Task was removed successfully.");
       navigate("/tasks");
     }
 

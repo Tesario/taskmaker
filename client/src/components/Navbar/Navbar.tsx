@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
-import logo from "../../assets/img/logo.png";
-import { useTheme } from "../../ThemeProvider";
-import ThemeButton from "../Buttons/ThemeButton";
+import logo from "@assets/img/logo.png";
+import { useTheme } from "@/ThemeProvider";
+import ThemeButton from "@components/Buttons/ThemeButton";
 
 import "./Navbar.scss";
 

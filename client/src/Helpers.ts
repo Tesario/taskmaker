@@ -1,3 +1,5 @@
+import toast, { Toast } from "react-hot-toast";
+
 export const graphQLFetch = async (query: string, variables = {}) => {
   try {
     const response = await fetch("/graphql", {
@@ -13,15 +15,15 @@ export const graphQLFetch = async (query: string, variables = {}) => {
 
       if (error.extensions.code === "BAD_USER_INPUT") {
         const details = error.extensions.exception.errors.join("\n");
-        alert(`${error.message}: ${details}`);
+        notify("error", `${error.message}: ${details}`);
       } else {
-        alert(`${error.extensions.code}: ${error.message}`);
+        notify("error", `${error.extensions.code}: ${error.message}`);
       }
     }
 
     return result.data;
   } catch (error: any) {
-    alert(`Error in sending data to server: ${error.message}`);
+    notify("error", `Error in sending data to server: ${error.message}`);
   }
 };
 
@@ -51,4 +53,34 @@ export const timeLeft = (date: Date) => {
   }
   let months = days / 30;
   return `${Math.floor(months)} months ${state}`;
+};
+
+export const notify = (type: "success" | "error", text: string) => {
+  const opts:
+    | Partial<
+        Pick<
+          Toast,
+          | "id"
+          | "icon"
+          | "duration"
+          | "ariaProps"
+          | "className"
+          | "style"
+          | "position"
+          | "iconTheme"
+        >
+      >
+    | undefined = {
+    duration: 4000,
+    position: "bottom-right",
+  };
+
+  switch (type) {
+    case "success":
+      toast.success(text, opts);
+      break;
+    case "error":
+      toast.error(text, opts);
+      break;
+  }
 };

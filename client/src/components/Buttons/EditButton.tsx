@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
-import Modal from "../Modal/Modal";
+import Modal from "@components/Modal/Modal";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAppDispatch } from "../../hooks";
-import { useTheme } from "../../ThemeProvider";
-import { graphQLFetch } from "../../Helpers";
+import { useAppDispatch } from "@/hooks";
+import { useTheme } from "@/ThemeProvider";
+import { graphQLFetch } from "@/Helpers";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import StarsInput from "../StarsInput/StarsInput";
-import MarkdownPreview from "../../Markdown/MarkdownPreview";
-import MarkdownEditor from "../../Markdown/MarkdownEditor";
-import DatetimePicker from "../DatetimePicker/DatetimePicker";
-import { Task } from "../Tasks/TaskList/TaskList";
+import StarsInput from "@components/StarsInput/StarsInput";
+import MarkdownPreview from "@/Markdown/MarkdownPreview";
+import MarkdownEditor from "@/Markdown/MarkdownEditor";
+import DatetimePicker from "@components/DatetimePicker/DatetimePicker";
+import { Task } from "@components/Tasks/TaskList/TaskList";
+import { updateTask } from "@/state/tasks/tasksSlice";
+import { notify } from "@/Helpers";
 
 import "./Button.scss";
-import { updateTask } from "../../state/tasks/tasksSlice";
 
 interface Props {
   icon: IconProp;
-  id: number;
   task: Task;
   handleTask?: (task: Task) => void;
 }
@@ -69,7 +69,7 @@ const schema = yup
   })
   .required();
 
-const EditButton: React.FC<Props> = ({ icon, id, task, handleTask }) => {
+const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
   const [state, setState] = useState<Task>(task);
@@ -83,8 +83,11 @@ const EditButton: React.FC<Props> = ({ icon, id, task, handleTask }) => {
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
   useEffect(() => {
+    setState(task);
+  }, [task]);
+
+  useEffect(() => {
     setValue("title", task["title"]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = async (task: FormData) => {
@@ -101,18 +104,19 @@ const EditButton: React.FC<Props> = ({ icon, id, task, handleTask }) => {
           priority
           due
           created
-          status
+          completed
         }
       }
     }`;
 
     const data = await graphQLFetch(query, {
-      id,
+      id: state.id,
       task: { ...task, due: new Date(task.due) },
     });
 
     if (data) {
       dispatch(updateTask(data.taskUpdate.task));
+      notify("success", "Task was edited successfully.");
 
       if (handleTask) {
         handleTask(data.taskUpdate.task);

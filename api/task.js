@@ -1,37 +1,16 @@
 const { UserInputError } = require("apollo-server-express");
-const { copySync } = require("file-system");
 const { getDb, getNextSequence } = require("./db");
 
-async function list(_, { id }) {
-  if (isNaN(id) || !id) {
-    return [];
-  }
+async function list(_) {
   const db = getDb();
-  const tasks = await db
-    .collection("tasks")
-    .find(id ? { id } : {})
-    .toArray();
+  const tasks = await db.collection("tasks").find({}).toArray();
   return tasks;
 }
 
-async function filter(_, { filter }) {
+async function get(_, { id }) {
   const db = getDb();
-  const tasks = await db
-    .collection("tasks")
-    .find()
-    .sort({ [filter.filter]: [filter.order] })
-    .toArray();
-  return tasks;
-}
-
-async function search(_, { search }) {
-  const db = getDb();
-  const tasks = await db
-    .collection("tasks")
-    .find({ title: new RegExp(".*" + search.search + ".*", "i") })
-    .sort({ [search.filter.filter]: [search.filter.order] })
-    .toArray();
-  return tasks;
+  const task = await db.collection("tasks").findOne({ id });
+  return task;
 }
 
 async function remove(_, { id }) {
@@ -71,11 +50,8 @@ function validate({ task }) {
   if (task.desc && task.desc.length > 2000) {
     errors.push("Wrong length of the description.");
   }
-  if (task.due < new Date()) {
-    errors.push("The due must be in the future.");
-  }
-  if (!["created", "expired", "done"].includes(task.status)) {
-    errors.push("The status does not have valid value.");
+  if (task.desc === "") {
+    delete task.desc;
   }
   if (task.priority < 0 || task.priority > 5) {
     errors.push("The priority must be between 1 and 5.");
@@ -86,4 +62,4 @@ function validate({ task }) {
   }
 }
 
-module.exports = { add, update, list, search, filter, remove };
+module.exports = { add, update, list, remove, get };

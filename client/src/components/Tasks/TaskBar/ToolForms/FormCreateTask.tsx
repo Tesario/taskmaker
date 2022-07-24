@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { graphQLFetch } from "../../../../Helpers";
-import Modal from "../../../Modal/Modal";
+import { graphQLFetch, notify } from "@/Helpers";
+import Modal from "@components/Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
 import { faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
-import DatetimePicker from "../../../DatetimePicker/DatetimePicker";
-import { Task } from "../../TaskList/TaskList";
-import StarsInput from "../../../StarsInput/StarsInput";
+import DatetimePicker from "@components/DatetimePicker/DatetimePicker";
+import { Task } from "@components/Tasks/TaskList/TaskList";
+import StarsInput from "@components/StarsInput/StarsInput";
 import { yupResolver } from "@hookform/resolvers/yup";
-import MarkdownEditor from "../../../../Markdown/MarkdownEditor";
-import MarkdownPreview from "../../../../Markdown/MarkdownPreview";
-import { handleValueFunc } from "../../../Buttons/EditButton";
-import { useAppDispatch } from "../../../../hooks";
-import { addTask } from "../../../../state/tasks/tasksSlice";
+import MarkdownEditor from "@/Markdown/MarkdownEditor";
+import MarkdownPreview from "@/Markdown/MarkdownPreview";
+import { handleValueFunc } from "@components/Buttons/EditButton";
+import { useAppDispatch } from "@/hooks";
+import { addTask } from "@/state/tasks/tasksSlice";
 import * as yup from "yup";
-import { useFilter } from "../../../../FilterProvider";
-import { useTheme } from "../../../../ThemeProvider";
+import { useTheme } from "@/ThemeProvider";
 
 import "./ToolForms.scss";
 
@@ -67,13 +66,13 @@ export interface Props {
 const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
-  const filterContext = useFilter();
-  const [state, setState] = useState<FormData>({
+  const initialFormData: FormData = {
     title: "",
     desc: "",
-    due: new Date(Date.now() + 2000 * 60),
+    due: new Date(Date.now() + 2000 * 120),
     priority: 2,
-  });
+  };
+  const [state, setState] = useState<FormData>(initialFormData);
   const themeContext = useTheme();
   const {
     register,
@@ -82,17 +81,19 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     setValue,
     setError,
     getValues,
-    reset,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setValue("desc", "");
-    setValue("due", new Date(Date.now() + 1000 * 120));
-    setValue("priority", 2);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    resetFormData();
   }, []);
+
+  const resetFormData = () => {
+    setValue("title", initialFormData.title);
+    handleValue("desc", initialFormData.desc);
+    handleValue("due", initialFormData.due);
+    handleValue("priority", initialFormData.priority);
+  };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (new Date(Date.now() + 1000 * 60) >= getValues("due")) {
@@ -122,7 +123,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
         id
         title
         desc
-        status
+        completed
         created
         due
         priority
@@ -132,16 +133,20 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     const data: { taskAdd: Task } = await graphQLFetch(query, { task });
 
     if (data) {
-      dispatch(addTask({ task: data.taskAdd, filter: filterContext }));
+      dispatch(addTask({ task: data.taskAdd }));
       toggleModal();
-      reset();
+      resetFormData();
+      notify("success", "Task was added successfully.");
     }
     setCreatingTask(false);
   };
 
   const handleValue: handleValueFunc = (name, value) => {
     setValue(name, value);
-    setState({ ...state, [name]: value });
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   return (

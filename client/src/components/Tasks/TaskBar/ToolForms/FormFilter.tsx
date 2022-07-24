@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import Modal from "../../../Modal/Modal";
+import Modal from "@components/Modal/Modal";
 import ToolButton from "./ToolButton/ToolButton";
 import { useForm } from "react-hook-form";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useFilter, useUpdateFilter } from "../../../../FilterProvider";
+import { useFilter, useUpdateFilter } from "@/FilterProvider";
 import * as yup from "yup";
+import { useTheme } from "@/ThemeProvider";
 
 import "./ToolForms.scss";
-import { useTheme } from "../../../../ThemeProvider";
 
 type FormData = {
   filter: string;
   order: number;
+  status: ["completed" | "expired" | "uncompleted"];
 };
 
 export interface Props {
@@ -21,8 +22,12 @@ export interface Props {
 }
 
 const schema = yup.object({
-  filter: yup.string(),
-  order: yup.number(),
+  filter: yup
+    .string()
+    .required((value) => `The ${value.path} field is required.`),
+  order: yup
+    .number()
+    .required((value) => `The ${value.path} field is required.`),
 });
 
 const FormFilter: React.FC<Props> = ({ title, desc }) => {
@@ -30,12 +35,18 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
   const filterContext = useFilter();
   const themeContext = useTheme();
   const FilterUpdateContext = useUpdateFilter();
+  const [checkboxError, setCheckboxError] = useState<string | null>(null);
 
   const { register, handleSubmit, reset } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = handleSubmit(async (filter: FormData) => {
+    if (!filter.status.length) {
+      setCheckboxError("Choose at least one status.");
+      return;
+    }
+
     FilterUpdateContext(filter);
     reset();
     toggleModal();
@@ -55,7 +66,7 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
         toggleModal={toggleModal}
       >
         <form onSubmit={onSubmit} id="tool-form" className={themeContext}>
-          <div className="form-body form-flex">
+          <div className="form-body form-grid">
             <div className="form-group">
               <div className="form-radio">
                 <input
@@ -102,6 +113,41 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
                   }
                 />
                 <label htmlFor="priority">Priority</label>
+              </div>
+            </div>
+            <div className="form-group checkboxes">
+              <div className="form-checkbox">
+                <input
+                  type="checkbox"
+                  id="completed"
+                  value="completed"
+                  {...register("status")}
+                  defaultChecked={filterContext.status.includes("completed")}
+                />
+                <label htmlFor="completed">Completed</label>
+              </div>
+              <div className="form-checkbox">
+                <input
+                  type="checkbox"
+                  id="expired"
+                  value="expired"
+                  {...register("status")}
+                  defaultChecked={filterContext.status.includes("expired")}
+                />
+                <label htmlFor="expired">Expired</label>
+              </div>
+              <div className="form-checkbox">
+                <input
+                  type="checkbox"
+                  id="uncompleted"
+                  value="uncompleted"
+                  {...register("status")}
+                  defaultChecked={filterContext.status.includes("uncompleted")}
+                />
+                <label htmlFor="uncompleted">Uncompleted</label>
+              </div>
+              <div className={"error-message " + (checkboxError ? "show" : "")}>
+                {checkboxError}
               </div>
             </div>
             <div className="form-group">

@@ -2,8 +2,8 @@ import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useBreadcrump } from "../../BreadcrumpProvider";
-import { useTheme } from "../../ThemeProvider";
+import { useBreadcrump } from "@/BreadcrumpProvider";
+import { useTheme } from "@/ThemeProvider";
 
 import "./Breadcrump.scss";
 

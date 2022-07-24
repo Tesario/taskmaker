@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { handleValueFunc } from "../Buttons/EditButton";
+import { handleValueFunc } from "@components/Buttons/EditButton";
 
 import "./StarsInput.scss";
 
@@ -25,7 +25,6 @@ export const renderStars = (stars: 1 | 2 | 3 | 4 | 5) => {
 const StarsInput: React.FC<Props> = ({ handleValue, priority }) => {
   useEffect(() => {
     handleValue("priority", priority);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -39,7 +38,7 @@ const StarsInput: React.FC<Props> = ({ handleValue, priority }) => {
           id="rating-1"
           name="rating"
           value="1"
-          defaultChecked={priority === 1}
+          checked={priority === 1}
           onChange={() => handleValue("priority", 1)}
         />
         <label htmlFor="rating-2">
@@ -50,7 +49,7 @@ const StarsInput: React.FC<Props> = ({ handleValue, priority }) => {
           id="rating-2"
           name="rating"
           value="2"
-          defaultChecked={priority === 2}
+          checked={priority === 2}
           onChange={() => handleValue("priority", 2)}
         />
         <label htmlFor="rating-3">
@@ -61,7 +60,7 @@ const StarsInput: React.FC<Props> = ({ handleValue, priority }) => {
           id="rating-3"
           name="rating"
           value="3"
-          defaultChecked={priority === 3}
+          checked={priority === 3}
           onChange={() => handleValue("priority", 3)}
         />
         <label htmlFor="rating-4">
@@ -72,7 +71,7 @@ const StarsInput: React.FC<Props> = ({ handleValue, priority }) => {
           id="rating-4"
           name="rating"
           value="4"
-          defaultChecked={priority === 4}
+          checked={priority === 4}
           onChange={() => handleValue("priority", 4)}
         />
         <label htmlFor="rating-5">
@@ -83,7 +82,7 @@ const StarsInput: React.FC<Props> = ({ handleValue, priority }) => {
           id="rating-5"
           name="rating"
           value="5"
-          defaultChecked={priority === 5}
+          checked={priority === 5}
           onChange={() => handleValue("priority", 5)}
         />
       </span>

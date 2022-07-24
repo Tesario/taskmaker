@@ -1,19 +1,54 @@
-@import "../../../../../assets/global.scss";
-
 .task-status {
+    position: relative;
+
+    &:hover {
+        .status-tooltip {
+            opacity: 1;
+        }
+    }
+
     svg {
         font-size: 2em;
     }
 
-    .done {
+    .completed {
         color: $green;
+
+        .status-tooltip {
+            color: $green-1;
+        }
     }
 
     .expired {
         color: $red;
     }
 
-    .created {
+    .uncompleted {
         color: $warning;
+    }
+
+    .status-tooltip {
+        position: absolute;
+        top: 50%;
+        left: -0.3rem;
+        transform: translate(-100%, -50%);
+        background-color: $black;
+        padding: .3rem .6rem;
+        border-radius: .25rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: .2s ease-in-out;
+        font-size: .9em;
+
+        &::after {
+            content: "";
+            background-color: $black;
+            position: absolute;
+            top: 50%;
+            right: -4px;
+            width: 8px;
+            height: 8px;
+            transform: translateY(-50%) rotate(45deg);
+        }
     }
 }

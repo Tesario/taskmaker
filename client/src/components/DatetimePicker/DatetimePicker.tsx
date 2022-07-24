@@ -2,7 +2,7 @@ import DateTimePicker from "react-datetime-picker";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { handleValueFunc } from "../Buttons/EditButton";
+import { handleValueFunc } from "@components/Buttons/EditButton";
 
 import "./DatetimePicker.scss";
 
@@ -15,8 +15,11 @@ const DatetimePicker: React.FC<Props> = ({ handleValue, due }) => {
   const [value, onChange] = useState<Date>(due);
   useEffect(() => {
     handleValue("due", value);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
+
+  useEffect(() => {
+    onChange(due);
+  }, [due]);
 
   return (
     <div id="datetime-picker">

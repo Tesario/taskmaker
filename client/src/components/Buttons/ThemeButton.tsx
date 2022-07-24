@@ -1,5 +1,5 @@
 import React from "react";
-import { useTheme, useUpdateTheme } from "../../ThemeProvider";
+import { useTheme, useUpdateTheme } from "@/ThemeProvider";
 
 import "./ThemeButton.scss";
 

@@ -1,5 +1,3 @@
-@import "../../assets/global.scss";
-
 #breadcrump {
     width: 100%;
     margin-bottom: -2.5rem;
@@ -22,6 +20,8 @@
     }
 
     a {
+        color: $primary-color;
+
         &:hover {
             color: $primary-color;
         }

@@ -5,7 +5,7 @@ type Task {
   id: Int!
   title: String!
   desc: String
-  status: StatusType!
+  completed: Boolean!
   created: GraphQLDate!
   due: GraphQLDate!
   priority: Int!
@@ -23,36 +23,19 @@ type UpdateResponse {
   task: Task
 }
 
-enum StatusType {
-  created
-  expired
-  done
-}
-
 input TaskInputs {
   title: String!
   desc: String
-  status: StatusType! = created
+  completed: Boolean! = false
   due: GraphQLDate!
   priority: Int!
-}
-
-input Filter {
-  filter: String!
-  order: Int!
-}
-
-input Search {
-  search: String!
-  filter: Filter!
 }
 
 ##### Top level declarations
 
 type Query {
-  taskList(id: Int): [Task!]!
-  taskFilter(filter: Filter): [Task!]!
-  taskSearch(search: Search): [Task!]!
+  taskList: [Task!]!
+  taskGet(id: Int!): Task!
 }
 
 type Mutation {

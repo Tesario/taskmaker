@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { useTheme } from "../../ThemeProvider";
-import { Props as ParentProps } from "../Tasks/TaskBar/ToolForms/FormCreateTask";
+import { useTheme } from "@/ThemeProvider";
+import { Props as ParentProps } from "@components/Tasks/TaskBar/ToolForms/FormCreateTask";
 
 import "./Modal.scss";
 

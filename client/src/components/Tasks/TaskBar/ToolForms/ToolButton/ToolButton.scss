@@ -1,5 +1,3 @@
-@import "../../../../../assets/global.scss";
-
 .tool-button {
     padding: 0;
     display: flex;
@@ -17,8 +15,27 @@
 
     &.btn-clear-search {
         svg {
-            color: $red;
+            color: $red !important;
         }
+    }
+
+    &.btn-uncompleted,
+    &.btn-completed {
+        background-color: $green;
+        width: 45px;
+        height: 45px;
+
+        &:hover {
+            transform: none;
+        }
+
+        svg {
+            color: $white !important;
+        }
+    }
+
+    &.btn-uncompleted {
+        background-color: $red;
     }
 
     &.dark {

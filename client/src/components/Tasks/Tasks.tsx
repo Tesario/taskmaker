@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import { useUpdateBreadcrump } from "../../BreadcrumpProvider";
-import CategoryBar from "../Categories/CategoryBar/CategoryBar";
+import { useUpdateBreadcrump } from "@/BreadcrumpProvider";
+import CategoryBar from "@components/Categories/CategoryBar/CategoryBar";
 import TaskBar from "./TaskBar/TaskBar";
 import TaskList from "./TaskList/TaskList";
-
-import "./Tasks.scss";
 
 const Tasks: React.FC = () => {
   const BreadcrumpUpdateContext = useUpdateBreadcrump();
@@ -13,8 +11,6 @@ const Tasks: React.FC = () => {
     BreadcrumpUpdateContext({
       routes: [{ title: "Tasks" }],
     });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

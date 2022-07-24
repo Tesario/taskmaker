@@ -1,5 +1,3 @@
-@import "../../assets/global.scss";
-
 #task-show {
     .title {
         margin-bottom: 1.75rem;
@@ -62,6 +60,11 @@
             grid-column: 1/2;
             margin: 1rem 0 .5rem;
         }
+
+        @media (max-width: $sm) {
+            flex-direction: column;
+            align-items: flex-start;
+        }
     }
 
     .btns-edit {
@@ -69,6 +72,24 @@
 
         .btn:first-child {
             margin-right: .75rem;
+        }
+    }
+
+    .status-group {
+        display: flex;
+        align-items: center;
+
+        @media (max-width: $sm) {
+            flex-direction: row-reverse;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            margin-right: 1rem;
+
+            @media (max-width: $sm) {
+                margin: 0 0 0 1rem;
+            }
         }
     }
 
