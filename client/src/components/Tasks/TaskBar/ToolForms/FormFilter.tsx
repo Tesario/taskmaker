@@ -37,13 +37,26 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
   const FilterUpdateContext = useUpdateFilter();
   const [checkboxError, setCheckboxError] = useState<string | null>(null);
 
-  const { register, handleSubmit, reset } = useForm<FormData>({
+  const { register, handleSubmit, reset, getValues } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = handleSubmit(async (filter: FormData) => {
-    if (!filter.status.length) {
+  const onBlurStatus = (e: React.FormEvent<HTMLInputElement>) => {
+    const currentStatus = e.currentTarget.id;
+    const statuses = getValues("status");
+
+    if (statuses.length > 1) {
+      setCheckboxError(null);
+    } else if (statuses.length === 1 && statuses[0] === currentStatus) {
       setCheckboxError("Choose at least one status.");
+      return;
+    }
+
+    setCheckboxError(null);
+  };
+
+  const onSubmit = handleSubmit(async (filter: FormData) => {
+    if (checkboxError) {
       return;
     }
 
@@ -122,6 +135,7 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
                   id="completed"
                   value="completed"
                   {...register("status")}
+                  onChange={onBlurStatus}
                   defaultChecked={filterContext.status.includes("completed")}
                 />
                 <label htmlFor="completed">Completed</label>
@@ -132,6 +146,7 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
                   id="expired"
                   value="expired"
                   {...register("status")}
+                  onChange={onBlurStatus}
                   defaultChecked={filterContext.status.includes("expired")}
                 />
                 <label htmlFor="expired">Expired</label>
@@ -142,6 +157,7 @@ const FormFilter: React.FC<Props> = ({ title, desc }) => {
                   id="uncompleted"
                   value="uncompleted"
                   {...register("status")}
+                  onChange={onBlurStatus}
                   defaultChecked={filterContext.status.includes("uncompleted")}
                 />
                 <label htmlFor="uncompleted">Uncompleted</label>

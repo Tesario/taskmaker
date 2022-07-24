@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "@assets/img/logo.png";
 import { useTheme } from "@/ThemeProvider";
@@ -6,11 +6,37 @@ import ThemeButton from "@components/Buttons/ThemeButton";
 
 import "./Navbar.scss";
 
+declare global {
+  const google: typeof import("google-one-tap");
+}
+
 const Navbar: React.FC = () => {
   const togglerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLSpanElement>(null);
   const themeContext = useTheme();
+
+  function handleCallbackResponse(response: any) {
+    console.log(response.credential);
+  }
+
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id:
+        "1022337813280-hulo3r9olvuu4kdtorp81d3ega954th5.apps.googleusercontent.com",
+      callback: handleCallbackResponse,
+      auto_select: false,
+    });
+
+    const googleBtn = document.getElementById("signInDiv");
+
+    if (googleBtn) {
+      google.accounts.id.renderButton(googleBtn, {
+        theme: "outline",
+        size: "large",
+      });
+    }
+  }, []);
 
   const toggleMenu = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.preventDefault();
@@ -53,9 +79,10 @@ const Navbar: React.FC = () => {
           </ul>
           <div className="right-menu">
             <ThemeButton />
-            <Link to="/login" className="btn btn-primary">
+            {/* <Link to="/login" className="btn btn-primary">
               Login
-            </Link>
+            </Link> */}
+            <div id="signInDiv"></div>
             <Link to="/register" className="btn btn-secondary">
               Register
             </Link>
