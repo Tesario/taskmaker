@@ -37,4 +37,12 @@
         display: flex;
         justify-content: center;
     }
+
+    &.dark {
+        color: $white;
+
+        .card {
+            background-color: $dark;
+        }
+    }
 }

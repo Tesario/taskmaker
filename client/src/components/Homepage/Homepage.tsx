@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import { CredentialResponse } from "google-one-tap";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { notify } from "@/Helpers";
+import { useTheme } from "@/ThemeProvider";
 
 import "./Homepage.scss";
 
@@ -15,11 +16,11 @@ declare global {
 const Homepage: React.FC = () => {
   const auth = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const themeContext = useTheme();
 
   useEffect(() => {
     google.accounts.id.initialize({
-      client_id:
-        "1022337813280-hulo3r9olvuu4kdtorp81d3ega954th5.apps.googleusercontent.com",
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
       callback: handleCallbackResponse,
     });
 
@@ -40,7 +41,7 @@ const Homepage: React.FC = () => {
   };
 
   return (
-    <section id="homepage">
+    <section id="homepage" className={themeContext}>
       <div className="card">
         <h1 className="main-title">Taskmaker</h1>
         <p>WebApp for creating tasks!</p>
