@@ -38,6 +38,12 @@
         background-color: $red;
     }
 
+    &.without-hover {
+        &:hover {
+            transform: none;
+        }
+    }
+
     &.dark {
         svg {
             color: $primary-color-dark;

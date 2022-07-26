@@ -16,9 +16,11 @@ const Breadcrump: React.FC = () => {
     <nav id="breadcrump" className={themeContext}>
       <div className="container">
         <div className="breadcrump">
-          <Link to={"/"} className="link">
-            <FontAwesomeIcon icon={faHome} />
-          </Link>
+          <div className="link">
+            <Link to={"/"}>
+              <FontAwesomeIcon icon={faHome} />
+            </Link>
+          </div>
           {routes.map((route, index) => {
             prevRoutes += route.pathname || "";
 

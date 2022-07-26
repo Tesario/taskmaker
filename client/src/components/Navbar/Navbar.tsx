@@ -1,46 +1,34 @@
-import React, { useEffect, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useRef } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "@assets/img/logo.png";
 import { useTheme } from "@/ThemeProvider";
 import ThemeButton from "@components/Buttons/ThemeButton";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { signOut } from "@/state/auth/authSlice";
+import User from "../auth/User";
+import ToolButton from "../Tasks/TaskBar/ToolForms/ToolButton/ToolButton";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { notify } from "@/Helpers";
 
 import "./Navbar.scss";
-
-declare global {
-  const google: typeof import("google-one-tap");
-}
 
 const Navbar: React.FC = () => {
   const togglerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLSpanElement>(null);
   const themeContext = useTheme();
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-  function handleCallbackResponse(response: any) {
-    console.log(response.credential);
-  }
+  const onLogout = () => {
+    google.accounts.id.disableAutoSelect();
+    dispatch(signOut());
+    notify("success", "Logout was successful");
+    navigate("/", { replace: true });
+  };
 
-  useEffect(() => {
-    google.accounts.id.initialize({
-      client_id:
-        "1022337813280-hulo3r9olvuu4kdtorp81d3ega954th5.apps.googleusercontent.com",
-      callback: handleCallbackResponse,
-      auto_select: false,
-    });
-
-    const googleBtn = document.getElementById("signInDiv");
-
-    if (googleBtn) {
-      google.accounts.id.renderButton(googleBtn, {
-        theme: "outline",
-        size: "large",
-      });
-    }
-  }, []);
-
-  const toggleMenu = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    e.preventDefault();
-
+  const toggleMenu = () => {
     if (togglerRef.current && menuRef.current && overlayRef.current) {
       togglerRef.current.classList.toggle("collapsed");
       menuRef.current.classList.toggle("collapsed");
@@ -55,37 +43,40 @@ const Navbar: React.FC = () => {
           <img src={logo} alt="Logo" />
         </Link>
         <div className="menu" ref={menuRef}>
-          <ul className="left-menu">
-            <li className="menu-item">
-              <NavLink className="link" to="/tasks">
-                Tasks
-              </NavLink>
-            </li>
-            <li className="menu-item">
-              <NavLink className="link" to="/stats">
-                Statistics
-              </NavLink>
-            </li>
-            <li className="menu-item">
-              <NavLink className="link" to="/calendar">
-                Calendar
-              </NavLink>
-            </li>
-            <li className="menu-item">
-              <NavLink className="link" to="/goals">
-                Goals
-              </NavLink>
-            </li>
-          </ul>
+          {auth.user && (
+            <ul className="left-menu">
+              <li className="menu-item">
+                <NavLink className="link" to="/tasks" onClick={toggleMenu}>
+                  Tasks
+                </NavLink>
+              </li>
+              <li className="menu-item">
+                <NavLink className="link" to="/stats" onClick={toggleMenu}>
+                  Statistics
+                </NavLink>
+              </li>
+              <li className="menu-item">
+                <NavLink className="link" to="/categories" onClick={toggleMenu}>
+                  Categories
+                </NavLink>
+              </li>
+            </ul>
+          )}
           <div className="right-menu">
             <ThemeButton />
-            {/* <Link to="/login" className="btn btn-primary">
-              Login
-            </Link> */}
-            <div id="signInDiv"></div>
-            <Link to="/register" className="btn btn-secondary">
-              Register
-            </Link>
+            {auth.user && (
+              <>
+                <User user={auth.user} />
+                <ToolButton
+                  onClick={() => {
+                    onLogout();
+                    toggleMenu();
+                  }}
+                  icon={faRightFromBracket}
+                  className="without-hover"
+                />
+              </>
+            )}
           </div>
         </div>
         <button

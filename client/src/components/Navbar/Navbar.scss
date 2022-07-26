@@ -178,9 +178,11 @@
         pointer-events: none;
         transition: .2s ease-in-out;
 
-        &.collapsed {
-            pointer-events: unset;
-            opacity: $opacity;
+        @media (max-width: $lg) {
+            &.collapsed {
+                pointer-events: unset;
+                opacity: $opacity;
+            }
         }
     }
 

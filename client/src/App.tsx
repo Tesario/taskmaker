@@ -12,11 +12,14 @@ import Login from "./components/Login/Login";
 import LoginLayout from "./components/Layouts/LoginLayout";
 import Register from "./components/Register/Register";
 import { Toaster } from "react-hot-toast";
+import { useAppSelector } from "./hooks";
+import Homepage from "./components/Homepage/Homepage";
 
 import "./assets/global.scss";
 
 const App: React.FC = () => {
   const themeContext = useTheme();
+  const user = useAppSelector((state) => state.auth.user);
 
   useEffect(() => {
     document.body.className = "";
@@ -44,7 +47,11 @@ const App: React.FC = () => {
           }}
         />
         <Routes>
-          <Route index element={<DashBoard />} />
+          {user ? (
+            <Route index element={<DashBoard />} />
+          ) : (
+            <Route index element={<Homepage />} />
+          )}
           <Route path="tasks" element={<TasksLayout />}>
             <Route index element={<Tasks />} />
             <Route path=":id" element={<Task />} />
@@ -53,6 +60,10 @@ const App: React.FC = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Route>
+          <Route
+            path="/unauthorized"
+            element={<Error error={{ message: "Unauthorized", code: 403 }} />}
+          ></Route>
           <Route
             path="*"
             element={<Error error={{ message: "Page not found", code: 404 }} />}

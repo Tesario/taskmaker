@@ -1,0 +1,40 @@
+#homepage {
+    padding: 0;
+    background: url(../../assets/img/bg-homepage.webp);
+    background-size: cover;
+    flex: 1;
+    background-position: center;
+    color: $black;
+    display: flex;
+    padding: 0 1rem 5rem;
+
+    .card {
+        background-color: $white;
+        margin: 20vh auto auto;
+        padding: 4.5rem 4.5rem 4rem;
+        border-radius: .2rem;
+
+
+        @media (max-width: $sm) {
+            padding: 3rem 2rem 2rem;
+        }
+
+        p,
+        .main-title {
+            text-align: center;
+        }
+
+        p {
+            margin: 1rem 0;
+        }
+    }
+
+    .google {
+        margin-top: 3rem;
+    }
+
+    #signInDiv {
+        display: flex;
+        justify-content: center;
+    }
+}

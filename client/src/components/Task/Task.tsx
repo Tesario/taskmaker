@@ -28,6 +28,7 @@ const Task: React.FC = () => {
   const themeContext = useTheme();
   const dispatch = useAppDispatch();
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
+  const user = useAppSelector((state) => state.auth.user);
 
   useEffect(() => {
     const loadData = async (task: TaskI | null) => {
@@ -136,6 +137,10 @@ const Task: React.FC = () => {
 
     setCreatingTask(false);
   };
+
+  if (!user) {
+    return <Navigate to={"/unauthorized"} replace />;
+  }
 
   return (
     <section id="task-show" className={themeContext}>

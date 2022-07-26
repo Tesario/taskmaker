@@ -30,6 +30,7 @@
     .link {
         display: flex;
         align-items: flex-end;
+        position: relative;
 
         @media (max-width: $sm) {
             &:not(:last-child) {
@@ -47,6 +48,7 @@
             content: "/";
             display: inline-block;
             margin: 0 .5rem;
+            top: -0.05rem;
         }
     }
 
