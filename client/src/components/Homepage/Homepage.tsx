@@ -18,7 +18,8 @@ const Homepage: React.FC = () => {
 
   useEffect(() => {
     google.accounts.id.initialize({
-      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      client_id:
+        "1022337813280-hulo3r9olvuu4kdtorp81d3ega954th5.apps.googleusercontent.com",
       callback: handleCallbackResponse,
     });
 
