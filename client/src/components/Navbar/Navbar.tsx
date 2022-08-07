@@ -9,6 +9,8 @@ import User from "../auth/User";
 import ToolButton from "../Tasks/TaskBar/ToolForms/ToolButton/ToolButton";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { notify } from "@/Helpers";
+import Cookies from "js-cookie";
+import { clearTasks } from "@/state/tasks/tasksSlice";
 
 import "./Navbar.scss";
 
@@ -24,6 +26,8 @@ const Navbar: React.FC = () => {
   const onLogout = () => {
     google.accounts.id.disableAutoSelect();
     dispatch(signOut());
+    dispatch(clearTasks());
+    Cookies.remove("token", { path: "/" });
     notify("success", "Logout was successful");
     navigate("/", { replace: true });
   };

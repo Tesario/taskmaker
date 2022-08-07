@@ -1,9 +1,12 @@
 const { UserInputError } = require("apollo-server-express");
 const { getDb, getNextSequence } = require("./db");
 
-async function list(_) {
+async function list(_, _, context) {
   const db = getDb();
-  const tasks = await db.collection("tasks").find({}).toArray();
+  const tasks = await db
+    .collection("tasks")
+    .find({ userUuid: context.user.uuid })
+    .toArray();
   return tasks;
 }
 

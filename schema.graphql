@@ -9,6 +9,7 @@ type Task {
   created: GraphQLDate!
   due: GraphQLDate!
   priority: Int!
+  userUuid: String!
 }
 
 type DeleteResponse {
@@ -29,6 +30,24 @@ input TaskInputs {
   completed: Boolean! = false
   due: GraphQLDate!
   priority: Int!
+  userUuid: String!
+}
+
+input TaskInputsUpdate {
+  title: String!
+  desc: String
+  completed: Boolean! = false
+  due: GraphQLDate!
+  priority: Int!
+}
+
+type User {
+  uuid: String!
+  email: String!
+  name: String!
+  picture: String!
+  given_name: String
+  family_name: String
 }
 
 ##### Top level declarations
@@ -41,5 +60,6 @@ type Query {
 type Mutation {
   taskAdd(task: TaskInputs!): Task!
   taskRemove(id: Int!): DeleteResponse!
-  taskUpdate(id: Int!, task: TaskInputs!): UpdateResponse!
+  taskUpdate(id: Int!, task: TaskInputsUpdate!): UpdateResponse!
+  userLogin(token: String!): User!
 }

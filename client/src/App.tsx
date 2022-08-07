@@ -12,14 +12,43 @@ import Login from "./components/Login/Login";
 import LoginLayout from "./components/Layouts/LoginLayout";
 import Register from "./components/Register/Register";
 import { Toaster } from "react-hot-toast";
-import { useAppSelector } from "./hooks";
+import { useAppDispatch, useAppSelector } from "./hooks";
 import Homepage from "./components/Homepage/Homepage";
+import Cookie from "js-cookie";
+import { userI } from "types/auth";
+import { graphQLFetch } from "./Helpers";
+import { login } from "./state/auth/authSlice";
 
 import "./assets/global.scss";
 
 const App: React.FC = () => {
   const themeContext = useTheme();
   const user = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
+
+  const auth = async () => {
+    const token = Cookie.get("token", { path: "/" });
+    if (token) {
+      const query = `mutation userLogin($token: String!) {
+        userLogin(token: $token) {
+          given_name
+          family_name
+          picture
+          name
+        }
+      }`;
+
+      const data: { userLogin: userI } = await graphQLFetch(query, { token });
+
+      if (data) {
+        dispatch(login(data.userLogin));
+      }
+    }
+  };
+
+  useEffect(() => {
+    auth();
+  }, []);
 
   useEffect(() => {
     document.body.className = "";

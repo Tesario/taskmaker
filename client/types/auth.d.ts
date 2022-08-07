@@ -13,4 +13,6 @@ export interface userI {
   nbf: number;
   picture: string;
   sub: string;
+  uuid: string;
+  id: string;
 }

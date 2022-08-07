@@ -1,10 +1,15 @@
+import { faCookie } from "@fortawesome/free-solid-svg-icons";
 import toast, { Toast } from "react-hot-toast";
+import Cookie from "js-cookie";
 
 export const graphQLFetch = async (query: string, variables = {}) => {
   try {
     const response = await fetch("/graphql", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: Cookie.get("token") || "",
+      },
       body: JSON.stringify({ query, variables }),
     });
 

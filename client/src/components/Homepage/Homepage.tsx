@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { login } from "@/state/auth/authSlice";
 import { userI } from "types/auth";
-import jwt_decode from "jwt-decode";
+import { graphQLFetch } from "@/Helpers";
 import { CredentialResponse } from "google-one-tap";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { notify } from "@/Helpers";
 import { useTheme } from "@/ThemeProvider";
+import Cookie from "js-cookie";
 
 import "./Homepage.scss";
 
@@ -34,10 +35,26 @@ const Homepage: React.FC = () => {
     }
   }, [auth]);
 
-  const handleCallbackResponse = (response: CredentialResponse) => {
-    const user: userI = jwt_decode(response.credential);
-    dispatch(login(user));
-    notify("success", "Login was successful");
+  const handleCallbackResponse = async (response: CredentialResponse) => {
+    const token = response.credential;
+
+    const query = `mutation userLogin($token: String!) {
+      userLogin(token: $token) {
+        given_name
+        family_name
+        picture
+        name
+        uuid
+      }
+    }`;
+
+    const data: { userLogin: userI } = await graphQLFetch(query, { token });
+
+    if (data) {
+      dispatch(login(data.userLogin));
+      Cookie.set("token", token, { path: "/" });
+      notify("success", "Login was successful");
+    }
   };
 
   return (
