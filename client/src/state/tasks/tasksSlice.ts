@@ -44,10 +44,7 @@ const tasksSlice = createSlice({
       };
     },
     clearTasks: () => {
-      return {
-        tasks: [],
-        loading: false,
-      };
+      return initialState;
     },
   },
 });
