@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import Modal from "@components/Modal/Modal";
 import { useAppDispatch } from "@/hooks";
 import { removeTask } from "@/state/tasks/tasksSlice";
-import { useFilter } from "@/FilterProvider";
 import { useTheme } from "@/ThemeProvider";
 import { notify } from "@/Helpers";
 
@@ -22,7 +21,6 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const filterContext = useFilter();
   const themeContext = useTheme();
 
   useEffect(() => {
