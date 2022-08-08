@@ -52,6 +52,10 @@ section:not(.sec-md, .sec-html) {
     @media (max-width: $lg) {
         padding: 2.5rem 0;
     }
+
+    @media (max-width: $sm) {
+        padding: 3.75rem 0;
+    }
 }
 
 main {
