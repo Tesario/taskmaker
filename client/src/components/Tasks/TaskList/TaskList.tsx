@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import TaskRow from "./TableRow/TaskRow";
 import Loader from "@components/Loader/Loader";
 import { graphQLFetch } from "@/Helpers";
 import { useLayout } from "@/LayoutProvider";
 import TaskCard from "./TaskCard/TaskCard";
 import { useAppSelector, useAppDispatch } from "@/hooks";
-import {
-  FilterUpdateContext,
-  useFilter,
-  useUpdateFilter,
-} from "@/FilterProvider";
+import { useFilter, useUpdateFilter } from "@/FilterProvider";
 import { setTasks } from "@/state/tasks/tasksSlice";
 import sortJsonArray from "sort-json-array";
 import "./TaskList.scss";

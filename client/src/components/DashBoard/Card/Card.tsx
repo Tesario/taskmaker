@@ -7,11 +7,12 @@ interface Props {
   title: string;
   image: string;
   link: string;
+  comingSoon?: boolean;
 }
 
-const Card: React.FC<Props> = ({ title, image, link }) => {
+const Card: React.FC<Props> = ({ title, image, link, comingSoon }) => {
   return (
-    <Link to={link} className="dashboard-card">
+    <Link to={link} className={`dashboard-card ${comingSoon && "coming-soon"}`}>
       <div className="image">
         <img src={image} alt={title} />
       </div>

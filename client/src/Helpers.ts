@@ -1,10 +1,14 @@
 import toast, { Toast } from "react-hot-toast";
+import Cookie from "js-cookie";
 
 export const graphQLFetch = async (query: string, variables = {}) => {
   try {
     const response = await fetch("/graphql", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        authorization: Cookie.get("token") || "",
+      },
       body: JSON.stringify({ query, variables }),
     });
 
@@ -15,15 +19,15 @@ export const graphQLFetch = async (query: string, variables = {}) => {
 
       if (error.extensions.code === "BAD_USER_INPUT") {
         const details = error.extensions.exception.errors.join("\n");
-        notify("error", `${error.message}: ${details}`);
+        notify("error", `${error.message} | ${details}`);
       } else {
-        notify("error", `${error.extensions.code}: ${error.message}`);
+        notify("error", `${error.extensions.code} | ${error.message}`);
       }
     }
 
     return result.data;
   } catch (error: any) {
-    notify("error", `Error in sending data to server: ${error.message}`);
+    notify("error", `Error in sending data to server | ${error.message}`);
   }
 };
 

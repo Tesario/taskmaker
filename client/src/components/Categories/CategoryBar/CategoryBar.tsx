@@ -9,9 +9,6 @@ const CategoryBar: React.FC = () => {
       <CategoryBtn title="All" active />
       <CategoryBtn title="Home" />
       <CategoryBtn title="Work" />
-      <button type="button" className="btn btn-primary btn-edit-categories">
-        Edit categories
-      </button>
     </div>
   );
 };

@@ -12,9 +12,19 @@ const DashBoard: React.FC = () => {
       <div className="container">
         <h1 className="main-title">DashBoard</h1>
         <div className="grid-cards">
-          <Card title="Notes" link="/notes" image={notesImage} />
+          <Card
+            title="Coming soon..."
+            link="/notes"
+            image={notesImage}
+            comingSoon
+          />
           <Card title="Tasks" link="/tasks" image={tasksImage} />
-          <Card title="Timer" link="/timer" image={timerImage} />
+          <Card
+            title="Coming soon..."
+            link="/timer"
+            image={timerImage}
+            comingSoon
+          />
         </div>
       </div>
     </section>

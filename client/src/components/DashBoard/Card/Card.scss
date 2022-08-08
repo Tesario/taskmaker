@@ -10,6 +10,10 @@
     width: 100%;
     margin: 0 auto;
 
+    &.coming-soon {
+        filter: grayscale(1);
+    }
+
     @media (max-width: $lg) {
         min-height: unset;
         max-height: 170px;
@@ -37,9 +41,12 @@
         position: absolute;
         bottom: 0;
         left: 50%;
+        width: 100%;
+        text-align: center;
         transform: translateX(-50%);
         transition: .2s ease-in-out;
         z-index: 10;
+        box-sizing: border-box;
 
         @media (max-width: $lg) {
             padding: 0;

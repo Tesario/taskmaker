@@ -11,7 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import MarkdownEditor from "@/Markdown/MarkdownEditor";
 import MarkdownPreview from "@/Markdown/MarkdownPreview";
 import { handleValueFunc } from "@components/Buttons/EditButton";
-import { useAppDispatch } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { addTask } from "@/state/tasks/tasksSlice";
 import * as yup from "yup";
 import { useTheme } from "@/ThemeProvider";
@@ -83,6 +83,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     getValues,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
 
   useEffect(() => {
     resetFormData();
@@ -130,7 +131,9 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
       }
     }`;
 
-    const data: { taskAdd: Task } = await graphQLFetch(query, { task });
+    const data: { taskAdd: Task } = await graphQLFetch(query, {
+      task: { ...task, userUuid: user?.uuid },
+    });
 
     if (data) {
       dispatch(addTask({ task: data.taskAdd }));
