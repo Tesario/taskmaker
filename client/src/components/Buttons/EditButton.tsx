@@ -43,8 +43,7 @@ const schema = yup
       .required((value) => `The ${value.path} field is required.`)
       .min(
         3,
-        (value) =>
-          `The ${value.path} must be at least ${value.value} characters.`
+        (value) => `The ${value.path} must be at least ${value.min} characters.`
       )
       .max(
         200,
@@ -93,7 +92,7 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
   const onSubmit = async (task: FormData) => {
     setCreatingTask(true);
 
-    const query = `mutation taskUpdate($id: Int!, $task: TaskInputsUpdate!) {
+    const query = `mutation taskUpdate($id: Int!, $task: TaskInputs!) {
       taskUpdate(id: $id, task: $task) {
         acknowledged
         modifiedCount

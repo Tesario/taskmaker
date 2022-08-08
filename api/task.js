@@ -35,13 +35,15 @@ async function remove(_, { id }, context) {
   return { deletedCount: result.deletedCount };
 }
 
-async function add(_, { task }) {
+async function add(_, { task }, context) {
   validate({ task });
   task.created = new Date();
   task.id = await getNextSequence("tasks");
 
   const db = getDb();
-  const result = await db.collection("tasks").insertOne(task);
+  const result = await db
+    .collection("tasks")
+    .insertOne({ ...task, userUuid: context.user.uuid });
 
   const savedTask = await db
     .collection("tasks")

@@ -1,0 +1,17 @@
+#category-list {
+    .title {
+        margin-bottom: 1.5rem;
+    }
+
+    .category {
+        margin: .2rem 0;
+        padding: 1rem;
+        background-color: $grey-1;
+    }
+
+    &.dark {
+        .category {
+            background-color: $dark-2;
+        }
+    }
+}

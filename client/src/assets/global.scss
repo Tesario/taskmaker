@@ -250,10 +250,20 @@ textarea {
     @media (max-width: $lg) {
         margin: 0 -0.5rem;
     }
+
+    &.grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem;
+
+        @media (max-width: $lg) {
+            grid-template-columns: 1fr;
+        }
+    }
 }
 
 body.dark {
-    background: radial-gradient(75.2% 83.25% at 47.95% 50%, rgba(165, 76, 255, 0.06) 0%, rgba(97, 0, 194, 0) 100%) $dark;
+    background: radial-gradient(75.2% 83.25% at 47.95% 50%, rgba(165, 76, 255, 0.06) 0%, rgba(97, 0, 194, 0) 100%) $dark-1;
     color: $white;
 
     .btn.btn-primary {
@@ -282,7 +292,7 @@ body.dark {
     }
 
     .white-card {
-        background-color: $dark;
+        background-color: $dark-1;
     }
 
     textarea,
@@ -324,7 +334,7 @@ body.dark {
         }
 
         &:hover {
-            background-color: $dark;
+            background-color: $dark-1;
         }
     }
 

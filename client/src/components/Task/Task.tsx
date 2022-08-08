@@ -104,7 +104,7 @@ const Task: React.FC = () => {
   const onCompletedTask = async (task: TaskI, completed: boolean) => {
     setCreatingTask(true);
 
-    const query = `mutation taskUpdate($id: Int!, $task: TaskInputsUpdate!) {
+    const query = `mutation taskUpdate($id: Int!, $task: TaskInputs!) {
       taskUpdate(id: $id, task: $task) {
         acknowledged
         modifiedCount

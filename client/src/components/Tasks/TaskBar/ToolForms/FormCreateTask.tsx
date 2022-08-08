@@ -32,8 +32,7 @@ const schema = yup
       .required((value) => `The ${value.path} field is required.`)
       .min(
         3,
-        (value) =>
-          `The ${value.path} must be at least ${value.value} characters.`
+        (value) => `The ${value.path} must be at least ${value.min} characters.`
       )
       .max(
         200,
