@@ -44,10 +44,12 @@ const RemoveButton: React.FC<Props> = ({ icon, id }) => {
 
     const data = await graphQLFetch(query, { id });
 
-    if (data) {
+    if (data.taskRemove.deletedCount) {
       dispatch(removeTask({ id }));
       notify("success", "Task was removed successfully.");
       navigate("/tasks");
+    } else {
+      notify("error", "No task was removed.");
     }
 
     setCreatingTask(false);

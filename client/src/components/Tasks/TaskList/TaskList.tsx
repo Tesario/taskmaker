@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import TaskRow from "./TableRow/TaskRow";
 import Loader from "@components/Loader/Loader";
 import { graphQLFetch } from "@/Helpers";

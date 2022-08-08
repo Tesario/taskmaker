@@ -93,7 +93,7 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
   const onSubmit = async (task: FormData) => {
     setCreatingTask(true);
 
-    const query = `mutation taskUpdate($id: Int!, $task: TaskInputs!) {
+    const query = `mutation taskUpdate($id: Int!, $task: TaskInputsUpdate!) {
       taskUpdate(id: $id, task: $task) {
         acknowledged
         modifiedCount
@@ -114,13 +114,15 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
       task: { ...task, due: new Date(task.due) },
     });
 
-    if (data) {
+    if (data.taskUpdate.modifiedCount) {
       dispatch(updateTask(data.taskUpdate.task));
       notify("success", "Task was edited successfully.");
 
       if (handleTask) {
         handleTask(data.taskUpdate.task);
       }
+    } else {
+      notify("error", "No task was edited.");
     }
 
     setCreatingTask(false);

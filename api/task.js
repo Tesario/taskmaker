@@ -1,4 +1,8 @@
-const { UserInputError } = require("apollo-server-express");
+const {
+  UserInputError,
+  ForbiddenError,
+  ApolloError,
+} = require("apollo-server-express");
 const { getDb, getNextSequence } = require("./db");
 
 async function list(_, _, context) {
@@ -7,18 +11,27 @@ async function list(_, _, context) {
     .collection("tasks")
     .find({ userUuid: context.user.uuid })
     .toArray();
+
   return tasks;
 }
 
-async function get(_, { id }) {
+async function get(_, { id }, context) {
   const db = getDb();
   const task = await db.collection("tasks").findOne({ id });
+
+  if (!task || task.userUuid !== context.user.uuid) {
+    throw new ApolloError("Task not found.", "NOT_FOUND");
+  }
+
   return task;
 }
 
-async function remove(_, { id }) {
+async function remove(_, { id }, context) {
   const db = getDb();
-  const result = await db.collection("tasks").deleteOne({ id });
+  const result = await db
+    .collection("tasks")
+    .deleteOne({ id, userUuid: context.user.uuid });
+
   return { deletedCount: result.deletedCount };
 }
 
@@ -33,15 +46,22 @@ async function add(_, { task }) {
   const savedTask = await db
     .collection("tasks")
     .findOne({ _id: result.insertedId });
+
   return savedTask;
 }
 
-async function update(_, { id, task }) {
+async function update(_, { id, task }, context) {
   validate({ task });
 
   const db = getDb();
-  const result = await db.collection("tasks").updateOne({ id }, { $set: task });
-  const updatedTask = await db.collection("tasks").findOne({ id });
+  const result = await db
+    .collection("tasks")
+    .updateOne({ id, userUuid: context.user.uuid }, { $set: task });
+
+  const updatedTask = await db
+    .collection("tasks")
+    .findOne({ id, userUuid: context.user.uuid });
+
   return { ...result, task: updatedTask };
 }
 

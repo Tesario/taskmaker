@@ -54,7 +54,7 @@ const Task: React.FC = () => {
         id: id ? parseInt(id) : id,
       });
 
-      if (data.taskGet) {
+      if (data) {
         if (!task) {
           setTask(data.taskGet);
           dispatch(addTask({ task: data.taskGet }));
@@ -104,7 +104,7 @@ const Task: React.FC = () => {
   const onCompletedTask = async (task: TaskI, completed: boolean) => {
     setCreatingTask(true);
 
-    const query = `mutation taskUpdate($id: Int!, $task: TaskInputs!) {
+    const query = `mutation taskUpdate($id: Int!, $task: TaskInputsUpdate!) {
       taskUpdate(id: $id, task: $task) {
         acknowledged
         modifiedCount
@@ -126,13 +126,15 @@ const Task: React.FC = () => {
       task: { title, desc, priority, due, completed },
     });
 
-    if (data) {
+    if (data.taskUpdate.modifiedCount) {
       dispatch(updateTask(data.taskUpdate.task));
       notify("success", "Task was marked successfully.");
 
       if (handleTask) {
         handleTask(data.taskUpdate.task);
       }
+    } else {
+      notify("error", "No task was marked.");
     }
 
     setCreatingTask(false);
