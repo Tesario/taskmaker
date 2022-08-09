@@ -1,5 +1,9 @@
 # TaskMaker
 
+## Requirements
+- Composer
+- Node.js
+
 ## Development deployment
 
 Install server npm packages
