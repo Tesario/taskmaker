@@ -34,6 +34,7 @@ const CategoryForm = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<FormData>({ resolver: yupResolver(schema) });
   const dispatch = useAppDispatch();
   const [creatingCategory, setCreatingCategory] = useState<boolean>(false);
@@ -54,6 +55,7 @@ const CategoryForm = () => {
     if (data) {
       dispatch(addCategory(data.categoryAdd));
       notify("success", "Task was added successfully.");
+      reset();
     }
 
     setCreatingCategory(false);

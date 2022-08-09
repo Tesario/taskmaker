@@ -65,4 +65,5 @@ type Mutation {
   taskUpdate(id: Int!, task: TaskInputs!): UpdateResponse!
   userLogin(token: String!): User!
   categoryAdd(category: CategoryInputs!): Category!
+  categoryRemove(uuid: String!): DeleteResponse!
 }

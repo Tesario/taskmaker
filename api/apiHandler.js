@@ -17,6 +17,7 @@ const resolvers = {
     taskRemove: task.remove,
     userLogin: user.login,
     categoryAdd: category.add,
+    categoryRemove: category.remove,
   },
   GraphQLDate,
 };

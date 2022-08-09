@@ -1,11 +1,16 @@
 import React, { useEffect } from "react";
-import { graphQLFetch } from "@/Helpers";
+import { graphQLFetch, notify } from "@/Helpers";
 import { useTheme } from "@/ThemeProvider";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import Loader from "@/components/Loader/Loader";
+import {
+  removeCategory,
+  setCategories,
+} from "@/state/categories/categoriesSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import "./CategoryList.scss";
-import { setCategories } from "@/state/categories/categoriesSlice";
 
 const CategoryList = () => {
   const themeContext = useTheme();
@@ -31,6 +36,23 @@ const CategoryList = () => {
     fetchCategories();
   }, []);
 
+  const handleRemove = async (uuid: string) => {
+    const query = `mutation categoryRemove($uuid: String!) {
+      categoryRemove(uuid: $uuid) {
+        deletedCount
+      }
+    }`;
+
+    const data = await graphQLFetch(query, { uuid });
+
+    if (data.categoryRemove.deletedCount) {
+      dispatch(removeCategory(uuid));
+      notify("success", "Category was removed successfully.");
+    } else {
+      notify("error", "No category was removed.");
+    }
+  };
+
   return (
     <div id="category-list" className={themeContext}>
       <div className="title">Category list</div>
@@ -40,6 +62,12 @@ const CategoryList = () => {
         categories.categories.map((category) => (
           <div className="category" key={category.uuid}>
             {category.name}
+            <button
+              className="btn btn-remove"
+              onClick={() => handleRemove(category.uuid)}
+            >
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
           </div>
         ))
       ) : (

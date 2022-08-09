@@ -22,9 +22,18 @@ const categoriesSlice = createSlice({
         loading: false,
       };
     },
+    removeCategory: (state: categoriesI, action: PayloadAction<string>) => {
+      return {
+        categories: state.categories.filter(
+          (category) => category.uuid !== action.payload
+        ),
+        loading: false,
+      };
+    },
   },
 });
 
-export const { addCategory, setCategories } = categoriesSlice.actions;
+export const { addCategory, setCategories, removeCategory } =
+  categoriesSlice.actions;
 
 export default categoriesSlice.reducer;

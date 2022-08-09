@@ -27,9 +27,18 @@ async function add(_, { category }, context) {
   return newCategory;
 }
 
+async function remove(_, { uuid }, context) {
+  const db = getDb();
+  const result = await db
+    .collection("categories")
+    .deleteOne({ uuid, userUuid: context.user.uuid });
+
+  return result;
+}
+
 async function validate({ category }) {
   const errors = [];
-  console.log(category);
+
   if (category.name.length < 3 || category.name.length > 200) {
     errors.push("Wrong length of the name.");
   }
@@ -48,4 +57,4 @@ async function validate({ category }) {
   }
 }
 
-module.exports = { list, add };
+module.exports = { list, add, remove };
