@@ -50,15 +50,23 @@ section:not(.sec-md, .sec-html) {
     padding: 4rem 0 2rem;
 
     @media (max-width: $lg) {
-        padding: 3.5rem 0;
+        padding: 2.5rem 0;
+    }
+
+    @media (max-width: $sm) {
+        padding: 3.75rem 0;
     }
 }
 
 main {
-    padding-top: 80px;
+    padding-top: 5rem;
     flex: 1;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: $lg) {
+        padding-top: 4rem;
+    }
 }
 
 .container {
@@ -196,6 +204,19 @@ main {
     }
 }
 
+.form-select {
+    display: flex;
+    flex-direction: column;
+
+    select {
+        border: 1px solid $grey-2;
+        border-radius: 0.25rem;
+        padding: 0.44rem 0.6rem;
+        box-sizing: border-box;
+        background-color: $white !important;
+    }
+}
+
 textarea {
     min-height: 100px;
 }
@@ -245,15 +266,22 @@ textarea {
 
     @media (max-width: $lg) {
         padding: 1.5rem 1rem 1rem;
+        margin: 0 -0.5rem;
     }
 
-    @media (max-width: $lg) {
-        margin: 0 -0.5rem;
+    &.grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem;
+
+        @media (max-width: $lg) {
+            grid-template-columns: 1fr;
+        }
     }
 }
 
 body.dark {
-    background: radial-gradient(75.2% 83.25% at 47.95% 50%, rgba(165, 76, 255, 0.06) 0%, rgba(97, 0, 194, 0) 100%) $dark;
+    background: radial-gradient(75.2% 83.25% at 47.95% 50%, rgba(165, 76, 255, 0.06) 0%, rgba(97, 0, 194, 0) 100%) $dark-1;
     color: $white;
 
     .btn.btn-primary {
@@ -282,7 +310,7 @@ body.dark {
     }
 
     .white-card {
-        background-color: $dark;
+        background-color: $dark-1;
     }
 
     textarea,
@@ -290,9 +318,10 @@ body.dark {
         border: 1px solid $grey-2;
     }
 
+    select,
     input,
     textarea {
-        background-color: $dark-2;
+        background-color: $dark-2 !important;
         color: $white;
 
         &::placeholder {
@@ -324,7 +353,7 @@ body.dark {
         }
 
         &:hover {
-            background-color: $dark;
+            background-color: $dark-1;
         }
     }
 

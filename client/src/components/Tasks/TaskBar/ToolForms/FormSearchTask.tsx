@@ -1,27 +1,26 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import ToolButton from "./ToolButton/ToolButton";
 import { faSearch, faRemove } from "@fortawesome/free-solid-svg-icons";
-import { useFilter, useUpdateFilter } from "@/FilterProvider";
 
 import "./ToolForms.scss";
 
-const FormSearchTask: React.FC = () => {
-  const filterUpdateContext = useUpdateFilter();
-  const filterContext = useFilter();
-  const [search, setSearch] = useState<string>("");
+interface PropsI {
+  search: string;
+  handleSearch: any;
+}
+
+const FormSearchTask: React.FC<PropsI> = ({ handleSearch, search }) => {
   const searchRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSearch(searchRef.current ? searchRef.current.value : "");
-    filterUpdateContext({
-      search: searchRef.current ? searchRef.current.value.toLowerCase() : "",
-    });
+    handleSearch(searchRef.current ? searchRef.current.value : "");
   };
 
   const clearSearch = () => {
     if (searchRef.current) {
       searchRef.current.value = "";
+      handleSearch("");
     }
   };
 

@@ -1,7 +1,8 @@
-.btn-category {
+.btn.btn-category {
     padding: .8rem 2rem;
     border-bottom: 2px solid transparent;
     border-radius: 0 !important;
+    white-space: nowrap;
 
     @media (max-width: $md) {
         padding: .8rem 1rem;
@@ -9,6 +10,7 @@
 
     &.active {
         border-bottom: 2px solid $primary-color;
+        color: $primary-color;
     }
 
     &:hover {
@@ -24,6 +26,7 @@
 
         &.active {
             border-bottom: 2px solid $primary-color-dark;
+            color: $primary-color-dark;
         }
     }
 }

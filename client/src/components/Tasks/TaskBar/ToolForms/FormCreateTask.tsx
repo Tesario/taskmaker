@@ -23,6 +23,7 @@ type FormData = {
   desc?: string;
   due: Date;
   priority: 1 | 2 | 3 | 4 | 5;
+  categoryUuid: string;
 };
 
 const schema = yup
@@ -32,8 +33,7 @@ const schema = yup
       .required((value) => `The ${value.path} field is required.`)
       .min(
         3,
-        (value) =>
-          `The ${value.path} must be at least ${value.value} characters.`
+        (value) => `The ${value.path} must be at least ${value.min} characters.`
       )
       .max(
         200,
@@ -55,6 +55,7 @@ const schema = yup
         (value) => `The ${value.path} must be in the past.`
       )
       .typeError((value) => `The ${value.path} is not a valid date.`),
+    categoryUuid: yup.string(),
   })
   .required();
 
@@ -71,6 +72,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     desc: "",
     due: new Date(Date.now() + 2000 * 120),
     priority: 2,
+    categoryUuid: "",
   };
   const [state, setState] = useState<FormData>(initialFormData);
   const themeContext = useTheme();
@@ -84,6 +86,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
   } = useForm<FormData>({ resolver: yupResolver(schema) });
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+  const categories = useAppSelector((state) => state.categories);
 
   useEffect(() => {
     resetFormData();
@@ -94,6 +97,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     handleValue("desc", initialFormData.desc);
     handleValue("due", initialFormData.due);
     handleValue("priority", initialFormData.priority);
+    setValue("categoryUuid", initialFormData.categoryUuid);
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -128,6 +132,10 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
         created
         due
         priority
+        category {
+          name
+          uuid
+        }
       }
     }`;
 
@@ -204,6 +212,26 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
               >
                 {errors.due?.message}
               </div>
+            </div>
+            <div className="form-select">
+              <label>Category</label>
+              <select {...register("categoryUuid")}>
+                <option value="">-</option>
+                {!categories.loading
+                  ? categories.categories.map((category) => {
+                      if (category.uuid) {
+                        return (
+                          <option
+                            key={category.uuid}
+                            value={category.uuid || ""}
+                          >
+                            {category.name}
+                          </option>
+                        );
+                      }
+                    })
+                  : null}
+              </select>
             </div>
             <div className="form-control">
               <label>Priority</label>

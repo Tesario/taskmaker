@@ -10,6 +10,7 @@ type Task {
   due: GraphQLDate!
   priority: Int!
   userUuid: String!
+  category: Category
 }
 
 type DeleteResponse {
@@ -30,15 +31,7 @@ input TaskInputs {
   completed: Boolean! = false
   due: GraphQLDate!
   priority: Int!
-  userUuid: String!
-}
-
-input TaskInputsUpdate {
-  title: String!
-  desc: String
-  completed: Boolean! = false
-  due: GraphQLDate!
-  priority: Int!
+  categoryUuid: String!
 }
 
 type User {
@@ -50,16 +43,29 @@ type User {
   family_name: String
 }
 
+type Category {
+  uuid: String!
+  userUuid: String!
+  name: String!
+}
+
+input CategoryInputs {
+  name: String!
+}
+
 ##### Top level declarations
 
 type Query {
   taskList: [Task!]!
   taskGet(id: Int!): Task!
+  categoryList: [Category!]!
 }
 
 type Mutation {
   taskAdd(task: TaskInputs!): Task!
   taskRemove(id: Int!): DeleteResponse!
-  taskUpdate(id: Int!, task: TaskInputsUpdate!): UpdateResponse!
+  taskUpdate(id: Int!, task: TaskInputs!): UpdateResponse!
   userLogin(token: String!): User!
+  categoryAdd(category: CategoryInputs!): Category!
+  categoryRemove(uuid: String!): DeleteResponse!
 }

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useTheme } from "../../../../ThemeProvider";
+import CategoryLabel from "@/components/Categories/CategoryLabel/CategoryLabel";
 
 import "./TaskCard.scss";
 
@@ -15,7 +16,7 @@ interface Props extends Task {
 }
 
 const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
-  const { key, id, title, priority, completed, due } = task;
+  const { key, id, title, priority, completed, due, category } = task;
   const themeContext = useTheme();
 
   return (
@@ -25,6 +26,7 @@ const TaskCard: React.FC<{ task: Props }> = ({ task }) => {
         <Link to={`/tasks/${id}`} className="task-title">
           {title}
         </Link>
+        {category && <CategoryLabel category={category} className="smaller" />}
         <Link to={`/tasks/${id}`} className="btn-show">
           <FontAwesomeIcon icon={faEye} />
         </Link>

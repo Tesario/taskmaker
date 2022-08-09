@@ -16,8 +16,11 @@ import { useAppDispatch, useAppSelector } from "./hooks";
 import Homepage from "./components/Homepage/Homepage";
 import Cookie from "js-cookie";
 import { userI } from "types/auth";
-import { graphQLFetch } from "./Helpers";
-import { login } from "./state/auth/authSlice";
+import { graphQLFetch, notify } from "./Helpers";
+import { login, signOut } from "./state/auth/authSlice";
+import { clearTasks } from "./state/tasks/tasksSlice";
+import Cookies from "js-cookie";
+import Categories from "./components/Categories/Categories";
 
 import "./assets/global.scss";
 
@@ -43,6 +46,12 @@ const App: React.FC = () => {
 
       if (data) {
         dispatch(login(data.userLogin));
+      } else {
+        google.accounts.id.disableAutoSelect();
+        dispatch(signOut());
+        dispatch(clearTasks());
+        Cookies.remove("token", { path: "/" });
+        notify("error", "Your login session expired.");
       }
     }
   };
@@ -82,9 +91,12 @@ const App: React.FC = () => {
           ) : (
             <Route index element={<Homepage />} />
           )}
-          <Route path="tasks" element={<TasksLayout />}>
+          <Route path="/tasks" element={<TasksLayout />}>
             <Route index element={<Tasks />} />
             <Route path=":id" element={<Task />} />
+          </Route>
+          <Route path="/categories" element={<TasksLayout />}>
+            <Route index element={<Categories />} />
           </Route>
           {/* <Route path="/" element={<LoginLayout />}>
             <Route path="/login" element={<Login />} />

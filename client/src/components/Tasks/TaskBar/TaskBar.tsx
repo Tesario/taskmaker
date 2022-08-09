@@ -6,7 +6,12 @@ import FormLayout from "./ToolForms/FormLayout";
 
 import "./TaskBar.scss";
 
-const TaskBar: React.FC = () => {
+interface PropsI {
+  search: string;
+  handleSearch: any;
+}
+
+const TaskBar: React.FC<PropsI> = ({ handleSearch, search }) => {
   return (
     <div id="taskbar">
       <div className="tool-group tasks">
@@ -16,7 +21,7 @@ const TaskBar: React.FC = () => {
       </div>
       <h1 className="title">Tasks</h1>
       <div className="tool-group option">
-        <FormSearchTask />
+        <FormSearchTask handleSearch={handleSearch} search={search} />
       </div>
     </div>
   );

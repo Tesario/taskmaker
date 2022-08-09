@@ -178,6 +178,7 @@
 
     .table-wrapper {
         overflow: auto;
+        color: $black;
     }
 
     img {
@@ -193,6 +194,7 @@
         padding: 1rem;
         border-left: 8px solid lighten($primary-color, 55%);
         margin: 1.5rem 0;
+        color: $black;
 
         .paragraph {
             margin: 0;
@@ -201,7 +203,7 @@
 
     &.dark {
         .code {
-            background-color: $dark;
+            background-color: $dark-1;
             border-color: $primary-color-dark;
 
             svg {

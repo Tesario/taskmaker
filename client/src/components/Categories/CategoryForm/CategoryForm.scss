@@ -1,0 +1,19 @@
+#category-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .form-control {
+        width: 100%;
+        margin-bottom: 1rem;
+
+        label {
+            margin: 0 0 0.2rem 0.5rem;
+            font-size: 0.9em;
+        }
+    }
+
+    .title {
+        margin-bottom: 1.5rem;
+    }
+}

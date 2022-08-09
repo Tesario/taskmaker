@@ -18,6 +18,7 @@ import { addTask, updateTask } from "@/state/tasks/tasksSlice";
 import TextButton from "../Buttons/TextButton";
 
 import "./Task.scss";
+import CategoryLabel from "../Categories/CategoryLabel/CategoryLabel";
 
 const Task: React.FC = () => {
   const { id } = useParams<{ id: string | undefined }>();
@@ -41,6 +42,10 @@ const Task: React.FC = () => {
           created
           due
           priority
+          category {
+            name
+            uuid
+          }
         }
       }`;
 
@@ -104,7 +109,7 @@ const Task: React.FC = () => {
   const onCompletedTask = async (task: TaskI, completed: boolean) => {
     setCreatingTask(true);
 
-    const query = `mutation taskUpdate($id: Int!, $task: TaskInputsUpdate!) {
+    const query = `mutation taskUpdate($id: Int!, $task: TaskInputs!) {
       taskUpdate(id: $id, task: $task) {
         acknowledged
         modifiedCount
@@ -116,14 +121,26 @@ const Task: React.FC = () => {
           due
           created
           completed
+          category {
+            name
+            uuid
+          }
         }
       }
     }`;
 
-    const { title, desc, priority, due } = task;
+    const { title, desc, priority, due, category } = task;
+
     const data = await graphQLFetch(query, {
       id: task.id,
-      task: { title, desc, priority, due, completed },
+      task: {
+        title,
+        desc,
+        priority,
+        due,
+        completed,
+        categoryUuid: category?.uuid || "",
+      },
     });
 
     if (data.taskUpdate.modifiedCount) {
@@ -150,7 +167,10 @@ const Task: React.FC = () => {
         <div className="white-card">
           {task ? (
             <>
-              <div className="title">{task.title}</div>
+              <div className="title">
+                {task.title}
+                {task.category && <CategoryLabel category={task.category} />}
+              </div>
               {task?.desc === undefined ? (
                 <Loader />
               ) : (
