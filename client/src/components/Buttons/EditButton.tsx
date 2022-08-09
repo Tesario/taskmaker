@@ -86,6 +86,7 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
 
   useEffect(() => {
     setValue("title", task["title"]);
+    handleValue("desc", task.desc);
 
     const fetchCategories = async () => {
       const query = `query {
@@ -109,7 +110,7 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
     }
 
     setValue("categoryUuid", task.category?.uuid || "");
-  }, []);
+  }, [task]);
 
   const onSubmit = async (task: FormData) => {
     setCreatingTask(true);

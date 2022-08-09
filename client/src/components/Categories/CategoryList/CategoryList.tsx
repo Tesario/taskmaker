@@ -39,10 +39,10 @@ const CategoryList = () => {
   const handleRemove = async (uuid: string | null) => {
     if (uuid !== null) {
       const query = `mutation categoryRemove($uuid: String!) {
-      categoryRemove(uuid: $uuid) {
-        deletedCount
-      }
-    }`;
+          categoryRemove(uuid: $uuid) {
+            deletedCount
+          }
+        }`;
 
       const data = await graphQLFetch(query, { uuid });
 
