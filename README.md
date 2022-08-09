@@ -1,7 +1,6 @@
 # TaskMaker
 
 ## Requirements
-- Composer
 - Node.js
 
 ## Development deployment
