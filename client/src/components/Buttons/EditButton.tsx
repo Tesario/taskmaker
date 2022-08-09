@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "@components/Modal/Modal";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAppDispatch } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { useTheme } from "@/ThemeProvider";
 import { graphQLFetch } from "@/Helpers";
 import * as yup from "yup";
@@ -15,6 +15,7 @@ import DatetimePicker from "@components/DatetimePicker/DatetimePicker";
 import { Task } from "@components/Tasks/TaskList/TaskList";
 import { updateTask } from "@/state/tasks/tasksSlice";
 import { notify } from "@/Helpers";
+import { setCategories } from "@/state/categories/categoriesSlice";
 
 import "./Button.scss";
 
@@ -29,10 +30,11 @@ type FormData = {
   desc?: string;
   due: Date;
   priority: number;
+  categoryUuid: string;
 };
 
 export type handleValueFunc = (
-  name: "title" | "desc" | "due" | "priority",
+  name: "title" | "desc" | "due" | "priority" | "categoryUuid",
   value: any
 ) => void;
 
@@ -72,6 +74,7 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
   const [modalState, setModalState] = useState<boolean>(false);
   const [creatingTask, setCreatingTask] = useState<boolean>(false);
   const [state, setState] = useState<Task>(task);
+  const categories = useAppSelector((state) => state.categories);
   const themeContext = useTheme();
   const dispatch = useAppDispatch();
   const {
@@ -82,11 +85,30 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
   } = useForm<FormData>({ resolver: yupResolver(schema) });
 
   useEffect(() => {
-    setState(task);
-  }, [task]);
-
-  useEffect(() => {
     setValue("title", task["title"]);
+
+    const fetchCategories = async () => {
+      const query = `query {
+        categoryList {
+          name
+          uuid
+        }
+      }`;
+
+      const data = await graphQLFetch(query);
+
+      if (data) {
+        dispatch(setCategories(data.categoryList));
+        setValue("categoryUuid", task.category?.uuid || "");
+      }
+    };
+
+    if (categories.loading) {
+      fetchCategories();
+      return;
+    }
+
+    setValue("categoryUuid", task.category?.uuid || "");
   }, []);
 
   const onSubmit = async (task: FormData) => {
@@ -104,6 +126,10 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
           due
           created
           completed
+          category {
+            name
+            uuid
+          }
         }
       }
     }`;
@@ -191,6 +217,26 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
               >
                 {errors.due?.message}
               </div>
+            </div>
+            <div className="form-select">
+              <label>Category</label>
+              <select {...register("categoryUuid")}>
+                <option value="">-</option>
+                {!categories.loading
+                  ? categories.categories.map((category) => {
+                      if (category.uuid) {
+                        return (
+                          <option
+                            key={category.uuid}
+                            value={category.uuid || ""}
+                          >
+                            {category.name}
+                          </option>
+                        );
+                      }
+                    })
+                  : null}
+              </select>
             </div>
             <div className="form-control">
               <label>Priority</label>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useUpdateBreadcrump } from "@/BreadcrumpProvider";
 import CategoryBar from "@components/Categories/CategoryBar/CategoryBar";
 import TaskBar from "./TaskBar/TaskBar";
@@ -9,6 +9,7 @@ import { Navigate } from "react-router-dom";
 const Tasks: React.FC = () => {
   const BreadcrumpUpdateContext = useUpdateBreadcrump();
   const user = useAppSelector((state) => state.auth.user);
+  const [search, setSearch] = useState<string>("");
 
   useEffect(() => {
     BreadcrumpUpdateContext({
@@ -20,13 +21,17 @@ const Tasks: React.FC = () => {
     return <Navigate to={"/unauthorized"} replace />;
   }
 
+  const handleSearch = (search: string) => {
+    setSearch(search);
+  };
+
   return (
     <section id="tasks">
       <div className="container">
         <div className="white-card">
-          <TaskBar />
+          <TaskBar handleSearch={handleSearch} search={search} />
           <CategoryBar />
-          <TaskList />
+          <TaskList search={search} />
         </div>
       </div>
     </section>

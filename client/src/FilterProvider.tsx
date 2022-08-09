@@ -3,18 +3,19 @@ import React, { createContext, useContext, useState } from "react";
 export interface Filter {
   filter: string;
   order: number;
-  search?: string;
   status: ["completed" | "expired" | "uncompleted"];
+  category?: string | null;
 }
 
 interface ChangeFilter {
   filter?: string;
   order?: number;
-  search?: string;
   status?: ["completed" | "expired" | "uncompleted"];
+  category?: string | null;
 }
 
 const filterJson = localStorage.getItem("filter");
+
 const loadedFilter: Filter = filterJson
   ? JSON.parse(filterJson)
   : {
@@ -25,7 +26,7 @@ const loadedFilter: Filter = filterJson
 
 export const FilterContext = createContext<Filter>(loadedFilter);
 export const FilterUpdateContext = createContext<
-  ({ filter, order, search, status }: ChangeFilter) => void
+  ({ filter, order, status, category }: ChangeFilter) => void
 >({} as any);
 export const useFilter = () => {
   return useContext(FilterContext);
@@ -38,10 +39,9 @@ const FilterProvider: React.FC = ({ children }) => {
   const [filter, setFilter] = useState<Filter>(loadedFilter);
 
   const changeFilter = (values: ChangeFilter) => {
-    let newFilter: Filter = Object.assign({ ...filter, ...values });
-    setFilter({ ...newFilter });
-    delete newFilter.search;
+    const newFilter: Filter = { ...filter, ...values };
 
+    setFilter({ ...newFilter });
     localStorage.setItem("filter", JSON.stringify(newFilter));
   };
 

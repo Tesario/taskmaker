@@ -2,4 +2,23 @@
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        height: 5px;
+
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $white;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $scroll-bar-color;
+        border-radius: .25rem;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: $scroll-bar-color-dark;
+    }
 }

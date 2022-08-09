@@ -16,19 +16,8 @@ const tasksSlice = createSlice({
         loading: false,
       };
     },
-    setTasks: (state: Tasks, action: PayloadAction<Task[]>) => {
-      const tasks = current(state.tasks);
-      const newTasks: Task[] = action.payload.map((task: Task) => {
-        let updatedTask = tasks.find(
-          (updatedTask) => updatedTask.id === task.id
-        );
-        if (updatedTask && updatedTask.id === task.id) {
-          return Object.assign(task, updatedTask);
-        }
-        return task;
-      });
-
-      return { tasks: newTasks, loading: false };
+    setTasks: ({}, action: PayloadAction<Task[]>) => {
+      return { tasks: action.payload, loading: false };
     },
     updateTask: (state: Tasks, action: PayloadAction<Task>) => {
       const tasks = current(state.tasks).slice();

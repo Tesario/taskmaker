@@ -1,6 +1,6 @@
 export interface categoryI {
   name: string;
-  uuid: string;
+  uuid: string | null;
 }
 
 export interface categoriesI {

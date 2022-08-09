@@ -5,9 +5,11 @@ import { graphQLFetch } from "@/Helpers";
 import { useLayout } from "@/LayoutProvider";
 import TaskCard from "./TaskCard/TaskCard";
 import { useAppSelector, useAppDispatch } from "@/hooks";
-import { useFilter, useUpdateFilter } from "@/FilterProvider";
+import { useFilter } from "@/FilterProvider";
 import { setTasks } from "@/state/tasks/tasksSlice";
 import sortJsonArray from "sort-json-array";
+import { categoryI } from "types/category";
+
 import "./TaskList.scss";
 
 export interface Tasks {
@@ -23,12 +25,12 @@ export interface Task {
   priority: 1 | 2 | 3 | 4 | 5;
   created: Date;
   due: Date;
+  category?: categoryI;
 }
 
-const TaskList: React.FC = () => {
+const TaskList: React.FC<{ search: string }> = ({ search }) => {
   const layoutContext = useLayout();
   const filterContext = useFilter();
-  const filterUpdateContext = useUpdateFilter();
   const state = useAppSelector((state) => state.tasks);
   const dispatch = useAppDispatch();
 
@@ -42,6 +44,10 @@ const TaskList: React.FC = () => {
           created
           due
           priority
+          category {
+            name
+            uuid
+          }
         }
       }`;
 
@@ -52,10 +58,6 @@ const TaskList: React.FC = () => {
       }
     };
     fetchTasks();
-
-    return () => {
-      filterUpdateContext({ search: "" });
-    };
   }, []);
 
   const renderTasksByFilter = () => {
@@ -65,12 +67,17 @@ const TaskList: React.FC = () => {
       filterContext.order === 1 ? "asc" : "des"
     );
 
-    if (filterContext.search !== undefined) {
+    if (search) {
       sortedTasks = sortedTasks.filter((task: Task) => {
-        if (
-          filterContext.search !== undefined &&
-          task.title.toLowerCase().includes(filterContext.search)
-        ) {
+        if (task.title.toLowerCase().includes(search.toLowerCase())) {
+          return task;
+        }
+      });
+    }
+
+    if (filterContext.category) {
+      sortedTasks = sortedTasks.filter((task: Task) => {
+        if (filterContext.category === task.category?.uuid) {
           return task;
         }
       });

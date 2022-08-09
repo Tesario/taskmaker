@@ -36,20 +36,22 @@ const CategoryList = () => {
     fetchCategories();
   }, []);
 
-  const handleRemove = async (uuid: string) => {
-    const query = `mutation categoryRemove($uuid: String!) {
+  const handleRemove = async (uuid: string | null) => {
+    if (uuid !== null) {
+      const query = `mutation categoryRemove($uuid: String!) {
       categoryRemove(uuid: $uuid) {
         deletedCount
       }
     }`;
 
-    const data = await graphQLFetch(query, { uuid });
+      const data = await graphQLFetch(query, { uuid });
 
-    if (data.categoryRemove.deletedCount) {
-      dispatch(removeCategory(uuid));
-      notify("success", "Category was removed successfully.");
-    } else {
-      notify("error", "No category was removed.");
+      if (data.categoryRemove.deletedCount) {
+        dispatch(removeCategory(uuid));
+        notify("success", "Category was removed successfully.");
+      } else {
+        notify("error", "No category was removed.");
+      }
     }
   };
 

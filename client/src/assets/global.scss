@@ -204,6 +204,19 @@ main {
     }
 }
 
+.form-select {
+    display: flex;
+    flex-direction: column;
+
+    select {
+        border: 1px solid $grey-2;
+        border-radius: 0.25rem;
+        padding: 0.44rem 0.6rem;
+        box-sizing: border-box;
+        background-color: $white !important;
+    }
+}
+
 textarea {
     min-height: 100px;
 }
@@ -305,9 +318,10 @@ body.dark {
         border: 1px solid $grey-2;
     }
 
+    select,
     input,
     textarea {
-        background-color: $dark-2;
+        background-color: $dark-2 !important;
         color: $white;
 
         &::placeholder {

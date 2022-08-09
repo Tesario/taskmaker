@@ -1,0 +1,11 @@
+.category-label {
+    font-size: .5em;
+    padding: .35rem .8rem !important;
+    line-height: $line-height;
+
+    &.smaller {
+        padding: .3rem .6rem !important;
+        font-size: .8em;
+        margin: 0 .5rem
+    }
+}

@@ -10,6 +10,7 @@ type Task {
   due: GraphQLDate!
   priority: Int!
   userUuid: String!
+  category: Category
 }
 
 type DeleteResponse {
@@ -30,6 +31,7 @@ input TaskInputs {
   completed: Boolean! = false
   due: GraphQLDate!
   priority: Int!
+  categoryUuid: String!
 }
 
 type User {

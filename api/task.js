@@ -1,15 +1,24 @@
-const {
-  UserInputError,
-  ForbiddenError,
-  ApolloError,
-} = require("apollo-server-express");
+const { UserInputError, ApolloError } = require("apollo-server-express");
 const { getDb, getNextSequence } = require("./db");
 
 async function list(_, _, context) {
   const db = getDb();
   const tasks = await db
     .collection("tasks")
-    .find({ userUuid: context.user.uuid })
+    .aggregate([
+      {
+        $lookup: {
+          from: "categories",
+          localField: "categoryUuid",
+          foreignField: "uuid",
+          as: "category",
+        },
+      },
+      { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
+      {
+        $match: { userUuid: context.user.uuid },
+      },
+    ])
     .toArray();
 
   return tasks;
@@ -17,7 +26,25 @@ async function list(_, _, context) {
 
 async function get(_, { id }, context) {
   const db = getDb();
-  const task = await db.collection("tasks").findOne({ id });
+  const task = (
+    await db
+      .collection("tasks")
+      .aggregate([
+        {
+          $lookup: {
+            from: "categories",
+            localField: "categoryUuid",
+            foreignField: "uuid",
+            as: "category",
+          },
+        },
+        { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
+        {
+          $match: { id },
+        },
+      ])
+      .toArray()
+  )[0];
 
   if (!task || task.userUuid !== context.user.uuid) {
     throw new ApolloError("Task not found.", "NOT_FOUND");
@@ -45,9 +72,25 @@ async function add(_, { task }, context) {
     .collection("tasks")
     .insertOne({ ...task, userUuid: context.user.uuid });
 
-  const savedTask = await db
-    .collection("tasks")
-    .findOne({ _id: result.insertedId });
+  const savedTask = (
+    await db
+      .collection("tasks")
+      .aggregate([
+        {
+          $lookup: {
+            from: "categories",
+            localField: "categoryUuid",
+            foreignField: "uuid",
+            as: "category",
+          },
+        },
+        { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
+        {
+          $match: { _id: result.insertedId },
+        },
+      ])
+      .toArray()
+  )[0];
 
   return savedTask;
 }
@@ -60,15 +103,32 @@ async function update(_, { id, task }, context) {
     .collection("tasks")
     .updateOne({ id, userUuid: context.user.uuid }, { $set: task });
 
-  const updatedTask = await db
-    .collection("tasks")
-    .findOne({ id, userUuid: context.user.uuid });
+  const updatedTask = (
+    await db
+      .collection("tasks")
+      .aggregate([
+        {
+          $lookup: {
+            from: "categories",
+            localField: "categoryUuid",
+            foreignField: "uuid",
+            as: "category",
+          },
+        },
+        { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
+        {
+          $match: { id, userUuid: context.user.uuid },
+        },
+      ])
+      .toArray()
+  )[0];
 
   return { ...result, task: updatedTask };
 }
 
 function validate({ task }) {
   const errors = [];
+
   if (task.title.length < 3 || task.title.length > 200) {
     errors.push("Wrong length of the title.");
   }
