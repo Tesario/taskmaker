@@ -21,6 +21,7 @@ import { login, signOut } from "./state/auth/authSlice";
 import { clearTasks } from "./state/tasks/tasksSlice";
 import Cookies from "js-cookie";
 import Categories from "./components/Categories/Categories";
+import Stats from "./components/Stats/Stats";
 
 import "./assets/global.scss";
 
@@ -97,6 +98,9 @@ const App: React.FC = () => {
           </Route>
           <Route path="/categories" element={<TasksLayout />}>
             <Route index element={<Categories />} />
+          </Route>
+          <Route path="/stats" element={<TasksLayout />}>
+            <Route index element={<Stats />} />
           </Route>
           {/* <Route path="/" element={<LoginLayout />}>
             <Route path="/login" element={<Login />} />

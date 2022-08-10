@@ -1,0 +1,73 @@
+#stats {
+    .title {
+        text-align: center;
+    }
+
+    .completed {
+        color: $green;
+    }
+
+    .expired {
+        color: $red;
+    }
+
+    .uncompleted {
+        color: $warning;
+    }
+
+    .icon {
+        font-size: 4em;
+
+        @media (max-width: $md) {
+            font-size: 2.5em;
+        }
+    }
+
+    .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+        margin: 4rem 0 0;
+
+        @media (max-width: $md) {
+            gap: 1rem;
+            margin: 2.5rem 0 0;
+        }
+    }
+
+    .desc {
+        margin-top: 1rem;
+
+        @media (max-width: $md) {
+            font-size: .9em;
+        }
+    }
+
+    .number {
+        font-size: 3em;
+        line-height: $line-height;
+
+        @media (max-width: $md) {
+            font-size: 1.5em;
+        }
+    }
+
+    .divider {
+        background-image: linear-gradient(90deg, transparent, rgba($primary-color, .3), transparent);
+        content: "";
+        display: block;
+        height: 1px;
+        width: 90%;
+        margin: 3rem auto 2.5rem;
+
+        @media (max-width: $md) {
+            margin: 2rem auto .75rem;
+        }
+    }
+}
