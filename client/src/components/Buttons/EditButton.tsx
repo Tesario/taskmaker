@@ -86,7 +86,7 @@ const EditButton: React.FC<Props> = ({ icon, task, handleTask }) => {
 
   useEffect(() => {
     setValue("title", task["title"]);
-    handleValue("desc", task.desc);
+    handleValue("desc", task.desc || "");
 
     const fetchCategories = async () => {
       const query = `query {
