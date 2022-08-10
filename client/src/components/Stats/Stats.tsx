@@ -9,6 +9,7 @@ import {
   faHourglassEmpty,
   faThumbTack,
 } from "@fortawesome/free-solid-svg-icons";
+import { useTheme } from "@/ThemeProvider";
 
 import "./Stats.scss";
 
@@ -23,6 +24,7 @@ const Stats = () => {
   const BreadcrumpUpdateContext = useUpdateBreadcrump();
   const user = useAppSelector((state) => state.auth.user);
   const [stats, setStats] = useState<StatsI | null>(null);
+  const ThemeContext = useTheme();
 
   useEffect(() => {
     BreadcrumpUpdateContext({
@@ -53,7 +55,7 @@ const Stats = () => {
   }
 
   return (
-    <section id="stats">
+    <section id="stats" className={ThemeContext}>
       <div className="container">
         <div className="white-card">
           <div className="title">Personal statistics</div>

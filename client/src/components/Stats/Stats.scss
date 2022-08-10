@@ -70,4 +70,10 @@
             margin: 2rem auto .75rem;
         }
     }
+
+    &.dark {
+        .divider {
+            background-image: linear-gradient(90deg, transparent, $primary-color-dark, transparent);
+        }
+    }
 }
