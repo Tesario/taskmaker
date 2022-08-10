@@ -53,12 +53,20 @@ input CategoryInputs {
   name: String!
 }
 
+type taskStats {
+  totalCount: Int
+  completedCount: Int
+  uncompletedCount: Int
+  expiredCount: Int
+}
+
 ##### Top level declarations
 
 type Query {
   taskList: [Task!]!
   taskGet(id: Int!): Task!
   categoryList: [Category!]!
+  taskStats: taskStats!
 }
 
 type Mutation {

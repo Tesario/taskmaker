@@ -126,6 +126,70 @@ async function update(_, { id, task }, context) {
   return { ...result, task: updatedTask };
 }
 
+async function stats(_, _, context) {
+  const db = getDb();
+  const totalCount = (
+    await db
+      .collection("tasks")
+      .aggregate([
+        { $match: { userUuid: context.user.uuid } },
+        { $count: "totalCount" },
+      ])
+      .toArray()
+  )[0];
+
+  const completedCount = (
+    await db
+      .collection("tasks")
+      .aggregate([
+        { $match: { userUuid: context.user.uuid, completed: true } },
+        { $count: "completedCount" },
+      ])
+      .toArray()
+  )[0];
+
+  const uncompletedCount = (
+    await db
+      .collection("tasks")
+      .aggregate([
+        {
+          $match: {
+            userUuid: context.user.uuid,
+            completed: false,
+            due: { $gt: new Date() },
+          },
+        },
+        { $count: "uncompletedCount" },
+      ])
+      .toArray()
+  )[0];
+
+  const expiredCount = (
+    await db
+      .collection("tasks")
+      .aggregate([
+        {
+          $match: {
+            userUuid: context.user.uuid,
+            completed: false,
+            due: { $lt: new Date() },
+          },
+        },
+        { $count: "expiredCount" },
+      ])
+      .toArray()
+  )[0];
+
+  const stats = {
+    ...totalCount,
+    ...completedCount,
+    ...uncompletedCount,
+    ...expiredCount,
+  };
+
+  return stats;
+}
+
 function validate({ task }) {
   const errors = [];
 
@@ -147,4 +211,4 @@ function validate({ task }) {
   }
 }
 
-module.exports = { add, update, list, remove, get };
+module.exports = { add, update, list, remove, get, stats };
