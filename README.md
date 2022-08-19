@@ -25,6 +25,17 @@ Start localhost
 npm start
 ```
 
+## Database seeding
+
+Seed database with fake data
+```
+mongosh taskmaker seed.mongo.js
+```
+Clear database
+```
+mongosh taskmaker init.mongo.js
+```
+
 ## Production deployment
 
 Build SPA

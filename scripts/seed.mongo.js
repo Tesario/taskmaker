@@ -2,7 +2,7 @@ const faker = require("@faker-js/faker").faker;
 
 db.tasks.deleteMany({});
 
-for (let i = 1; i <= 30; i++) {
+for (let i = 1; i <= 1000; i++) {
   const task = {
     id: i,
     title: faker.random.words(3),
@@ -11,6 +11,7 @@ for (let i = 1; i <= 30; i++) {
     created: faker.date.past(1),
     due: faker.date.future(1.25),
     priority: faker.datatype.number({ min: 1, max: 5 }),
+    userUuid: "17907aaa-3da4-4166-acce-71475355f6be",
   };
 
   db.tasks.insertOne(task);
