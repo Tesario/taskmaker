@@ -13,7 +13,7 @@ async function list(_, _, context) {
 }
 
 async function add(_, { category }, context) {
-  await validate({ category });
+  await validate({ category }, context);
 
   const db = getDb();
   const result = await db
@@ -36,7 +36,7 @@ async function remove(_, { uuid }, context) {
   return result;
 }
 
-async function validate({ category }) {
+async function validate({ category }, context) {
   const errors = [];
 
   if (category.name.length < 3 || category.name.length > 200) {
@@ -46,7 +46,7 @@ async function validate({ category }) {
   const db = getDb();
   const categoryExists = await db
     .collection("categories")
-    .findOne({ name: category.name });
+    .findOne({ name: category.name, userUuid: context.user.uuid });
 
   if (categoryExists) {
     errors.push("Name must be unique.");

@@ -52,7 +52,7 @@ const Homepage: React.FC = () => {
 
     if (data) {
       dispatch(login(data.userLogin));
-      Cookie.set("token", token, { path: "/" });
+      Cookie.set("token", token, { path: "/", expires: 90 });
       notify("success", "Login was successful");
     }
   };

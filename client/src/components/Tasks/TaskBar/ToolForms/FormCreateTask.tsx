@@ -140,7 +140,7 @@ const FormCreateTask: React.FC<Props> = ({ title, desc }) => {
     }`;
 
     const data: { taskAdd: Task } = await graphQLFetch(query, {
-      task: { ...task, userUuid: user?.uuid },
+      task: { ...task },
     });
 
     if (data) {
